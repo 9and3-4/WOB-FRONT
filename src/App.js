@@ -8,8 +8,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/1" element={<CalendarComp />} />
-          <Route path="/2" element={<Schedule />} />
+          <Route path="/weekly" element={<CalendarComp />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
       </Router>
     </>
