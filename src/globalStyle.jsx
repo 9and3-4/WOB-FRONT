@@ -4,7 +4,8 @@ import reset from "styled-reset";
 const GlobalStyle = createGlobalStyle`
     ${reset}
   :root {
-    --MINT : #04BF8A;
+    --GREEN : #04BF8A;  // 대표 색
+    --MINT : #DFEDE9;
     --PINK : #FF6482;
     --BLACK : #353535;
     --WHITE: #FFFFFF;
