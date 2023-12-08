@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
+    "react-kakao-maps": "^0.0.13",
     "react-native": "^0.72.7",
     "react-native-swiper": "^1.6.0",
     "react-router-dom": "^6.20.1",
