@@ -11,9 +11,11 @@ function App() {
     <GlobalStyle />
       <Router>
         <Routes>
-          {/* <Route path="/weekly" element={<CalendarComp />} />
-          <Route path="/schedule" element={<Schedule />} /> */}
-          <Route path="/header" element={<Header />} />
+          <Route element={<Header />} >
+            <Route path="/" element={<CalendarComp />} />
+            <Route path="/schedule" element={<Schedule />} />
+          </Route>
+  
         </Routes>
       </Router>
     </>

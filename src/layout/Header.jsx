@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
@@ -49,13 +49,15 @@ const Header = () => {
         navigate('searchMain');
     };
     
-    return(
+    return(<>
         <Container>
             <HeaderBox>
                 <LogoImage src={logoImage} alt="logo" onClick={goToHome}/>
                 <SearchIcon icon={faSearch} onClick={goToSearchPage} />
             </HeaderBox>
         </Container>
+        <Outlet/>
+        </>
     );
 };
 
