@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
 const Container = styled.div`
-  /* max-width: 700px; */
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -14,7 +13,6 @@ const Container = styled.div`
 `;
 
 const SliderContainer = styled.div`
-  /* max-height: 74px; */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -62,12 +60,6 @@ const DayNumber = styled.span`
   font-size: 16px;
   font-weight: bold;
 `;
-// const Subtitle = styled.p`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
-
 const CalendarComp = ({ onDateSelect }) => {
   const sliderRef = React.useRef();
   const [current, setCurrent] = useState(moment());
@@ -142,8 +134,6 @@ const CalendarComp = ({ onDateSelect }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    // arrows: true,
-    // swipeToSlide: true,
     draggable: true,
   };
 

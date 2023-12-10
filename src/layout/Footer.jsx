@@ -40,7 +40,7 @@ const Footer = () => {
         <StyledLink to="/map">
           <Icon src={GPS} alt="GPS" />
         </StyledLink>
-        <StyledLink to="/">
+        <StyledLink to="/MyPage">
           <Icon src={MyPage} alt="MyPage" />
         </StyledLink>
       </FooterIcon>
