@@ -39,9 +39,6 @@ const Schedule = () => {
       <div>
         <Boards>
           <>
-            <Header>WOB</Header>
-          </>
-          <>
             <CalendarComp onDateSelect={onDateSelect} />
           </>
           <>

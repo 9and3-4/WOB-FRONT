@@ -7,19 +7,19 @@ import GlobalStyle from "./globalStyle";
 import KakaoMap from "./component/Map";
 import Main from "./page/Main";
 import SearchComponent from "./component/SearchFilter";
+import Layout from "./layout/Layout";
 
 function App() {
   return (
     <>
-    <GlobalStyle />
+      <GlobalStyle />
       <Router>
         <Routes>
-          <Route element={<Header />} >
-          <Route path="/" element={<Main />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/map" element={<KakaoMap />} />
-
           </Route>
         </Routes>
       </Router>
