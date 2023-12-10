@@ -10,7 +10,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const KakaoMap = () => {
+const KakaoMaps = () => {
 
   // geolocation을 이용한 현재 위도/경도 값 구하기!!
   const [location, setLocation] = useState({ lat: 0, long: 0 });
@@ -331,4 +331,4 @@ useEffect(() => {
   );
 };
 
-export default KakaoMap;
+export default KakaoMaps;
