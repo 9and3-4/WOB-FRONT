@@ -6,6 +6,7 @@ import Header from "./layout/Header";
 import GlobalStyle from "./globalStyle";
 import KakaoMap from "./component/Map";
 import Main from "./page/Main";
+import SearchComponent from "./component/SearchFilter";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Routes>
           <Route element={<Header />} >
           <Route path="/" element={<Main />} />
-            <Route path="calendarcomp" element={<CalendarComp />} />
+            <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/map" element={<KakaoMap />} />
+
           </Route>
         </Routes>
       </Router>

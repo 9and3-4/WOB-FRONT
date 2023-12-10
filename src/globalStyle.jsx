@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video, button, textarea, select, input{
     font-family: 'Noto Sans KR', sans-serif;
-  font-family: 'Orbit', sans-serif;
+  /* font-family: 'Orbit', sans-serif; */
   /* font-family: 'Gowun Dodum', sans-serif; */
   }
   h2 {
@@ -40,9 +40,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6em;
   }
 
-    .container {
-
+  .container {
+    width: 100vw;
+    margin: 0 auto;
     }
+
+ .body {
+    margin: 0;
+    padding: 0;
+ }
 
 `;
 

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -20,6 +21,7 @@
     "react-kakao-maps": "^0.0.13",
     "react-native": "^0.72.7",
     "react-native-swiper": "^1.6.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.20.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",

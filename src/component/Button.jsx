@@ -14,13 +14,15 @@ const StyledButton = styled.button`
       ? '15px 20px'
       : size === 'extra-small'
       ? '3px 6px'
+      : size === 'category'
+      ? '10px 30px'
       : '10px 15px'};
   border-radius: 25px;
   border-color: ${({ color }) => color || 'var(--MINT)'};
   color: ${({ color }) => color || 'var(--BLACK)'};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-  border: 0;
+  border: 0;   
   outline: 0;
 `;
 
