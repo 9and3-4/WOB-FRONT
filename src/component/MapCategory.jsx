@@ -1,3 +1,4 @@
+// mapcategory
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +18,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const MapCategory = () => {
+const KakaoMaps = () => {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [currCategory, setCurrCategory] = useState('');
@@ -29,7 +30,7 @@ const MapCategory = () => {
   const initializeMapWithUserLocation = () => {
     const container = document.getElementById('map');
     const options = {
-      level: 5,
+      level: 3,
     };
   
     navigator.geolocation.getCurrentPosition(
@@ -46,7 +47,7 @@ const MapCategory = () => {
   
         setMap(newMap);
 
-        // 현재 위치 마커 추가
+        // 현재 위치 마커 추가!
         const marker = addMarker(center, '현재 위치');
         // const marker = addMarker(center);
         // window.kakao.maps.event.addListener(marker,'click',() => displayPlaceInfo({ name : '현재 위치'}));
@@ -232,5 +233,6 @@ const MapCategory = () => {
   );
 };
 
-export default MapCategory;
+export default KakaoMaps;
+
 

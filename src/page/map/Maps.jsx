@@ -1,50 +1,69 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Map, Marker } from 'react-kakao-maps';
 import axios from 'axios';
 import styled from 'styled-components';
 
+
+const Container = styled.div`
+  max-width: 768px;
+  min-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Button = styled.button`
-  width: 100px;
-  height: 100px;
-  border: 3px solid red;
+  width: 70px;
+  height: 30px;
+  margin: 5px;
+  background-color: #DFEDE9;
+  border-radius: 5px;
+  color: #353535;
   cursor: pointer;
+  
+  &:hover{
+    background-color: #04BF8A;
+  }
 `;
 
 const KakaoMaps = () => {
-
-  // geolocation을 이용한 현재 위도/경도 값 구하기!!
   const [location, setLocation] = useState({ lat: 0, long: 0 });
   const [address, setAddress] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null); 
-
-  const [currCategory, setCurrCategory] = useState('');
-  const [markers, setMarkers] = useState([]);
-  const [placeOverlay, setPlaceOverlay] = useState(null);
-  const [contentNode, setContentNode] = useState(null);
   const [map, setMap] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [currCategory, setCurrCategory] = useState('');
+  const [currentPosition, setCurrentPosition] = useState({
+    // 초기 기본 위도,경도 값
+    lat: 37.566826,
+    long: 126.9786567,
+  });
+  // 스크립트 엘리먼트를 추적하기 위한 ref
+  const scriptRef = useRef(null); 
 
+  // 경도, 위도 위치 성공했을 시
   const onSuccess = (position) => {
     setLocation({
       lat: position.coords.latitude,
       long: position.coords.longitude,
     });
   };
-
+  // 위치를 찾지 못했을 때
   const onError = (error) => {
-    console.log(error);
+    console.error(error);
   };
 
   useEffect(() => {
+    // 컴포넌트 마운트 시 현재 위치의 geolocation 가져오기
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    
   }, []);
 
   const getGeocodeKakao = async (lat, lng) => {
     try {
+      // 카카오 API를 사용하여 좌표에서 주소 가져오기
       const response = await axios.get(
         `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`,
         {
-          headers: {
+          headers: { // Rest API 값 넣기
             Authorization: `KakaoAK fb799e952b2f756180b70a86706e89c2`,
           },
         }
@@ -54,121 +73,89 @@ const KakaoMaps = () => {
       console.error("Kakao Geocoding error:", error);
     }
   };
-  getGeocodeKakao(location.lat, location.long);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
-
-useEffect(() => {
-    console.log(location.lat, location.long);
+  useEffect(() => {
+    // 위치 변경 시 주소 업데이트
     getGeocodeKakao(location.lat, location.long);
   }, [location]);
 
   useEffect(() => {
-    const initializeMap = async () => {
-      if (map) {
-        map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
-  
-        const newMap = new window.kakao.maps.Map(document.getElementById('kakao-map'), {
+    // 컴포넌트 마운트 시 카카오 맵 API 스크립트 동적으로 로드
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=1d0ba2bba93f2c27d7d493f6ea9b1a74&autoload=false`;
+    document.head.appendChild(script);
+    // 스크립트 엘리먼트를 ref에 할당
+    scriptRef.current = script; 
+
+    script.onload = () => {
+      // 스크립트 로드 완료 시 카카오 맵 초기화
+      window.kakao.maps.load(() => {
+        console.log('Kakao Maps API script loaded');
+        const container = document.getElementById('map');
+        const options = {
           center: new window.kakao.maps.LatLng(location.lat, location.long),
           level: 3,
-        });
-  
+        };
+        const newMap = new window.kakao.maps.Map(container, options);
+
         setMap(newMap);
-  
-        const overlay = new window.kakao.maps.CustomOverlay({ zIndex: 1 });
-        setPlaceOverlay(overlay);
-  
-        const node = document.createElement('div');
-        setContentNode(node);
-        node.className = 'placeinfo_wrap';
-  
-        addEventHandle(node, 'mousedown', window.kakao.maps.event.preventMap);
-        addEventHandle(node, 'touchstart', window.kakao.maps.event.preventMap);
-  
-        overlay.setContent(node);
-        newMap.addOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
-  
-        window.kakao.maps.event.addListener(newMap, 'idle', searchPlaces);
-      }
+
+        const markerPosition = new window.kakao.maps.LatLng(location.lat, location.long);
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        });
+
+        marker.setMap(newMap);
+
+        // 내 현재 위치 값 보여줌
+        const iwContent = '<div style="padding:5px; margin-left:20px; font-size: 15px;">😀 현재 위치 😀<br><a href="https://map.kakao.com/link/map/시청역,37.5665, 126.9780" style="color:black; color:blue; text-decoration: line" target="_blank">지도상세</a> <a href="https://map.kakao.com/link/to/37.5665, 126.9780" style="color:black; color:blue; text-decoration: line" target="_blank">길찾기</a></div>';
+        const iwPosition = new window.kakao.maps.LatLng(location.lat, location.long);
+        const infowindow = new window.kakao.maps.InfoWindow({
+          position: iwPosition,
+          content: iwContent,
+        });
+        infowindow.open(newMap, marker);
+        
+        // 지도 줄이고 늘리는 것 
+        const zoomControl = new window.kakao.maps.ZoomControl();
+        newMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+        const mapTypeControl = new window.kakao.maps.MapTypeControl();
+        newMap.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+      });
     };
-  
-    initializeMap();
-  
+
     return () => {
-      if (map) {
-        map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
+      // 컴포넌트 언마운트 시 스크립트 제거
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        document.head.removeChild(scriptRef.current);
       }
     };
-  }, [location, map]);
-  // useEffect(() => {
-  //   const initializeMap = async () => {
-  //     const newMap = new window.kakao.maps.Map(document.getElementById('kakao-map'), {
-  //       center: new window.kakao.maps.LatLng(location.lat, location.long),
-  //       level: 3,
-  //     });
-
-  //     setMap(newMap);
-
-  //     const overlay = new window.kakao.maps.CustomOverlay({ zIndex: 1 });
-  //     setPlaceOverlay(overlay);
-
-  //     const node = document.createElement('div');
-  //     setContentNode(node);
-  //     node.className = 'placeinfo_wrap';
-
-  //     addEventHandle(node, 'mousedown', window.kakao.maps.event.preventMap);
-  //     addEventHandle(node, 'touchstart', window.kakao.maps.event.preventMap);
-
-  //     overlay.setContent(node);
-  //     newMap.addOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
-
-  //     window.kakao.maps.event.addListener(newMap, 'idle', searchPlaces);
-  //   };
-
-  //   initializeMap();
-
-  //   return () => {
-  //     map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
-  //   };
-  // }, [location]);
-
-  useEffect(() => {
-    addCategoryClickEvent();
-  }, [contentNode]);
-
-  const addEventHandle = (target, type, callback) => {
-    target.addEventListener(type, callback);
-  };
-
-  const addCategoryClickEvent = () => {
-    const category = document.getElementById('category');
-    const children = category.children;
-
-    for (let i = 0; i < children.length; i++) {
-      children[i].addEventListener('click', onClickCategory);
-    }
-  };
+  }, [location]);
 
   const onClickCategory = (event) => {
-    const { id } = event.target;
-    const className = event.target.className;
+    const { id, className } = event.target;
 
-    placeOverlay.setMap(null);
+    // 기존의 오버레이 및 마커 제거
+    removePlaceOverlay();
 
     if (className === 'on') {
+      // 이미 선택된 카테고리인 경우 해제
       setCurrCategory('');
       changeCategoryClass();
-      // removeMarker();
+      removeMarker();
     } else {
+      // 선택된 카테고리 설정 및 UI 업데이트
       setCurrCategory(id);
       changeCategoryClass(event.target);
+      // 선택된 카테고리에서 장소 검색
       searchPlaces();
     }
   };
 
   const changeCategoryClass = (el) => {
+    // 선택된 카테고리 버튼의 스타일 변경
     const category = document.getElementById('category');
     const children = category.children;
 
@@ -182,28 +169,34 @@ useEffect(() => {
   };
 
   const searchPlaces = () => {
-    if (!currCategory) {
+    if (!currCategory || !map) {
       return;
-
     }
-
-    placeOverlay.setMap(null);
+    // 기존의 오버레이 및 마커 제거
+    removePlaceOverlay();
     removeMarker();
 
+    // 선택된 카테고리에서 장소 검색
     const ps = new window.kakao.maps.services.Places(map);
-
     ps.categorySearch(currCategory, placesSearchCB, { useMapBounds: true });
   };
 
   const placesSearchCB = (data, status) => {
     if (status === window.kakao.maps.services.Status.OK) {
+      // 맵에 장소 표시
       displayPlaces(data);
+    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+      console.log('검색 결과가 없습니다.');
+    } else if (status === window.kakao.maps.services.Status.ERROR) {
+      console.error('검색 중 오류가 발생했습니다.');
     }
   };
 
   const displayPlaces = (places) => {
     places.forEach((place) => {
+      // 각 장소에 대한 마커 추가
       const marker = addMarker(new window.kakao.maps.LatLng(place.y, place.x));
+      // 클릭 이벤트 추가하여 장소 정보 표시
       window.kakao.maps.event.addListener(marker, 'click', () => displayPlaceInfo(place));
     });
   };
@@ -234,100 +227,69 @@ useEffect(() => {
     setMarkers([]);
   };
 
-  const displayPlaceInfo = (place) => {
-    const content = `
-      <div class="placeinfo">
-        <a class="title" href="${place.place_url}" target="_blank" title="${place.place_name}">${place.place_name}</a>
-        ${place.road_address_name ? `
-          <span title="${place.road_address_name}">${place.road_address_name}</span>
-          <span class="jibun" title="${place.address_name}">(지번 : ${place.address_name})</span>` :
-        `<span title="${place.address_name}">${place.address_name}</span>`}
-        <span class="tel">${place.phone}</span>
-      </div>
-      <div class="after"></div>
-    `;
-
-    contentNode.innerHTML = content;
-    placeOverlay.setPosition(new window.kakao.maps.LatLng(place.y, place.x));
-    placeOverlay.setMap(map);
+  const removePlaceOverlay = () => {
+    if (map && map.removeOverlayMapTypeId) {
+      map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.OVERLAY);
+    }
   };
 
 
+  const displayPlaceInfo = (place) => {
+    console.log('장소 정보 표시:', place);
+    const detailInfo = `<div style="line-height: 23px;"><p style="display:flex; flex-direction:row; align-items: center; border-radius:5px;">장소명: ${place.place_name}</p>\n<p>주소: ${place.address_name}</p>\n<p>카테고리: ${place.category_name}</p></div>`;
 
+    // 예시: 간단하게 alert으로 표시
+    // alert(detailInfo);
 
+    // 커스텀 오버레이를 생성하고 내용을 설정합니다.
+  const content = `<div style="padding:10px; background-color:white; border-radius:5px;"><div>${detailInfo}<div/> <button style="display:flex; margin-top: 10px; cursor: pointer; background-color: #04BF8A; color: white; border: none; border-radius: 3px; padding: 5px 10px;" onclick="closeOverlay()">닫기</button></div>`;
+  const position = new window.kakao.maps.LatLng(place.y, place.x); 
 
-  useEffect(() => {
-    // Kakao 지도 API 스크립트 로드!
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=1d0ba2bba93f2c27d7d493f6ea9b1a74&autoload=false`;
-    document.head.appendChild(script);
+    // 기존의 오버레이 제거
+    removePlaceOverlay();
 
-    script.onload = () => {
-      // Kakao 맵 초기화
-      window.kakao.maps.load(() => {
-        console.log('Kakao Maps API script loaded');
-        const container = document.getElementById('kakao-map');  // 지도를 담을 영역의 DOM 레퍼런스 
-        const options = { // 지도를 생성할 때 필요한 기본 옵션 
-          center: new window.kakao.maps.LatLng(location.lat, location.long), // 초기 중심 좌표 (위도, 경도)
-          level: 3, // 초기 확대 수준
-        };
-        const map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴 
+    // 커스텀 오버레이 생성 및 지도에 추가
+    const customOverlay = new window.kakao.maps.CustomOverlay({
+      content,
+      position,
+      xAnchor: 0.5,
+      yAnchor: 1.0,
+    });
+    customOverlay.setMap(map);
 
-        // 마커가 표시될 위치 
-        const markerPosition = new window.kakao.maps.LatLng(location.lat, location.long);
-        // 마커 생성 
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-        });
-        // 마커가 지도 위에 표시되도록 설정 
-        marker.setMap(map);
-
-        // 인포윈도우에 표시될 내용으로 HTML 문자열을 사용 
-        const iwContent = '<div style="padding:5px; font-size: 14px;">Hello!😀<br><a href="https://map.kakao.com/link/map/시청역,37.5665, 126.9780" style="color:black; text-decoration: none" target="_blank">지도보기</a> <a href="https://map.kakao.com/link/to/37.5665, 126.9780" style="color:black; text-decoration: none" target="_blank">길찾기</a></div>';
-        const iwPosition = new window.kakao.maps.LatLng(location.lat, location.long);  // 인포윈도우 표시될 위치를 설정
-        // 설정한 위치와 내용으로 인포윈도우 객체를 생성 
-        const infowindow = new window.kakao.maps.InfoWindow({
-          position: iwPosition,
-          content:iwContent
-        });
-        infowindow.open(map, marker);
-
-        // 지도 확대 축소 컨트롤 추가
-        const zoomControl = new window.kakao.maps.ZoomControl();
-        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-
-        // 지도 타입 컨트롤 추가
-        const mapTypeControl = new window.kakao.maps.MapTypeControl();
-        map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
-
-        
-      });
+    // 오버레이를 지도에 추가한 후 지도 중심을 해당 위치로 이동시킵니다.
+    map.panTo(position);
+     // 닫기 버튼 클릭 시 오버레이를 닫습니다.
+  window.closeOverlay = () => {
+    customOverlay.setMap(null);
+  };
     };
-
-    return () => {
-      // 컴포넌트 언마운트 시 스크립트 제거
-      document.head.removeChild(script);
-    };
-  }, []);
-
+ 
   return (
-    <div>
+    <Container>
       <div>
-       <Button>
-        카페
-       </Button>
-       <Button>
-        음식점
-       </Button>
-       <Button>
-        병원
-       </Button>
-       </div>
-      <div id='category'></div>
-      <div id="kakao-map" style={{ width: '50%', height: '500px', margin: '0 auto' }}>      </div>
-     
-    </div>
+        <Button onClick={() => onClickCategory({ target: { id: 'CE7', className: ''} })}>
+          카페
+        </Button>
+        <Button onClick={() => onClickCategory({ target: { id: 'FD6', className: ''} })}>
+          음식점
+        </Button>
+        <Button onClick={() => onClickCategory({ target: { id: 'HP8', className: ''} })}>
+          병원
+        </Button>
+        <Button onClick={() => onClickCategory({ target: { id: 'PK6', className: ''} })}>
+          주차장
+        </Button>
+        <Button onClick={() => onClickCategory({ target: { id: 'SW8', className: ''} })}>
+          지하철역
+        </Button>
+        <Button onClick={() => onClickCategory({ target: { id: 'CT1', className: ''} })}>
+          문화시설
+        </Button>
+      </div>
+      <div id="category"></div>
+      <div id="map" style={{ width: '100%', height: '500px', margin: '0 auto' }}></div>
+    </Container>
   );
 };
 
