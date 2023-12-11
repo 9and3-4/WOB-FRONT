@@ -4,7 +4,6 @@ import moment from "moment";
 import CalendarComp from "../../component/CalendarComp";
 
 const Boards = styled.div`
-  font-size: 17px;
   font-weight: 600;
   color: #999999;
   margin-bottom: 12px;
@@ -17,14 +16,6 @@ const Subtitle = styled.p`
 const BoardList = styled.h2`
   text-align: center;
 `;
-const Header = styled.h1`
-  font-size: 40px;
-  font-weight: 700;
-  color: #04bf8a;
-  margin-bottom: 50px;
-  text-align: center;
-`;
-
 const BoardListContainer = styled.div``;
 const Line = styled.div``;
 

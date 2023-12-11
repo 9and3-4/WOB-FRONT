@@ -29,7 +29,8 @@ const GlobalStyle = createGlobalStyle`
   figure, figcaption, footer, header, hgroup,
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video, button, textarea, select, input{
-    font-family: 'Noto Sans KR', sans-serif;
+    /* font-family: 'Noto Sans KR', sans-serif; */
+    font-family: 'Do Hyeon', sans-serif;
   /* font-family: 'Orbit', sans-serif; */
   /* font-family: 'Gowun Dodum', sans-serif; */
   }

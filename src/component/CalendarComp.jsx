@@ -52,12 +52,13 @@ const DayItem = styled.div`
 `;
 
 const DayName = styled.span`
-  font-size: 12px;
+  font-size: 0.9em;
   color: #333;
 `;
 
 const DayNumber = styled.span`
-  font-size: 16px;
+  padding-top: 5px;
+  font-size: 1.2em;
   font-weight: bold;
 `;
 const CalendarComp = ({ onDateSelect }) => {

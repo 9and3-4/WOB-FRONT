@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserStore";
 import AxiosApi from "../api/MypageAxiosApi";
@@ -9,12 +9,15 @@ import { storage } from "../api/firebase";
 import { formatDate } from "../utils/Common";
 import { useNavigate } from "react-router-dom";
 import Footer from "../layout/Footer";
+import Edit from "../images/Edit.png";
+import Setting from "../images/Setting.png";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  padding: 24px;
+  /* padding: 24px; */
   border-radius: 8px;
   width: 768px;
-  margin: 20px auto;
+  margin: 0px auto;
 `;
 
 const LogoImage = styled.img`
@@ -66,19 +69,20 @@ const Label = styled.label`
   display: block;
   margin: 20px 10px;
   font-weight: bold;
+  font-size: 1.5em;
 `;
 const SubmitButton = styled.button`
-  padding: 8px;
-  background-color: #04bf8a;
-  width: 60px;
-  margin-left: 6px;
-  color: white;
+  padding: 5px;
+  background-color: #dfede9;
+  width: 3em;
+  margin-left: 1em;
+  color: #000000;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.2em;
   &:hover {
-    background-color: #008660;
+    background-color: #04bf8a;
   }
 `;
 const HeaderBox = styled.div`
@@ -89,7 +93,8 @@ const HeaderBox = styled.div`
   margin: 0 auto;
 `;
 const EditLogo = styled.img`
-  width: 20px;
+  width: 30px;
+  height: 30px;
   justify-content: left;
   align-items: end;
 `;
@@ -102,6 +107,16 @@ const EditBtn = styled.div`
   align-items: center;
   justify-content: center;
   padding: 40px 0;
+`;
+const FooterCon = styled.div`
+  /* padding: 0 20px; */
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 10px;
+`;
+const StyledLink = styled(Link)`
+  margin: 0 30px;
 `;
 
 const MyPageEdit = () => {
@@ -200,15 +215,11 @@ const MyPageEdit = () => {
         <LogoImage src={logoImage} alt="logo" onClick={goToHome} />
         <EditLogoCon>
           {!editMode && (
-            <EditLogo
-              onClick={() => setEditMode(true)}
-              src={
-                url ||
-                "https://firebasestorage.googleapis.com/v0/b/kh-mini-prj.appspot.com/o/edit.png?alt=media&token=b6729420-f6dd-4dcf-be5d-e21ec76e66da"
-              }
-              alt="edit"
-            />
+            <EditLogo onClick={() => setEditMode(true)} src={Edit} alt="edit" />
           )}
+          <StyledLink to="/">
+            <EditLogo src={Setting} alt="Setting" />
+          </StyledLink>
         </EditLogoCon>
       </HeaderBox>
       <FieldEditTitle>
@@ -283,7 +294,9 @@ const MyPageEdit = () => {
           <SubmitButton onClick={() => setEditMode(false)}>취소</SubmitButton>
         </EditBtn>
       )}
-      <Footer />
+      <FooterCon>
+        <Footer />
+      </FooterCon>
     </Container>
   );
 };

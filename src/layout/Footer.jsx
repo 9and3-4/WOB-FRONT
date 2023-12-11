@@ -14,14 +14,16 @@ const Container = styled.div`
 const FooterIcon = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 `;
 
-const StyledLink = styled(Link)``;
+const StyledLink = styled(Link)`
+  margin: 0 30px;
+`;
 
 const Icon = styled.img`
-  height: 50px;
+  height: 60px;
 `;
 
 const Footer = () => {
