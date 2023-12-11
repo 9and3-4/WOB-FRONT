@@ -7,7 +7,6 @@ import Main from "./page/Main";
 import Layout from "./layout/Layout";
 import MyPageEdit from "./page/MyPageEdit";
 import KakaoMaps from "./page/map/Maps";
-import KakaoMap from "./page/map/Maps";
 
 function App() {
   return (
@@ -20,7 +19,7 @@ function App() {
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             {/* 선영이 한것 */}
-            <Route path="/KakaoMap" element={<KakaoMap/>} />
+            <Route path="/KakaoMap" element={<KakaoMaps/>} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
         </Routes>

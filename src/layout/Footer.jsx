@@ -39,7 +39,7 @@ const Footer = () => {
         <StyledLink to="/">
           <Icon src={Chat} alt="Chat" />
         </StyledLink>
-        <StyledLink to="/map">
+        <StyledLink to="/KakaoMap">
           <Icon src={GPS} alt="GPS" />
         </StyledLink>
         <StyledLink to="/MyPage">
