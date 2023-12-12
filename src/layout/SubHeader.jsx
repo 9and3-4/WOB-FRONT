@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+
 
 const Container = styled.div`
   display: flex;
@@ -19,12 +20,14 @@ const HeaderBox = styled.div`
   max-width: 768px;
   min-width: 300px;
   margin: 0 auto;
+  padding-top: 6.5px;
 `;
 
-const LogoImage = styled.img`
+const ArrowBack = styled.div`
   cursor: pointer;
-  width: 100px;
+  font-size: 25px;
   margin: 10px;
+  color: var(--GREEN);
 `;
 
 const SearchIcon = styled(FontAwesomeIcon)`
@@ -32,31 +35,24 @@ const SearchIcon = styled(FontAwesomeIcon)`
   color: #04bf8a;
   font-size: 23px;
 `;
-
-const Header = () => {
-  const logoImage =
-    "https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/logosmall.png?alt=media&token=5f1756d7-08ab-4930-a834-1c2d82e2c34d";
+const SubHeader = () => {
 
   const navigate = useNavigate();
-
-  const goToHome = () => {
-    navigate("/");
-  };
 
   const goToSearchPage = () => {
     navigate("searchMain");
   };
 
-  return (
-    <>
-      <Container>
-        <HeaderBox>
-          <LogoImage src={logoImage} alt="logo" onClick={goToHome} />
+    return(
+     <Container>
+        <HeaderBox> 
+            <ArrowBack onClick={() => navigate(-1)}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+            </ArrowBack>
           <SearchIcon icon={faSearch} onClick={goToSearchPage} />
         </HeaderBox>
       </Container>
-    </>
-  );
+    );
 };
 
-export default Header;
+export default SubHeader;

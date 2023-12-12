@@ -7,6 +7,8 @@ import Main from "./page/Main";
 import Layout from "./layout/Layout";
 import MyPageEdit from "./page/MyPageEdit";
 import KakaoMaps from "./page/map/Maps";
+import PostSubmit from "./page/PostSubmit";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <Route path="/KakaoMap" element={<KakaoMaps/>} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
+          <Route path="/postsubmit" element={<PostSubmit />} />
         </Routes>
       </Router>
     </>
