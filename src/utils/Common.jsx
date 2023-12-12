@@ -18,3 +18,20 @@ export const formatDate = (dateString) => {
   const minute = ("0" + date.getMinutes()).slice(-2);
   return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
 };
+
+const Common = {
+  getAccessToken: () => {
+    return localStorage.getItem("accessToken");
+  },
+  setAccessToken: (token) => {
+    localStorage.setItem("accessToken", token);
+  },
+  getRefreshToken: () => {
+    return localStorage.getItem("refreshToken");
+  },
+  setRefreshToken: (token) => {
+    localStorage.setItem("refreshToken", token);
+  },
+};
+
+export default Common;

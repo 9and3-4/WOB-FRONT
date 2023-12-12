@@ -8,7 +8,7 @@ import Layout from "./layout/Layout";
 import MyPageEdit from "./page/MyPageEdit";
 import KakaoMaps from "./page/map/Maps";
 import PostSubmit from "./page/PostSubmit";
-
+import LoginPage from "./page/Login";
 
 function App() {
   return (
@@ -21,10 +21,11 @@ function App() {
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             {/* 선영이 한것 */}
-            <Route path="/KakaoMap" element={<KakaoMaps/>} />
+            <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
           <Route path="/postsubmit" element={<PostSubmit />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
     </>
