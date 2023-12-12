@@ -8,7 +8,7 @@ import Layout from "./layout/Layout";
 import MyPageEdit from "./page/MyPageEdit";
 import KakaoMaps from "./page/map/Maps";
 import PostSubmit from "./page/PostSubmit";
-import LoginPage from "./page/Login";
+import TestLoginPage from "./page/Login";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
+          <Route path="/login" element={<TestLoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
@@ -25,7 +26,6 @@ function App() {
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
           <Route path="/postsubmit" element={<PostSubmit />} />
-          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
     </>

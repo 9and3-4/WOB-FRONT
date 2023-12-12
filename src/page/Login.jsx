@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 import Common from "../utils/Common";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = styled.div`
   background-color: "blue";
@@ -26,7 +27,8 @@ const KakaoOauth = styled.button`
   background-color: "yellow";
 `;
 
-const LoginPage = () => {
+const TestLoginPage = () => {
+  const navigate = useNavigate();
   const [signId, setSignId] = useState("");
   const [signPassword, setSignPassword] = useState("");
   const [signNickname, signSetNickname] = useState("");
@@ -78,6 +80,11 @@ const LoginPage = () => {
       console.log("loginTest 리턴 값: ", response);
     }
   };
+  const handleMain = () => {
+    // Use the navigate function to go to the main page
+    console.log("메인으로");
+    navigate("/");
+  };
 
   return (
     <>
@@ -124,8 +131,11 @@ const LoginPage = () => {
       <div>
         <TokkenTestBtn onClick={handleTest}>테스트</TokkenTestBtn>
       </div>
+      <div>
+        <TokkenTestBtn onClick={handleMain}>메인으로</TokkenTestBtn>
+      </div>
     </>
   );
 };
 
-export default LoginPage;
+export default TestLoginPage;

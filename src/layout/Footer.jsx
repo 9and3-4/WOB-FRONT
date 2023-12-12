@@ -5,7 +5,8 @@ import Chat from "../images/Chat.png";
 import GPS from "../images/GPS.png";
 import MyPage from "../images/MyPage.png";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Common from "../utils/Common";
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const FooterIcon = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
   margin: 0 30px;
 `;
 
@@ -27,22 +28,34 @@ const Icon = styled.img`
 `;
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = (path) => {
+    // access token이 존재하지 않으면 /login으로 이동, 존재하면 path로 이동
+    const accessToken = Common.getAccessToken();
+    if (!accessToken) {
+      navigate("/login");
+    } else {
+      console.log("Footer : ", accessToken);
+      navigate(path);
+    }
+  };
   return (
     <Container>
       <FooterIcon>
-        <StyledLink to="/">
+        <StyledLink onClick={() => handleLinkClick("/")}>
           <Icon src={Home} alt="Home" />
         </StyledLink>
-        <StyledLink to="/schedule">
+        <StyledLink onClick={() => handleLinkClick("/schedule")}>
           <Icon src={Calendar} alt="Calendar" />
         </StyledLink>
-        <StyledLink to="/">
+        <StyledLink onClick={() => handleLinkClick("/")}>
           <Icon src={Chat} alt="Chat" />
         </StyledLink>
-        <StyledLink to="/KakaoMap">
+        <StyledLink onClick={() => handleLinkClick("/KakaoMap")}>
           <Icon src={GPS} alt="GPS" />
         </StyledLink>
-        <StyledLink to="/MyPage">
+        <StyledLink onClick={() => handleLinkClick("/MyPage")}>
           <Icon src={MyPage} alt="MyPage" />
         </StyledLink>
       </FooterIcon>

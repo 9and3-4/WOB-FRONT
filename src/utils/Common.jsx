@@ -32,6 +32,9 @@ const Common = {
   setRefreshToken: (token) => {
     localStorage.setItem("refreshToken", token);
   },
+  clearAccessToken: () => {
+    localStorage.clear();
+  },
 };
 
 export default Common;
