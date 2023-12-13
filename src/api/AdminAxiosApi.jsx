@@ -4,12 +4,13 @@ import Commom, {KH_DOMAIN} from "../utils/Common";
 const AdminAxiosApi =  {
     
    // 게시글 쓰기
-  boardWrite: async (title, img) => {
-    const board = {
-      title: title,
+  categorySave: async (name, img,logo) => {
+    const category = {
+      name: name,
       img: img,
+      logo:logo,
     };
-    return await axios.post(KH_DOMAIN + "/api/board/new", board);
+    return await axios.post(KH_DOMAIN + "/category/add", category);
   },
 };
 

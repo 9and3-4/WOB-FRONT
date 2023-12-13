@@ -223,66 +223,62 @@ const SearchIcon = styled(FontAwesomeIcon)`
 
 
 const AllBoardContent = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const goToSearchPage = () => {
         navigate("searchMain");
       };
 
-      const [title, setTitle] = useState("");
+      const [name, setName] = useState("");
+      const [img, setImg] = useState("");
+      const [logo, setLogo] = useState("");
+
       const [content, setContent] = useState("");
       const [file, setFile] = useState(null);
-      const [url, setUrl] = useState("");
+      const [file2, setFile2] = useState(null);
       const [categories, setCategories] = useState([]); // 새 상태 추가
-      
     
-      useEffect(() => {
-        const getCategories = async () => {
-          try {
-            const rsp = await AdminAxiosApi.cateList();
-            console.log(rsp.data);
-            setCategories(rsp.data);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        getCategories();
-      }, []);
     
-      const email = window.localStorage.getItem("email");
-      console.log("email : " + email);
-      const navigate = useNavigate();
-    
-      const handleTitleChange = (e) => {
-        setTitle(e.target.value);
+      // 종목명 name에 저장
+      const handleNameChange = (e) => {
+        setName(e.target.value);
       };
+
+      // 등록하기 버튼 클릭 시,
       const handleSubmit = async () => {
-        console.log(title, url);
+        console.log(name, img, logo);
         try {
-          const rsp = await AdminAxiosApi.boardWrite(
-            title,
-            url
+          const rsp = await AdminAxiosApi.categorySave(
+            name,
+            img,
+            logo
           );
           if (rsp.data === true) {
-            alert("글쓰기 성공");
-            navigate("/Boards");
+            alert("카테고리 등록 성공");
           } else {
-            alert("글쓰기 실패");
+            alert("카테고리 등록 실패");
           }
         } catch (error) {
           console.log(error);
         }
       };
+
       const handleReset = () => {
-        setTitle("");
-        setContent("");
-        navigate("/Boards");
+        setName("");
+        setImg("");
+        setLogo("");
       };
     
+      // img 파일 선택
       const handleFileInputChange = (e) => {
         setFile(e.target.files[0]);
       };
-    
+      // logo 파일 선택
+      const handleFileInputChange2 = (e) => {
+        setFile2(e.target.files[0]);
+      };
+
+      // img 업로드
       const handleUploadClick = async () => {
         try {
           const storageRef = storage.ref();
@@ -294,10 +290,32 @@ const AllBoardContent = () => {
     
           // 다운로드 URL을 가져오고 기다립니다.
           const url = await fileRef.getDownloadURL();
-          console.log("저장경로 확인 : " + url);
+          console.log("img 저장경로 확인 : " + url);
     
           // 상태를 업데이트합니다.
-          setUrl(url);
+          setImg(url);
+        } catch (error) {
+          // 에러를 처리합니다.
+          console.error("Upload failed", error);
+        }
+      };
+
+      // logo 업로드
+      const handleUploadClick2 = async () => {
+        try {
+          const storageRef = storage.ref();
+          const fileRef = storageRef.child(file2.name);
+    
+          // 파일을 업로드하고 기다립니다.
+          await fileRef.put(file2);
+          console.log("File uploaded successfully!");
+    
+          // 다운로드 URL을 가져오고 기다립니다.
+          const url2 = await fileRef.getDownloadURL();
+          console.log("logo 저장경로 확인 : " + url2);
+    
+          // 상태를 업데이트합니다.
+          setLogo(url2);
         } catch (error) {
           // 에러를 처리합니다.
           console.error("Upload failed", error);
@@ -371,20 +389,20 @@ const AllBoardContent = () => {
         <StyledInput type="file" onChange={handleFileInputChange} />
         <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
       </FileUploadContainer>
-      {url && <UserImage src={url} alt="uploaded" />}
+      {img && <UserImage src={img} alt="uploaded" />}
       <FileUploadContainer>
-        <StyledInput type="file" onChange={handleFileInputChange} />
-        <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
+        <StyledInput type="file" onChange={handleFileInputChange2} />
+        <UploadButton onClick={handleUploadClick2}>Upload</UploadButton>
       </FileUploadContainer>
-      {url && <UserImage src={url} alt="uploaded" />}
+      {logo && <UserImage src={logo} alt="uploaded" />}
       <FieldContainer>
         <StyledLabel htmlFor="title">종목</StyledLabel>
         <StyledInput
           type="text"
           id="title"
           name="title"
-          value={title}
-          onChange={handleTitleChange}
+          value={name}
+          onChange={handleNameChange}
         />
       </FieldContainer>
       <ButtonContainer>
