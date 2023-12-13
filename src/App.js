@@ -26,24 +26,25 @@ function App() {
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             {/* 선영 지도 */}
-            <Route path="/KakaoMap" element={<KakaoMaps/>} />
+            <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
           <Route path="/postsubmit" element={<PostSubmit />} />
 
           {/* 선영 관리자페이지 */}
           {/* 관리자 메인 메뉴 페이지 */}
-          <Route path="/AdminMain" element={<AdminMain/>} />
+          <Route path="/AdminMain" element={<AdminMain />} />
           {/* 전체 회원 관리 */}
-          <Route path="/Advertising" element={<Advertising/>} />
+          <Route path="/Advertising" element={<Advertising />} />
           {/* 전체 결제 내역 관리 */}
-          <Route path="/AllBoardContent" element={<AllBoardContent/>} />
+          <Route path="/AllBoardContent" element={<AllBoardContent />} />
           {/* 전체 게시글 관리 */}
-          <Route path="/AllMemberInfo" element={<AllMemberInfo/>} />
+          <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
           {/* 광고 관리 */}
-          <Route path="/AllPaymentContent" element={<AllPaymentContent/>} />
+          <Route path="/AllPaymentContent" element={<AllPaymentContent />} />
           {/* 문의하기(Q&A) */}
-          <Route path="/AskContent" element={<AskContent/>} />
+          <Route path="/AskContent" element={<AskContent />} />
+          <Route path="/postsubmit" element={<PostSubmit />} />
         </Routes>
       </Router>
     </>
@@ -51,4 +52,3 @@ function App() {
 }
 
 export default App;
-

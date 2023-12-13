@@ -6,6 +6,7 @@ import Button from "../component/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
+import useWeather from "../hook/useWeather"
 
 
 const Container = styled.div`
@@ -72,6 +73,7 @@ const Subtitle = styled.div`
 
 const Main = () => {
    const navigate = useNavigate();
+   const { addr, temp } = useWeather;
 
    const handleIconClick = () => {
     navigate("/CalendarComp");
@@ -94,8 +96,8 @@ const Main = () => {
               fontSize="25px"
               cursor="pointer"
               onClick={handleIconClick}/>
-            </DateBox>
-            <CalenderBox>
+            </DateBox>    
+            <CalenderBox>  
             <CalendarComp onDateSelect={(date) => console.log(date)} />
             </CalenderBox>
             <MediumContainer>
@@ -106,7 +108,13 @@ const Main = () => {
                 <Button label="서초구" size="category"/>
               </CategoryBox2>
               <WeatherBox>
-                   ☀️ 역삼동 15° 
+                {addr ? (
+                  <>
+                  {temp} °C  {addr}
+                  </>
+                ) : (
+                  "날씨 로딩 중.."
+                )}
                 </WeatherBox>
               </MediumContainer>
               <Subtitle>
