@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 import Common from "../utils/Common";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +53,9 @@ const TestLoginPage = () => {
     if (response.status === 200) {
       const accessToken = response.headers.get("Authorization");
       console.log("login return : ", accessToken);
+      Common.setEmail(id);
       Common.setAccessToken(accessToken);
+      console.log("login email : ", Common.getEmail());
     }
   };
   const handleGoogle = async () => {
@@ -85,6 +87,10 @@ const TestLoginPage = () => {
     console.log("메인으로");
     navigate("/");
   };
+
+  useEffect(() => {
+    Common.clearLocalStorage();
+  }, []);
 
   return (
     <>

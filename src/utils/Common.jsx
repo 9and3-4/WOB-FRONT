@@ -32,7 +32,13 @@ const Common = {
   setRefreshToken: (token) => {
     localStorage.setItem("refreshToken", token);
   },
-  clearAccessToken: () => {
+  setEmail: (email) => {
+    localStorage.setItem("email", email);
+  },
+  getEmail: () => {
+    return localStorage.getItem("email");
+  },
+  clearLocalStorage: () => {
     localStorage.clear();
   },
 };
