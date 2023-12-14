@@ -1,7 +1,9 @@
+// 관리자 결제 내역 관리
 import React from "react";
 import styled from "styled-components";
-import FullLogoBth from "../../component/FullLogoBtn";
+import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
+import Layout from "../../component/admin/Layout";
 
 const Container = styled.div`
   max-width: 768px;
@@ -203,6 +205,8 @@ const AllPaymentContent = () => {
                 <p>1 | 2 | 3 | 4 </p>
            </MemberBoard>
            <h2>전체 결제 내역 그래프</h2>
+           {/* 햄버거 토글 사이드바 */}
+           <Layout/>
         </Container>
     )
 };

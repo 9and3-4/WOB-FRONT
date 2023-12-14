@@ -1,8 +1,10 @@
+// 관리자 메인 페이지
 import React from "react";
 import styled from "styled-components";
-import FullLogoBth from "../../component/FullLogoBtn";
+import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
 import { useNavigate } from "react-router-dom";
+import Layout from "../../component/admin/Layout";
 
 const Container = styled.div`
   max-width: 768px;
@@ -68,6 +70,7 @@ const AdminMain = () => {
                 <Click onClick={() => handleNavigate("/Advertising")}>광고 관리</Click>
                 <Click onClick={() => handleNavigate("/AskContent")}>문의 하기/Q&A</Click>
             </Buttons>
+            <Layout />
         </Container>
     )
 };

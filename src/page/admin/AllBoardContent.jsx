@@ -1,14 +1,18 @@
+// 관리자 게시판 관리
 import React from "react";
 import styled from "styled-components";
-import FullLogoBth from "../../component/FullLogoBtn";
+import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { storage } from "../../api/firebase";
+import Layout from "../../component/admin/Layout";
+import AdminBoardList from "../../component/admin/AdminBoardList";
+import AdminBoardDetail from "../../component/admin/AdminBoardDetail";
 
 const FormContainer = styled.div`
   padding: 20px;
@@ -37,7 +41,7 @@ const Title = styled.h1`
 `;
 
 const StyledInput = styled.input`
-  width: 90%; // 너비를 100%로 설정하여 컨테이너의 너비에 맞춤
+  width: 90%; 
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -90,8 +94,6 @@ const FileUploadContainer = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `;
-
-
 
 const Container = styled.div`
   max-width: 768px;
@@ -233,10 +235,10 @@ const AllBoardContent = () => {
       const [img, setImg] = useState("");
       const [logo, setLogo] = useState("");
 
-      const [content, setContent] = useState("");
+      // const [content, setContent] = useState("");
       const [file, setFile] = useState(null);
       const [file2, setFile2] = useState(null);
-      const [categories, setCategories] = useState([]); // 새 상태 추가
+      // const [categories, setCategories] = useState([]); // 새 상태 추가
     
     
       // 종목명 name에 저장
@@ -380,8 +382,12 @@ const AllBoardContent = () => {
                     <button>삭제</button>
                 </div>
                 <p>1 | 2 | 3 | 4 </p>
+                {/* 게시물 목록 */}
+                <AdminBoardList />
+                <AdminBoardDetail />
            </MemberBoard>
 
+    {/* 게시물 등록 */}
         <Wrap>
         <FormContainer>
         <Title>게시물 등록</Title>
@@ -448,6 +454,8 @@ const AllBoardContent = () => {
             </ul>
            </div>
            </Wrap>
+           {/* 햄버거 토글 사이드바 */}
+           <Layout/>
         </Container>
     )
 };

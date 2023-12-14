@@ -1,10 +1,12 @@
+// 관리자 회원 관리
 import React from "react";
 import styled from "styled-components";
-import FullLogoBth from "../../component/FullLogoBtn";
+import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Layout from "../../component/admin/Layout";
 
 const Container = styled.div`
   max-width: 768px;
@@ -176,6 +178,8 @@ const AllMemberInfo = () => {
             <p>지역별 종목 비율</p>
             <p>검색 키워드 많은 순</p>
            </Chat>
+           {/* 햄버거 토글 사이드바 */}
+           <Layout />
         </Container>
     )
 };

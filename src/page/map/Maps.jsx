@@ -1,3 +1,4 @@
+// 지도(내 현재위치 + 카테고리별 목록)
 import React, { useEffect, useState, useRef } from 'react';
 import { Map, Marker } from 'react-kakao-maps';
 import axios from 'axios';

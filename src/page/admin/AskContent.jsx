@@ -1,11 +1,12 @@
+// 관리자 1:1 문의하기 채팅
 import React from "react";
 import styled from "styled-components";
-import FullLogoBth from "../../component/FullLogoBtn";
+import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import Layout from "../../component/admin/Layout";
 
 const Container = styled.div`
   max-width: 768px;
@@ -173,6 +174,8 @@ const AskContent = () => {
                 <p>1 | 2 | 3 | 4 </p>
            </MemberBoard>
            <h4>1:1 관리자 채팅방 </h4>
+           {/* 햄버거 토글 사이드바 */}
+           <Layout />
         </Container>
     )
 };
