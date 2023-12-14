@@ -7,7 +7,9 @@ const Weather = () => {
   const [addr, setAddr] = useState(""); // 주소
   const [temp, setTemp] = useState(""); // 온도
   const [intervalId, setIntervalId] = useState(null); // 갱신 주기를 관리하기 위한 상태
-  const updateInterval = 60000; // 주기적 갱신 간격 (예: 1분)
+  const updateInterval = 6000000; // 주기적 갱신 간격 (예: 1시간)
+  const [sky, setSky] = useState(""); // 하늘 상태
+  const [pty, setPty] = useState(""); // 강우량 상태
 
   // 현재 위치 가져오기
   useEffect(() => {
@@ -45,7 +47,8 @@ const Weather = () => {
         }
       );
       const fullAddress = response.data.documents[0].address;
-      const neighborhoodAddress = `${fullAddress.region_1depth_name} ${fullAddress.region_2depth_name} ${fullAddress.region_3depth_name}`;
+      // const neighborhoodAddress = `${fullAddress.region_1depth_name} ${fullAddress.region_2depth_name} ${fullAddress.region_3depth_name}`;  시, 구, 동까지 나옴
+      const neighborhoodAddress = `${fullAddress.region_3depth_name}`;
       setAddr(neighborhoodAddress); // context에 저장
     } catch (error) {
       console.error("Kakao Geocoding error:", error);
@@ -149,14 +152,19 @@ const Weather = () => {
       const response = await axios.get(
         `http://127.0.0.1:5000/api/weather2?x=${coords.x}&y=${coords.y}`
       );
+      const sky = response.data.sky;
+      const pty = response.data.pty;
+
       console.log(response.data);
       setTemp(response.data.tmp); // context에 저장
+      setSky(response.data.sky);
+      setPty(response.data.pty);
     } catch (error) {
       console.error("Weather error:", error);
     }
   };
 
-  return { addr, temp, location };
+  return { addr, temp, sky, location };
 };
 
 export default Weather;

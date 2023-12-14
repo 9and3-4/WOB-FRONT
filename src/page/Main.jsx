@@ -5,8 +5,8 @@ import CalendarComp from "../component/CalendarComp";
 import Button from "../component/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-// import useWeather from "../hook/useWeather"
 import Weather from "../hook/useWeather";
 
 const Container = styled.div`
@@ -72,11 +72,16 @@ const Subtitle = styled.div`
 
 const Main = () => {
   const navigate = useNavigate();
-  // const { addr, temp } = useWeather;
+  const { addr, temp, sky, pty } = Weather();
 
   const handleIconClick = () => {
     navigate("/CalendarComp");
   };
+
+  const handlePlusIconClick = () => {
+    navigate("/postsubmit");
+  };
+
   return (
     <>
       <Container>
@@ -108,17 +113,16 @@ const Main = () => {
             <Button label="서초구" size="category" />
           </CategoryBox2>
           <WeatherBox>
-            {/* <Weather /> */}
-            {/* {addr ? (
-              <>
-                {temp} °C {addr}
-              </>
-            ) : (
-              "날씨 로딩 중.."
-            )} */}
+            {addr} {temp} {sky === "알 수 없음" ? pty : sky}
           </WeatherBox>
         </MediumContainer>
         <Subtitle>가볍게 운동하자 우리 ☺</Subtitle>
+        <FaPlusCircle
+          style={{ color: "var(--GREEN)" }}
+          fontSize="35px"
+          cursor="pointer"
+          onClick={handlePlusIconClick}
+        />
       </Container>
     </>
   );

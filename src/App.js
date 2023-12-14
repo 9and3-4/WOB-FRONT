@@ -48,6 +48,8 @@ function App() {
           <Route path="/AllPaymentContent" element={<AllPaymentContent />} />
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
+          {/* 일정 등록 페이지 */}
+          <Route path="/postsubmit" element={<PostSubmit />} />
         </Routes>
       </Router>
     </>
