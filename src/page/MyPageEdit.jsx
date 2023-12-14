@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserStore";
-import MyPageAxiosApi from "../api/MyPageAxiosApi";
+import MyPageAxiosApi from "../api/MypageAxiosApi";
 import Modal from "../utils/Modal";
 import { storage } from "../api/firebase";
 import Common, { formatDate } from "../utils/Common";
