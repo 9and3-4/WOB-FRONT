@@ -3,13 +3,13 @@ import { createContext, useEffect, useState } from "react";
 export const UserContext = createContext(null);
 
 const UserStore = (props) => {
-  const [nickName, setNickName] = useState(
-    localStorage.getItem("nickName") || "닉네임을 입력하세요."
+  const [nickname, setNickname] = useState(
+    localStorage.getItem("nickname") || "닉네임을 입력하세요."
   );
 
   useEffect(() => {
-    localStorage.getItem("nickName", nickName);
-  }, [nickName]);
+    localStorage.getItem("nickname", nickname);
+  }, [nickname]);
 
   // 관리자 페이지에 사용하는 이름
   const [name, setName] = useState(
@@ -20,12 +20,11 @@ const UserStore = (props) => {
     localStorage.setItem("name", name);
   }, [name]);
 
-
   return (
     <UserContext.Provider
       value={{
-        nickName,
-        setNickName,
+        nickname,
+        setNickname,
         name,
         setName,
       }}
