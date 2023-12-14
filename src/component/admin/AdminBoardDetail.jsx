@@ -1,8 +1,8 @@
-// 관리자 게시판 관리 - 게시판 상세 페이지(보기)
 import { useState, useEffect } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { timeFromNow } from "../../utils/Common";
 
 // 여기에 스타일드 컴포넌트를 정의합니다.
 const Container = styled.div`
@@ -22,6 +22,7 @@ const Title = styled.h1`
 const Content = styled.p`
   color: #666;
   line-height: 1.5;
+	white-space: pre-wrap; // 줄바꿈을 유지합니다.
 `;
 
 const CommentForm = styled.form`
@@ -67,7 +68,9 @@ const CommentList = styled.ul`
   padding: 0;
 `;
 
-const CommentItem = styled.li`
+const CommentItem = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
 `;
@@ -77,16 +80,15 @@ const CommentContent = styled.p`
   font-size: 1em;
   margin: 0;
   padding: 0;
-  font-size: 13px;
-  float: left;
 `;
-const CommentUser = styled.p`
+const CommentEmail = styled.p`
+  display: flex;
+  justify-content: space-between;
   color: #555;
   font-style: italic;
   font-size: 13px;
   margin: 0;
   padding: 0;
-  text-align: right;
 `;
 
 const BoardDate = styled.p`
@@ -95,13 +97,15 @@ const BoardDate = styled.p`
   text-align: right;
 `;
 
-const AdminBoardDetail = () => {
+// 게시글 상세 보기와 댓글 목록을 보여주는 컴포넌트입니다.
+
+const BoardDetail = () => {
   const { id } = useParams();
   const [board, setBoard] = useState("");
   const [comments, setComments] = useState("");
   const [inputComment, setInputComment] = useState("");
   const [comAddFlag, setComAddFlag] = useState(false); // 댓글 추가 성공 여부
-  const userId = localStorage.getItem("userId");
+  const email = localStorage.getItem("email");
   const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => {
@@ -110,6 +114,7 @@ const AdminBoardDetail = () => {
 
   useEffect(() => {
     const getBoardDetail = async () => {
+      console.log("getBoardDetail : " + id);
       try {
         const response = await AdminAxiosApi.boardDetail(id);
         setBoard(response.data);
@@ -129,7 +134,7 @@ const AdminBoardDetail = () => {
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await AdminAxiosApi.commentWrite(userId, id, inputComment);
+      const response = await AdminAxiosApi.commentWrite(email, id, inputComment);
       console.log(response);
       setInputComment("");
       setComAddFlag(!comAddFlag);
@@ -146,7 +151,7 @@ const AdminBoardDetail = () => {
       />
       <Title>{board.title}</Title>
       <Content>{board.content}</Content>
-      <BoardDate>{board.regDate}</BoardDate>
+      <BoardDate>{timeFromNow(board.regDate)}</BoardDate>
 
       <button onClick={toggleComments}>
         {showComments ? "댓글 숨기기" : `댓글 ${comments.length}개 보기`}
@@ -167,8 +172,11 @@ const AdminBoardDetail = () => {
           {comments &&
             comments.map((comment) => (
               <CommentItem key={comment.commentId}>
+                <CommentEmail>
+                  <p>{comment.email}</p>
+                  <p>{timeFromNow(comment.regDate)}</p>
+                </CommentEmail>
                 <CommentContent>{comment.content}</CommentContent>
-                <CommentUser>{comment.userId}</CommentUser>
               </CommentItem>
             ))}
         </CommentList>
@@ -177,4 +185,4 @@ const AdminBoardDetail = () => {
   );
 };
 
-export default AdminBoardDetail;
+export default BoardDetail;

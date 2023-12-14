@@ -1,18 +1,28 @@
-// 관리자 게시판 관리 - 목록보기
 import React, { useState, useEffect } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { timeFromNow } from "../../utils/Common";
 
 const BoardContainer = styled.div`
   padding: 0 30px;
   position: relative;
   margin-bottom: 40px;
+  border: 1px solid red;
+  max-width: 768px;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
+  padding-top:50px;
   color: #333;
   text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+`;
+
+const SmallTitle = styled.tr`
+
 `;
 
 const BoardUl = styled.ul`
@@ -72,7 +82,7 @@ const UserId = styled.span`
   font-size: 13px;
 `;
 
-const WriteButton = styled.button`
+const CircleFixedButton = styled.button`
   position: fixed; // 버튼을 부모 컨테이너에 대해 절대적 위치로 설정
   bottom: 24px;
   right: 30px;
@@ -107,37 +117,33 @@ const WriteButton = styled.button`
   }
 `;
 
-function AdminBoardList() {
+
+// 게시판 목록 페이지 입니다.
+
+function BoardList() {
   const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const boardList = async () => {
-      try {
-        const rsp = await AdminAxiosApi.boardList();
-        console.log(rsp.data);
-        setBoardList(rsp.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        console.log("finally");
-      }
-    };
-    boardList();
-  }, []);
-
   // 글쓰기 버튼 클릭 시
   const handleWriteClick = () => {
-    navigate("/AdminBoardWrite");
+    navigate("/boardWrite");
   };
   // 글 상세보기 버튼 클릭 시
-  const handleDetailClick = (id) => {
-    navigate(`/AdminBoardDetail/${id}`);
+  const handleDetailClick = (email) => {
+    navigate(`/boardDetail/${email}`);
   };
 
   return (
     <BoardContainer>
       <Title>게시판 목록</Title>
+        <SmallTitle>
+          <th>
+            <tr>게시판 번호</tr>
+            <tr>작성자 이름</tr>
+            <tr>내용</tr>
+            <tr>작성일자</tr>
+          </th>
+        </SmallTitle>
       <BoardUl>
         {boardList &&
           boardList.map((board) => (
@@ -152,17 +158,17 @@ function AdminBoardList() {
               <BoardContentWrapper>
                 <BoardHeader>
                   <BoardTitle>{board.title}</BoardTitle>
-                  <UserId>{board.userId}</UserId>
+                  <UserId>{board.email}</UserId>
                 </BoardHeader>
                 <BoardContent>{board.content}</BoardContent>
-                <BoardDate>{board.regDate}</BoardDate>
+                <BoardDate>{timeFromNow(board.regDate)}</BoardDate>
               </BoardContentWrapper>
             </BoardLi>
           ))}
       </BoardUl>
-      <WriteButton onClick={handleWriteClick}></WriteButton>
+      <CircleFixedButton onClick={handleWriteClick}></CircleFixedButton>
     </BoardContainer>
   );
 }
 
-export default AdminBoardList;
+export default BoardList;
