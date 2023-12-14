@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserStore";
-import AxiosApi from "../api/MypageAxiosApi";
+import MyPageAxiosApi from "../api/MyPageAxiosApi";
 import Modal from "../utils/Modal";
 import { storage } from "../api/firebase";
-import { formatDate } from "../utils/Common";
+import Common, { formatDate } from "../utils/Common";
 import { useNavigate } from "react-router-dom";
 import Footer from "../layout/Footer";
 import Edit from "../images/Edit.png";
@@ -33,7 +33,7 @@ const UserInfo = styled.div`
   margin-bottom: 10px;
 `;
 
-const UserNickName = styled.h2`
+const UserNickname = styled.h2`
   margin-left: 20px;
 `;
 
@@ -126,29 +126,29 @@ const MyPageEdit = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  const [member, setMember] = useState("");
-  // const [isCurrentUser, setIsCurrentUser] = useState(false);
-  const [editNickName, setEditNickName] = useState("");
+  const [user, setUser] = useState("");
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [editNickname, setEditNickname] = useState("");
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
-
-  const context = useContext(UserContext);
-  const setNickName = context ? context.setNickName : null;
+  // const context = useContext(UserContext);
+  // const { setNickname } = context;
 
   useEffect(() => {
-    const memberInfo = async () => {
-      const rsp = await AxiosApi.memberGetOne(email);
+    const userInfo = async () => {
+      const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
+      console.log("rsp data  :", rsp.data);
       if (rsp.status === 200) {
-        setMember(rsp.date);
+        setUser(rsp.data);
         setUrl(rsp.data.image);
       }
     };
-    memberInfo();
+    userInfo();
 
-    //로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
+    // // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
     // const loginUserEmail = localStorage.getItem("email");
-    //로그인한 사용자와 글쓴이가 같은지 비교
+    // // 로그인한 사용자와 글쓴이가 같은지 비교
     // if (loginUserEmail === email) {
     //   setIsCurrentUser(true);
     // }
@@ -165,24 +165,24 @@ const MyPageEdit = () => {
 
   //입력 필드 변경 처리
   const handleChange = (e) => {
-    if (e.target.nickName === "NickName") {
+    if (e.target.nickname === "Nickname") {
       setFile(e.target.files[0]);
     } else {
-      setEditNickName(e.target.value);
+      setEditNickname(e.target.value);
     }
   };
 
   //회원정보 업데이트 Axios호출
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const rsp = await AxiosApi.memberUpdate(email, editNickName, url);
+    const rsp = await MyPageAxiosApi.userUpdate(email, editNickname, url);
     if (rsp.status === 200) {
       setEditMode(false);
-      setNickName(editNickName);
-      console.log("setNickName : ", setNickName);
-      const rsp = await AxiosApi.memberGetOne(email);
+      // setNickname(editNickname);
+      console.log("setUser : ", setUser);
+      const rsp = await MyPageAxiosApi.userGetOne(email);
       if (rsp.status === 200) {
-        setMember(rsp.data);
+        setUser(rsp.data);
         setUrl(rsp.data.image);
       }
     }
@@ -231,12 +231,6 @@ const MyPageEdit = () => {
       </UserInfo>
       {!editMode ? (
         <>
-          {/* <Field>
-            <Label>Email : {member.email}</Label>
-          </Field>
-          <Field>
-            <Label>가입일 : {formatDate(member.regDate)}</Label>
-          </Field> */}
           {/* 현재 사용자가 로그인한 사용자인 경우에만 편집 버튼 표시 */}
           {/* {isCurrentUser && (
             <SubmitButton onClick={() => setEditMode(true)}>편집</SubmitButton>
@@ -255,13 +249,16 @@ const MyPageEdit = () => {
       </FieldEditTitle>
       <EditNick>
         {!editMode ? (
-          <UserNickName>{member.NickName}</UserNickName>
+          <UserNickname>
+            {/* {user.email} */}
+            {user.nickname}
+          </UserNickname>
         ) : (
           <Input
             type="text"
-            name="NickName"
-            placeholder="닉네임을 입력하세요."
-            value={editNickName}
+            name="Nickname"
+            placeholder={user.nickname}
+            value={editNickname}
             onChange={handleChange}
           />
         )}
@@ -277,12 +274,6 @@ const MyPageEdit = () => {
       </FieldEditTitle>
       {!editMode ? (
         <>
-          {/* <Field>
-            <Label>Email : {member.email}</Label>
-          </Field>
-          <Field>
-            <Label>가입일 : {formatDate(member.regDate)}</Label>
-          </Field> */}
           {/* 현재 사용자가 로그인한 사용자인 경우에만 편집 버튼 표시 */}
           {/* {isCurrentUser && (
             <SubmitButton onClick={() => setEditMode(true)}>편집</SubmitButton>

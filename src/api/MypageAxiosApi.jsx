@@ -1,31 +1,33 @@
 import axios from "axios";
 import { KH_DOMAIN } from "../utils/Common";
 
-const AxiosApi = {
-  memberLogin: async (email, pw) => {
-    console.log("로그인: ", email, pw);
-    const login = {
-      email: email,
-      password: pw,
-    };
-    return await axios.post(KH_DOMAIN + "/auth/login", login);
+const MyPageAxiosApi = {
+  //회원 전체 조회
+  userGet: async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    return await axios.get(KH_DOMAIN + `/users/list`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
   },
-
-  // Member Get One - 회원정보 조회
-  memberGetOne: async (email) => {
-    const token = localStorage.getItem("token");
-    console.log("회원조회 : ", token);
+  // Member Get One - 회원정보 상세 조회
+  userGetOne: async (email) => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log("회원조회 토큰 : ", accessToken);
+    console.log("사용자 이메일 :", email);
     return await axios.get(KH_DOMAIN + `/users/detail/${email}`, {
       headers: {
         "Content-Type": "application/jason",
-        Authorization: "Bearer" + token,
+        Authorization: "Bearer " + accessToken,
       },
     });
   },
 
   //회원 정보 수정
-  memberUpdate: async (email, nickName, image) => {
-    const token = localStorage.getItem("token");
+  userUpdate: async (email, nickName, image) => {
+    const accessToken = localStorage.getItem("accessToken");
     console.log("회원 정보 수정: ", email, nickName, image);
     const member = {
       email: email,
@@ -35,10 +37,10 @@ const AxiosApi = {
     return await axios.put(KH_DOMAIN + `/users/modify`, member, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + token,
+        Authorization: "Bearer " + accessToken,
       },
     });
   },
 };
 
-export default AxiosApi;
+export default MyPageAxiosApi;
