@@ -1,4 +1,4 @@
-// 관리자 광고 관리
+// 관리자 광고 관리(광고 관리하기)
 import React from "react";
 import styled from "styled-components";
 import FullLogoBth from "../../component/admin/FullLogoBtn";

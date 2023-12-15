@@ -100,14 +100,6 @@ const SearchIcon = styled(FontAwesomeIcon)`
   font-size: 23px;
   `;
 
-  const Chat = styled.div`
-    p{
-       margin: 80px 0px 300px 50px;
-       font-size: 23px;
-       font-weight: bold;
-    }
-  `;
-
 const AllMemberInfo = () => {
     const navigate = useNavigate();
 
@@ -173,11 +165,6 @@ const AllMemberInfo = () => {
                 <p>1 | 2 | 3 | 4 </p>
            </MemberBoard>
 
-           <Chat>
-            <p>방문자 현황</p>
-            <p>지역별 종목 비율</p>
-            <p>검색 키워드 많은 순</p>
-           </Chat>
            {/* 햄버거 토글 사이드바 */}
            <Layout />
         </Container>

@@ -5,6 +5,7 @@ import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
 import Layout from "../../component/admin/Layout";
 
+
 const Container = styled.div`
   max-width: 768px;
   min-width: 300px;

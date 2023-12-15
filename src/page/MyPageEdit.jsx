@@ -131,7 +131,7 @@ const MyPageEdit = () => {
   // const { setNickname } = context;
 
   useEffect(() => {
-    const userInfo = async () => {
+    const userInfo = async () => { 
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
       console.log("rsp data  :", rsp.data);
       if (rsp.status === 200) {

@@ -1,9 +1,11 @@
+// 전체 게시판 상세페이지
 import { useState, useEffect } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Common from "../../utils/Common";
 import { useNavigate } from "react-router-dom";
+import Layout from "../../component/admin/Layout";
 
 // 여기에 스타일드 컴포넌트를 정의합니다.
 const Container = styled.div`
@@ -260,6 +262,7 @@ const AdminBoardDetail = () => {
             ))}
         </CommentList>
       )}
+      <Layout />
     </Container>
   );
 };

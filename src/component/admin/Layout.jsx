@@ -119,9 +119,9 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <ul className="sub-menu">
                     <li onClick={() => handleAreaNavigate("/AllMemberInfo","allMemberList")}>전체 회원 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AllMemberInfo","visitMember")}>방문자 현황</li>
-                    <li onClick={() => handleAreaNavigate("/AllMemberInfo","regionGrap")}>지역별 종목 비율</li>
-                    <li onClick={() => handleAreaNavigate("/AllMemberInfo","clickKeyword")}>검색 키워드 높은 순</li>
+                    <li onClick={() => handleAreaNavigate("/AdminVisitorStatus","visitMember")}>방문자 현황</li>
+                    <li onClick={() => handleAreaNavigate("/StockRatioByRegion","regionGrap")}>지역별 종목 비율</li>
+                    <li onClick={() => handleAreaNavigate("/SearchKeyword","clickKeyword")}>검색 키워드 높은 순</li>
                 </ul>
             </li>
             <li>
@@ -130,8 +130,8 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <ul className="sub-menu">
                     <li onClick={() => handleAreaNavigate("/AllPaymentContent")}>전체 결제 승인 모아보기</li>
-                    <li onClick={() => handleAreaNavigate("/AllPaymentContent")}>전체 결제 내역 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AllPaymentContent")}>전체 결제 내역 그래프</li>
+                    <li onClick={() => handleAreaNavigate("/PaymentList")}>전체 결제 내역 목록</li>
+                    <li onClick={() => handleAreaNavigate("/AllPaymentGraph")}>전체 결제 내역 그래프</li>
                 </ul>
             </li>
             <li>
@@ -140,7 +140,7 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <ul className="sub-menu">
                     <li onClick={() => handleAreaNavigate("/AllBoardContent")}>전체 게시판 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AllBoardContent")}>전체 게시물 등록/수정/삭제</li>
+                    <li onClick={() => handleAreaNavigate("/AdminBoardRegistration")}>전체 게시물 등록/수정/삭제</li>
                 </ul>
             </li>
             <li>
@@ -157,7 +157,7 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <ul className="sub-menu">
                     <li onClick={() => handleAreaNavigate("/AskContent")}>관리자 전용 전체 채팅방 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AskContent")}>1:1 관리자 채팅 문의</li>
+                    <li onClick={() => handleAreaNavigate("/AdminChat")}>1:1 관리자 채팅 문의</li>
                 </ul>
             </li>
                 <div className="logoBox">

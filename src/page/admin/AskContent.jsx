@@ -1,4 +1,4 @@
-// 관리자 1:1 문의하기 채팅
+// 관리자 1:1 문의하기 채팅 목록
 import React from "react";
 import styled from "styled-components";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
@@ -120,7 +120,7 @@ const AskContent = () => {
             <SubHeader />
             <div className="Logo">
                 <FullLogoBth />
-                <span>문의하기(Q&A)</span>
+                <span>관리자 채팅목록</span>
             </div>
             <MemberBoard>
                 <div className="list">
