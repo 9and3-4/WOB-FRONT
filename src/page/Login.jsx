@@ -52,9 +52,12 @@ const TestLoginPage = () => {
     });
     if (response.status === 200) {
       const accessToken = response.headers.get("Authorization");
-      console.log("login return : ", accessToken);
+      const refreshToken = response.headers.get("authorization-refresh");
+      console.log("accessToken return = ", accessToken);
+      console.log("refreshToken return = ", refreshToken);
       Common.setEmail(id);
       Common.setAccessToken(accessToken);
+      Common.setRefreshToken(refreshToken);
       console.log("login email : ", Common.getEmail());
     }
   };

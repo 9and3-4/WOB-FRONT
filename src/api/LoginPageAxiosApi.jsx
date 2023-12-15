@@ -51,5 +51,20 @@ const LoginPageAxiosApi = {
       },
     });
   },
+
+  interestSprots: async (props) => {
+    const accessToken = Common.getAccessToken();
+    const email = Common.getEmail();
+    return await axios.post(
+      KH_DOMAIN + `/interest/sports?email=${email}`,
+      props,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
 };
 export default LoginPageAxiosApi;
