@@ -19,22 +19,23 @@ const MyPageAxiosApi = {
     console.log("사용자 이메일 :", email);
     return await axios.get(KH_DOMAIN + `/users/detail/${email}`, {
       headers: {
-        "Content-Type": "application/jason",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
       },
     });
   },
 
   //회원 정보 수정
-  userUpdate: async (email, nickName, image) => {
+  userUpdate: async (email, nickname, image) => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("회원 정보 수정: ", email, nickName, image);
-    const member = {
+    console.log("회원정보 수정 accessToken: ", accessToken);
+    console.log("회원 정보 수정 이멜,닉넴,이미지 : ", email, nickname, image);
+    const user = {
       email: email,
-      nickName: nickName,
+      nickname: nickname,
       image: image,
     };
-    return await axios.put(KH_DOMAIN + `/users/modify`, member, {
+    return await axios.put(KH_DOMAIN + `/users/modify`, user, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,

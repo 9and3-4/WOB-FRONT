@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-export const UserContext = createContext(null);
+export const UserContext = createContext("");
 
 const UserStore = (props) => {
   const [nickname, setNickname] = useState(
@@ -8,8 +8,12 @@ const UserStore = (props) => {
   );
 
   useEffect(() => {
-    localStorage.getItem("nickname", nickname);
+    localStorage.setItem("nickname 닉네임 바꿀 때 : ", nickname);
   }, [nickname]);
+  console.log(
+    "user nickname in userStore : ",
+    localStorage.setItem("nickname")
+  );
 
   // 관리자 페이지에 사용하는 이름
   const [name, setName] = useState(

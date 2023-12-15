@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserStore";
-import MyPageAxiosApi from "../api/MypageAxiosApi";
-import Modal from "../utils/Modal";
+import MyPageAxiosApi from "../api/MyPageAxiosApi";
 import { storage } from "../api/firebase";
 import Common, { formatDate } from "../utils/Common";
 import { useNavigate } from "react-router-dom";
@@ -121,17 +120,13 @@ const StyledLink = styled(Link)`
 
 const MyPageEdit = () => {
   const { email } = useParams();
-  const [modalContent, setModalContent] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const closeModal = () => {
-    setModalOpen(false);
-  };
   const [user, setUser] = useState("");
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editNickname, setEditNickname] = useState("");
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
+  const [nickname, setNickname] = useState("");
   // const context = useContext(UserContext);
   // const { setNickname } = context;
 
@@ -146,12 +141,12 @@ const MyPageEdit = () => {
     };
     userInfo();
 
-    // // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
-    // const loginUserEmail = localStorage.getItem("email");
-    // // 로그인한 사용자와 글쓴이가 같은지 비교
-    // if (loginUserEmail === email) {
-    //   setIsCurrentUser(true);
-    // }
+    // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
+    const loginUserEmail = localStorage.getItem("email");
+    // 로그인한 사용자와 글쓴이가 같은지 비교
+    if (loginUserEmail === email) {
+      setIsCurrentUser(true);
+    }
   }, [email]);
 
   const logoImage =
@@ -165,22 +160,24 @@ const MyPageEdit = () => {
 
   //입력 필드 변경 처리
   const handleChange = (e) => {
-    if (e.target.nickname === "Nickname") {
-      setFile(e.target.files[0]);
-    } else {
-      setEditNickname(e.target.value);
-    }
+    setEditNickname(e.target.value);
   };
 
   //회원정보 업데이트 Axios호출
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const rsp = await MyPageAxiosApi.userUpdate(email, editNickname, url);
+    const rsp = await MyPageAxiosApi.userUpdate(
+      localStorage.email,
+      editNickname,
+      url
+    );
+    console.log("회원정보 업데이트 rsp 확인 : ", rsp);
     if (rsp.status === 200) {
       setEditMode(false);
-      // setNickname(editNickname);
-      console.log("setUser : ", setUser);
-      const rsp = await MyPageAxiosApi.userGetOne(email);
+      // setNickname(editNickname); // 회원 정보 업데이트 axios 호출 후 전역 상태관리 호출
+      setNickname(editNickname);
+      console.log("setUser : ", setUser(editNickname));
+      const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
       if (rsp.status === 200) {
         setUser(rsp.data);
         setUrl(rsp.data.image);
@@ -188,14 +185,15 @@ const MyPageEdit = () => {
     }
   };
 
-  //handle clike
-  const handleUploadChange = async () => {
-    if (!file) {
-      setModalOpen(true);
-      setModalContent("사진을 선택해 주세요.");
-      return;
-    }
+  //handle clike 파일 업로드
+  const handleUploadChange = async (e) => {
     try {
+      const selectedFile = e.target.files[0];
+      if (selectedFile) {
+        setFile(selectedFile);
+      } else {
+        console.log("파일 선택 취소");
+      }
       const storageRef = storage.ref();
       const fileRef = storageRef.child(file.name);
       await fileRef.put(file); //파일 업로드 후 기다리기
@@ -209,6 +207,7 @@ const MyPageEdit = () => {
       console.error("Upload failed 파일 업로드 에러 :", error);
     }
   };
+
   return (
     <Container>
       <HeaderBox>
@@ -249,15 +248,12 @@ const MyPageEdit = () => {
       </FieldEditTitle>
       <EditNick>
         {!editMode ? (
-          <UserNickname>
-            {/* {user.email} */}
-            {user.nickname}
-          </UserNickname>
+          <UserNickname>{user.nickname}</UserNickname>
         ) : (
           <Input
             type="text"
             name="Nickname"
-            placeholder={user.nickname}
+            // placeholder={user.nickname}
             value={editNickname}
             onChange={handleChange}
           />
