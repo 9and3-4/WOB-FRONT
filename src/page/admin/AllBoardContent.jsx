@@ -11,13 +11,12 @@ import { useState } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { storage } from "../../api/firebase";
 import Layout from "../../component/admin/Layout";
-import AdminBoardList from "../../component/admin/AdminBoardList";
-import AdminBoardDetail from "../../component/admin/AdminBoardDetail";
+// import AdminBoardList from "../../component/admin/AdminBoardList";
+// import AdminBoardDetail from "../../component/admin/AdminBoardDetail";
 
 const FormContainer = styled.div`
-  padding: 20px;
-  margin: auto;
-  max-width: 600px;
+  max-width: 768px;
+  min-width: 300px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -27,26 +26,36 @@ const FormContainer = styled.div`
 const FieldContainer = styled.div`
   display: flex;
   align-items: center; // 수직 방향 중앙 정렬
-  margin-bottom: 20px; // 하단 여백 추가
+  margin: 40px; // 여백 추가
 `;
 
 const StyledLabel = styled.label`
-  flex: 0 0 100px; // 라벨의 너비 고정
-  margin-right: 10px; // 라벨과 입력 필드 사이 여백
+  text-align: center;
 `;
-
-const Title = styled.h1`
-  color: #333;
+const StyledLabel2 = styled.label`
+  margin-left: 40px;
   text-align: center;
 `;
 
+const Title = styled.div`
+  color: #333;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  margin: 30px 20px;
+  display: flex;
+`;
 const StyledInput = styled.input`
-  width: 90%; 
-  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
-  margin-bottom: 20px; // 입력창 아래에 여백 추가
+  margin-left: 25px;
+`;
+
+const StyledInput2 = styled.input`
+  border: 1px solid red;
+  padding: 15px;
+  font-size: 16px;
 `;
 
 const SubmitButton = styled.button`
@@ -90,14 +99,11 @@ const UploadButton = styled.button`
 
 const FileUploadContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 const Container = styled.div`
-  max-width: 768px;
-  min-width: 300px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -106,11 +112,11 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
-        span {
-            font-size: 30px;
-            font-weight: bold;
-            margin: 80px;
-        }
+    span {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 80px;
+    }
   }
   .Board {
     border: 1px solid #353535;
@@ -182,10 +188,7 @@ const MemberBoard = styled.div`
 }
 `;
 const Wrap = styled.div`
-    display: grid;
-    grid-template-columns: repeat(1,2fr);
-    gap:100px;
-    line-height: 40px;
+   margin: 30px 20px;
 
     h5 {
         font-size: 20px;
@@ -338,7 +341,7 @@ const AllBoardContent = () => {
                     <input type="text" placeholder="게시글 검색" />
                     <SearchIcon icon={faSearch} onClick={goToSearchPage} />
                 </div>
-                <div className="Board">
+                <table className="Board">
                         <th>
                             <tr>번호</tr>
                             <tr>이름</tr>
@@ -375,85 +378,59 @@ const AllBoardContent = () => {
                             <tr>내용</tr>
                             <tr>2023.12.12</tr>
                         </td>
-                </div>
+                </table>
                 <div className="buttons">
                     <button>등록</button>
                     <button>수정</button>
                     <button>삭제</button>
                 </div>
                 <p>1 | 2 | 3 | 4 </p>
-                {/* 게시물 목록 */}
-                <AdminBoardList />
-                <AdminBoardDetail />
            </MemberBoard>
 
     {/* 게시물 등록 */}
         <Wrap>
-        <FormContainer>
         <Title>게시물 등록</Title>
-        <FileUploadContainer>
-        <StyledInput type="file" onChange={handleFileInputChange} />
-        <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
-      </FileUploadContainer>
-      {img && <UserImage src={img} alt="uploaded" />}
-      <FileUploadContainer>
-        <StyledInput type="file" onChange={handleFileInputChange2} />
-        <UploadButton onClick={handleUploadClick2}>Upload</UploadButton>
-      </FileUploadContainer>
-      {logo && <UserImage src={logo} alt="uploaded" />}
-      <FieldContainer>
-        <StyledLabel htmlFor="title">종목</StyledLabel>
-        <StyledInput
-          type="text"
-          id="title"
-          name="title"
-          value={name}
-          onChange={handleNameChange}
-        />
-      </FieldContainer>
-      <ButtonContainer>
-        <SubmitButton onClick={handleSubmit}>글쓰기</SubmitButton>
-        <SubmitButton onClick={handleReset}>취소</SubmitButton>
-      </ButtonContainer>
-    </FormContainer>
+          <FormContainer>
 
-           <div className="modify">
-            <b>게시물 수정</b>
-            <ul>
-                <li>
-                    <h5>제목</h5>
-                    <input type="text" />
-                </li>
-                <li>
-                    <h5>사진</h5>
-                    <input type="text" />
-                </li>
-                <li>
-                    <h5>내용</h5>
-                    <input type="text" />
-                </li>
-                <button className="btn">수정</button>
-            </ul>
-           </div>
-           <div className="delete">
-           <b>게시물 삭제</b>
-           <ul>
-                <li>
-                    <h5>제목</h5>
-                    <input type="text" />
-                </li>
-                <li>
-                    <h5>사진</h5>
-                    <input type="text" />
-                </li>
-                <li>
-                    <h5>내용</h5>
-                    <input type="text" />
-                </li>
-                <button className="btn">삭제</button>
-            </ul>
-           </div>
-           </Wrap>
+          <FieldContainer>
+            <StyledLabel htmlFor="title">종목</StyledLabel>
+            <StyledInput
+              type="text"
+              id="title"
+              name="title"
+              value={name}
+              onChange={handleNameChange}
+            />
+          </FieldContainer>
+
+            <FileUploadContainer>
+              <StyledLabel2 htmlFor="title">사진</StyledLabel2>
+              <StyledInput2 type="file" onChange={handleFileInputChange} />
+              <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
+          </FileUploadContainer>
+          {img && <UserImage src={img} alt="uploaded" />}
+
+          <FileUploadContainer>
+              <StyledLabel2 htmlFor="title">로고</StyledLabel2>
+              <StyledInput2 type="file" onChange={handleFileInputChange2} />
+              <UploadButton onClick={handleUploadClick2}>Upload</UploadButton>
+          </FileUploadContainer>
+          {logo && <UserImage src={logo} alt="uploaded" />}
+
+          <ButtonContainer>
+            <SubmitButton onClick={handleSubmit}>글쓰기</SubmitButton>
+            <SubmitButton onClick={handleReset}>취소</SubmitButton>
+          </ButtonContainer>
+
+        </FormContainer>
+
+            <div className="modify">
+              <b>게시물 수정</b>
+            </div>
+            <div className="delete">
+              <b>게시물 삭제</b>
+            </div>
+          </Wrap>
            {/* 햄버거 토글 사이드바 */}
            <Layout/>
         </Container>

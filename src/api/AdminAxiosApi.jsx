@@ -1,6 +1,7 @@
 // 관리자 페이지 axiosApi
 import axios from "axios";
-import Commom, {KH_DOMAIN} from "../utils/Common";
+import { KH_DOMAIN } from "../utils/Common";
+import Common from "../utils/Common";
 
 const AdminAxiosApi =  {
   
@@ -9,26 +10,72 @@ const AdminAxiosApi =  {
     return await axios.get(KH_DOMAIN + `/users/member?id=${id}`);
   },
 
+   // (카테고리)게시글 등록
+   categorySave: async (name, img, logo) => {
+    const accessToken = Common.getAccessToken();
+    console.log("access : " + accessToken);
+    console.log("name : " + name);
+    console.log("img : " + img);
+    console.log("logo : " + logo);
 
-    
-   // 게시글 쓰기
-  categorySave: async (name, img,logo) => {
     const category = {
       name: name,
-      img: img,
-      logo:logo,
+      image: img,
+      logo: logo,
     };
-    return await axios.post(KH_DOMAIN + "/category/add", category);
+    return await axios.post(KH_DOMAIN + "/category/add", category, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
   },
-   // 게시글 조회
-   boardList: async () => {
-    return await axios.get(KH_DOMAIN + "/api/board");
+  // 게시글 조회
+  boardList: async () => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + "/category/list", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });             
   },
   // 게시글 상세 조회
-  boardDetail: async (boardId) => {
-    return await axios.get(KH_DOMAIN + `/api/board/detail/${boardId}`);
-  },
-
+  // boardDetail: async (boardId) => {
+  //   const accessToken = Common.getAccessToken();
+  //   return await axios.get(Common.KH_DOMAIN + `/category/detail/${boardId}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + accessToken,
+  //     },
+  //   });
+  // },
+  // // 게시글 페이지네이션 조회
+  // boardPageList: async (page, size) => {
+  //   const accessToken = Common.getAccessToken();
+  //   return await axios.get(
+  //     Common.KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + accessToken,
+  //       },
+  //     }
+  //   );
+  // },
+  // // 게시글 삭제
+  // boardDelete: async (boardId) => {
+  //   const accessToken = Common.getAccessToken();
+  //   return await axios.delete(
+  //     Common.KH_DOMAIN + `/category/delete/${boardId}`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + accessToken,
+  //       },
+  //     }
+  //   );
+  // },
 
 };
 
