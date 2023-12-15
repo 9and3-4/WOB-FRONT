@@ -17,6 +17,7 @@ import AskContent from "./page/admin/AskContent";
 import TestLoginPage from "./page/Login";
 import AdminBoardList from "./page/admin/AdminBoardList";
 import AdminBoardDetail from "./page/admin/AdminBoardDetail";
+import InterestEnter from "./page/interestEnter";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<TestLoginPage />} />
+          <Route path="/intereset" element={<InterestEnter />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
@@ -42,8 +44,8 @@ function App() {
           <Route path="/Advertising" element={<Advertising />} />
           {/* 전체 게시글 관리 */}
           <Route path="/AllBoardContent" element={<AllBoardContent />} />
-          <Route path="/AdminBoardList" element={<AdminBoardList/>} />
-          <Route path="/AdminBoardDetail" element={<AdminBoardDetail/>} />
+          <Route path="/AdminBoardList" element={<AdminBoardList />} />
+          <Route path="/AdminBoardDetail" element={<AdminBoardDetail />} />
           {/* 전체 회원 관리 */}
           <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
           {/* 전체 결제 내역 관리 */}
