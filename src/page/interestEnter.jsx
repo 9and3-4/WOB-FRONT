@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SelectSports from "../component/interest/SelectSports";
+import SelectArea from "../component/interest/SelectArea";
 import { WhiteBoard } from "../component/interest/WhiteBoard";
 
 const Container = styled.div`
@@ -41,11 +42,18 @@ const InterestEnter = () => {
     <>
       <Container>
         <WhiteBoard show={showWhiteBoard}>
-          <SelectSports
+          {/* <SelectSports
             options={activityList}
             min={minValue}
             max={maxValue}
             title={"관심운동 등록"}
+            text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+          /> */}
+          <SelectArea
+            options={activityList}
+            min={minValue}
+            max={maxValue}
+            title={"관심지역 등록"}
             text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
           />
         </WhiteBoard>
