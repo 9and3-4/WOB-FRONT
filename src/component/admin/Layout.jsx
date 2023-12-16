@@ -130,7 +130,7 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <ul className="sub-menu">
                     <li onClick={() => handleAreaNavigate("/AllPaymentContent")}>전체 결제 승인 모아보기</li>
-                    <li onClick={() => handleAreaNavigate("/PaymentList")}>전체 결제 내역 목록</li>
+                    <li onClick={() => handleAreaNavigate("/AllPaymentList")}>전체 결제 내역 목록</li>
                     <li onClick={() => handleAreaNavigate("/AllPaymentGraph")}>전체 결제 내역 그래프</li>
                 </ul>
             </li>

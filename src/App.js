@@ -20,9 +20,10 @@ import AdminBoardDetail from "./page/admin/AdminBoardDetail";
 import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
 import StockRatioByRegion from "./page/admin/StockRatioByRegion";
 import SearchKeyword from "./page/admin/SearchKeyword";
-import PaymentList from "./page/admin/PaymentList";
+import AllPaymentList from "./page/admin/AllPaymentList";
 import AllPaymentGraph from "./page/admin/AllPaymentGraph";
 import AdminChat from "./page/admin/AdminChat";
+import AdminBoardModify from "./page/admin/AdminBoardModify";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/AllBoardContent" element={<AllBoardContent />} />
           <Route path="/AdminBoardRegistration" element={<AdminBoardRegistration/>} />
           <Route path="/AdminBoardDetail" element={<AdminBoardDetail/>} />
+          <Route path="/AdminBoardModify" element={<AdminBoardModify/>}/>
           {/* 전체 회원 관리 */}
           <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
           <Route path="/AdminVisitorStatus" element={<AdminVisitorStatus />} />
@@ -57,7 +59,7 @@ function App() {
           <Route path="/SearchKeyword" element={<SearchKeyword />} />
           {/* 전체 결제 내역 관리 */}
           <Route path="/AllPaymentContent" element={<AllPaymentContent />} />
-          <Route path="/PaymentList" element={<PaymentList />} />
+          <Route path="/AllPaymentList" element={<AllPaymentList />} />
           <Route path="/AllPaymentGraph" element={<AllPaymentGraph />} />
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />

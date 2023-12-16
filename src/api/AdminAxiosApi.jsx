@@ -41,40 +41,168 @@ const AdminAxiosApi =  {
     });             
   },
   // 게시글 상세 조회
-  // boardDetail: async (boardId) => {
+  boardDetail: async (categoryId) => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + `/category/detail/${categoryId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  },
+  // 게시글 페이지네이션 조회
+  boardPageList: async (page, size) => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(
+      KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
+  // 게시글 삭제
+  boardDelete: async (categoryId) => {
+    const accessToken = Common.getAccessToken();
+    return await axios.delete(
+      KH_DOMAIN + `/category/delete/${categoryId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
+
+  // 게시판 활성화 바활성화 처리(get)
+    managerCategoryInfoGet : async () => {
+      const accessToken = Common.getAccessToken();
+      return await axios.get(
+        KH_DOMAIN + `/active/category/state`,
+        {
+          headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+      );
+    },
+
+    // 게시판 활성화 비활성화(post)
+    manageCategoryListState: async (state, id) => {
+      const accessToken = Common.getAccessToken();
+      console.log('활성화 비활성화, id : ', state, id);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      };
+
+      const data = {
+        isActive: state,
+        id: id,
+      };
+
+      try {
+        const response = await axios.post(KH_DOMAIN + `/active/category/state`, data, config);
+        return response.data;
+
+      } catch (error) {
+        console.error('Error in manageCategoryListState:', error);
+        throw error;
+      } 
+    },
+
+  // 회원 활성화 바활성화 처리(get)
+  managerUserInfoGet : async () => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(
+      KH_DOMAIN + `/active/user/state`,
+      {
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    }
+    );
+  },
+
+   // 회원 활성화 비활성화(post)
+    // 게시판 활성화 비활성화(post)
+    manageUserListState: async (state, id) => {
+      const accessToken = Common.getAccessToken();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      };
+
+      const data = {
+        isActive: state,
+        id: id,
+      };
+
+      try {
+        const response = await axios.post(KH_DOMAIN + `/active/user/state`, data, config);
+        return response.data;
+
+      } catch (error) {
+        console.error('Error in manageUserListState:', error);
+        throw error;
+      } 
+    },
+
+
+  // 채팅 활성화 바활성화 처리
+  // managerChatInfoGet : async () => {
   //   const accessToken = Common.getAccessToken();
-  //   return await axios.get(Common.KH_DOMAIN + `/category/detail/${boardId}`, {
-  //     headers: {
+  //   return await AdminAxiosApi.get(
+  //     KH_DOMAIN + `/active/chat/state`,
+  //     {
+  //       headers: {
   //       "Content-Type": "application/json",
   //       Authorization: "Bearer " + accessToken,
   //     },
-  //   });
-  // },
-  // // 게시글 페이지네이션 조회
-  // boardPageList: async (page, size) => {
-  //   const accessToken = Common.getAccessToken();
-  //   return await axios.get(
-  //     Common.KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + accessToken,
-  //       },
-  //     }
+  //   }
   //   );
   // },
-  // // 게시글 삭제
-  // boardDelete: async (boardId) => {
+
+   // 채팅 활성화 비활성화(post)
+  //  manageChatListState: async (isActive, id) => {
+  //   const state = {
+  //     isActive: isActive,
+  //     id: id,
+  //   };
+  //   return await AdminAxiosApi.post(KH_DOMAIN + "/active/ChatListState", state);
+  // },
+
+  // 광고 활성화 바활성화 처리
+  // managerAdInfoGet : async () => {
   //   const accessToken = Common.getAccessToken();
-  //   return await axios.delete(
-  //     Common.KH_DOMAIN + `/category/delete/${boardId}`,
+  //   return await AdminAxiosApi.get(
+  //     KH_DOMAIN + `/active/ad/state`,
   //     {
   //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + accessToken,
-  //       },
-  //     }
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + accessToken,
+  //     },
+  //   }
   //   );
+  // },
+
+   // 광고 활성화 비활성화(post)
+  //  manageAdListState: async (isActive, id) => {
+  //   const state = {
+  //     isActive: isActive,
+  //     id: id,
+  //   };
+  //   return await AdminAxiosApi.post(KH_DOMAIN + "/active/AdListState", state);
   // },
 
 };
