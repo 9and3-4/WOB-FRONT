@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SubHeader from "../layout/SubHeader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PostAxiosApi from "../api/PostSubmitAxiosApi";
 
 const Container = styled.div`
   max-width: 768px;
@@ -141,6 +143,28 @@ const DateBox = styled.div`
   }
 `;
 
+const TimeBox = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+`;
+
+const InputContainer = styled.div`
+  position: relative;
+`;
+
+const FixedText = styled.span`
+  position: absolute;
+  right: 20px; /* 오른쪽에 위치시킬 거리 조절 */
+  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
+  transform: translateY(-50%); /* 세로 중앙 정렬을 위한 보정 */
+  color: var(--BLACK); /* 텍스트 색상 설정 */
+  opacity: ${(props) => (props.show ? 1 : 1)}; /* 항상 투명도를 1로 유지 */
+  transition: opacity 0.2s ease; /* 부드러운 투명도 변화를 위한 트랜지션 설정 */
+`;
+
 const PostSubmit = () => {
   const [selectedOption, setSelectedOption] = useState("normal");
 
@@ -161,14 +185,68 @@ const PostSubmit = () => {
   const [advertisement, setAdvertisement] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = (e) => {
+  const CustomInput = ({ value, placeholder, onChange }) => {
+    const [isInputEmpty, setIsInputEmpty] = useState(!value);
+
+    const handleInputChange = (e) => {
+      onChange(e);
+      setIsInputEmpty(!e.target.value);
+    };
+
+    return (
+      <InputContainer>
+        <Input
+          type="text"
+          value={value}
+          placeholder={isInputEmpty ? "" : placeholder}
+          onChange={handleInputChange}
+        />
+        <FixedText show={isInputEmpty}>명</FixedText>
+      </InputContainer>
+    );
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 여기에서 등록된 일정을 서버에 보낼 수 있음
+
+    // 1. date 와 time을 Date 객체로 변환
+    const koreaDate = new Date(date);
+    const koreaTime = new Date(date);
+
+    // 2. 현재 시간을 UTC 시간으로 계산
+    const utcDate = new Date(
+      koreaDate.getTime() - koreaDate.getTimezoneOffset() * 60 * 1000
+    );
+    const utcTime = new Date(
+      koreaTime.getTime() - koreaTime.getTimezoneOffset() * 60 * 1000
+    );
+    // 3. UTC to KST (UTC + 9시간)
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000; // 한국 시간(KST)은 UTC시간보다 9시간 더 빠르므로 9시간을 밀리초 단위로 변환.
+
+    const krDate = new Date(utcDate.getTime() + KR_TIME_DIFF);
+    const krTime = new Date(utcTime.getTime() + KR_TIME_DIFF);
+
+    // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
+    const rsp = await PostAxiosApi.postSubmit({
+      title,
+      place,
+      people,
+      cost,
+      detail,
+      date: krDate,
+      time: krTime,
+    });
+    if (rsp.status === 200) {
+      alert("등록 요청 완료");
+      // navigate("/postlist") 등록 완료 되면 게시글 목록으로 ?
+    } else {
+      alert("등록 실패");
+    }
     console.log({
       title,
       category,
-      date,
-      time,
+      date: krDate,
+      time: krTime,
       place,
       cost,
       people,
@@ -177,7 +255,6 @@ const PostSubmit = () => {
       advertisement,
       isModalOpen,
     });
-    // TODO: 서버로 데이터 전송 및 저장 로직 작성
   };
 
   return (
@@ -225,17 +302,28 @@ const PostSubmit = () => {
                 className="datedate"
                 selected={date}
                 placeholderText="날짜"
-                onChange={(newDate) => setDate(newDate)}
+                onChange={(newDate) => {
+                  console.log(typeof newDate);
+                  setDate(newDate);
+                }}
+                dateFormat="yyyy년 MM월 dd일"
                 customInput={<StyledInput />}
               />
             </DateBox>
 
-            <Input
-              type="text"
-              value={time}
-              placeholder="시간"
-              onChange={(e) => setTime(e.target.value)}
-            />
+            <TimeBox>
+              <DatePicker
+                selected={time}
+                onChange={(date) => setTime(date)}
+                placeholderText="시간"
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                customInput={<StyledInput />}
+              />
+            </TimeBox>
 
             <Input
               type="text"
@@ -247,14 +335,14 @@ const PostSubmit = () => {
             <Input
               type="text"
               value={cost}
-              placeholder="비용"
+              placeholder="비용(숫자만 입력)"
               onChange={(e) => setCost(e.target.value)}
             />
 
             <Input
               type="text"
               value={people}
-              placeholder="참여 인원"
+              placeholder="참여 인원(최대 30명)"
               onChange={(e) => setPeople(e.target.value)}
             />
 
@@ -280,7 +368,7 @@ const PostSubmit = () => {
               </>
             )}
             <ButtonBox>
-              <SubmitButton type="submit">등록 요청</SubmitButton>
+              <SubmitButton onClick={handleSubmit}>등록 요청</SubmitButton>
               <CancleButton type="submit">취소</CancleButton>
             </ButtonBox>
           </Form>

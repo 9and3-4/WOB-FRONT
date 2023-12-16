@@ -42,20 +42,20 @@ const InterestEnter = () => {
     <>
       <Container>
         <WhiteBoard show={showWhiteBoard}>
-          {/* <SelectSports
+          <SelectSports
             options={activityList}
             min={minValue}
             max={maxValue}
             title={"관심운동 등록"}
             text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-          /> */}
-          <SelectArea
+          />
+          {/* <SelectArea
             options={activityList}
             min={minValue}
             max={maxValue}
             title={"관심지역 등록"}
             text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-          />
+          /> */}
         </WhiteBoard>
       </Container>
     </>
