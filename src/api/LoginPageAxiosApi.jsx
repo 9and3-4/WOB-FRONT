@@ -25,19 +25,19 @@ const LoginPageAxiosApi = {
   },
 
   googleLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth-login/google", {
+    return await axios.get(KH_DOMAIN + "/oauth2/authorization/google", {
       withCredentials: true,
     });
   },
 
   naverLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth-login/naver", {
+    return await axios.get(KH_DOMAIN + "/oauth2/authorization/naver", {
       withCredentials: true,
     });
   },
 
   kakaoLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth-login/kakao", {
+    return await axios.get(KH_DOMAIN + "/oauth2/authorization/kakao", {
       withCredentials: true,
     });
   },

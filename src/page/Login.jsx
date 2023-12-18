@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 import Common from "../utils/Common";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { KH_DOMAIN } from "../utils/Common";
 
 const SignUp = styled.div`
   background-color: "blue";
@@ -133,9 +134,15 @@ const TestLoginPage = () => {
       </Login>
 
       <div>소셜 회원가입 & 로그인</div>
-      <GoogleOauth onClick={handleGoogle}>Google Login</GoogleOauth>
-      <NaverOauth onClick={handleNaver}>Naver Login</NaverOauth>
-      <KakaoOauth onClick={handleKakao}>Kakao Login</KakaoOauth>
+      <GoogleOauth>
+        <Link to="${KH_DOMAIN}/oauth2/authorization/google">Google</Link>
+      </GoogleOauth>
+      <NaverOauth>
+        <Link to="${KH_DOMAIN}/oauth2/authorization/naver">Naver</Link>
+      </NaverOauth>
+      <KakaoOauth>
+        <Link to="${KH_DOMAIN}/oauth2/authorization/kakao">Kakao</Link>
+      </KakaoOauth>
 
       <div>
         <TokkenTestBtn onClick={handleTest}>테스트</TokkenTestBtn>
