@@ -1,40 +1,46 @@
 import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faChild } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faChild,
+  faPersonWalking,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   max-width: 700px;
   min-width: 300px;
   margin: 0 auto;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: var(--GREEN);
 `;
 
 const DetailBox = styled.div`
-  width: 100%;
+  width: 80%;
   min-width: 300px;
   height: 135px;
   background-color: var(--MINT);
   color: var(--BLACK);
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin: 5px;
+  cursor: pointer;
 `;
 
 const Titlebox = styled.div`
   width: 90%;
-  padding-top: 20px;
-  padding-left: 15px;
+  padding-top: 25px;
+  padding-left: 20px;
+  font-size: 20px;
   font-weight: bold;
-  outline: 1px solid gray;
 `;
 
 const DateBox = styled.div`
   width: 90%;
-  padding-top: 20px;
-  padding-left: 15px;
-  outline: 1px solid gray;
+  padding-top: 15px;
+  padding-left: 20px;
 `;
 
 const SecondBox = styled.div`
@@ -43,12 +49,10 @@ const SecondBox = styled.div`
   padding-left: 15px;
   display: flex;
   justify-content: space-around;
-  outline: 1px solid gray;
 `;
 
 const PlaceBox = styled.div`
   display: flex;
-  outline: 1px solid gray;
 `;
 
 const PeopleBox = styled.div`
@@ -79,7 +83,10 @@ const PostDetail = () => {
               <Icon icon={faChild} />
               5명
             </PeopleBox>
-            <CategoryBox>산책</CategoryBox>
+            <CategoryBox>
+              <Icon icon={faPersonWalking} />
+              산책
+            </CategoryBox>
           </SecondBox>
         </DetailBox>
       </Container>

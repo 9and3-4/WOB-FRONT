@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PostDetail from "../component/PostDetial";
 
 const Container = styled.div`
   max-width: 768px;
@@ -65,11 +66,32 @@ const CalenderBox = styled.div`
   height: 100px;
 `;
 
+const BottomContainer = styled.div`
+  width: 100%;
+  min-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 const Subtitle = styled.div`
   width: 100%;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: bold;
   margin-top: 30px;
+`;
+
+const PostBox = styled.div`
+  width: 100%;
+  padding-top: 20px;
+`;
+
+const PlusButton = styled(FaPlusCircle)`
+  bottom: 20px;
+  right: 20px;
+  color: var(--GREEN);
+  font-size: 35px;
+  cursor: pointer;
 `;
 
 const Main = () => {
@@ -151,13 +173,19 @@ const Main = () => {
             {addr} {temp} {sky === "알 수 없음" ? pty : sky}
           </WeatherBox>
         </MediumContainer>
-        <Subtitle>가볍게 운동하자 우리 ☺</Subtitle>
-        <FaPlusCircle
-          style={{ color: "var(--GREEN)" }}
-          fontSize="35px"
-          cursor="pointer"
-          onClick={handlePlusIconClick}
-        />
+        <BottomContainer>
+          <Subtitle>신나게 운동하자 우리 ☺</Subtitle>
+          <PlusButton onClick={handlePlusIconClick} />
+        </BottomContainer>
+        <PostBox>
+          <PostDetail />
+          <PostDetail />
+          <PostDetail />
+          <PostDetail />
+          <PostDetail />
+          <PostDetail />
+          <PostDetail />
+        </PostBox>
       </Container>
     </>
   );
