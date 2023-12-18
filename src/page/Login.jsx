@@ -135,13 +135,13 @@ const TestLoginPage = () => {
 
       <div>소셜 회원가입 & 로그인</div>
       <GoogleOauth>
-        <Link to="${KH_DOMAIN}/oauth2/authorization/google">Google</Link>
+        <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>Google</Link>
       </GoogleOauth>
       <NaverOauth>
-        <Link to="${KH_DOMAIN}/oauth2/authorization/naver">Naver</Link>
+        <Link to={`${KH_DOMAIN}/oauth2/authorization/naver`}>Naver</Link>
       </NaverOauth>
       <KakaoOauth>
-        <Link to="${KH_DOMAIN}/oauth2/authorization/kakao">Kakao</Link>
+        <Link to={`${KH_DOMAIN}/oauth2/authorization/kakao`}>Kakao</Link>
       </KakaoOauth>
 
       <div>
