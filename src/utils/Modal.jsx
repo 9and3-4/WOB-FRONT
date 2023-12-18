@@ -47,6 +47,8 @@ const ModalStyle = styled.div`
         color: #999;
         background-color: transparent;
         border: none;
+        cursor: pointer;
+
       }
     }
     main {
