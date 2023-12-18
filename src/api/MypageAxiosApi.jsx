@@ -26,14 +26,21 @@ const MyPageAxiosApi = {
   },
 
   //회원 정보 수정
-  userUpdate: async (email, nickname, image) => {
+  userUpdate: async (email, nickname, image, mbti) => {
     const accessToken = localStorage.getItem("accessToken");
     console.log("회원정보 수정 accessToken: ", accessToken);
-    console.log("회원 정보 수정 이멜,닉넴,이미지 : ", email, nickname, image);
+    console.log(
+      "회원 정보 수정 이멜,닉넴,이미지, mbti : ",
+      email,
+      nickname,
+      image,
+      mbti
+    );
     const user = {
       email: email,
       nickname: nickname,
       image: image,
+      mbti: mbti,
     };
     return await axios.put(KH_DOMAIN + `/users/modify`, user, {
       headers: {

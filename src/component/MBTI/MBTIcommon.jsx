@@ -11,7 +11,7 @@ const TextAlign = styled.div`
 `;
 
 const SelectButton = styled.button`
-  padding: 20px 60px;
+  padding: 20px 56px;
   font-size: 20px;
   background-color: ${(props) => (props.selected ? "#04bf8a" : "transparent")};
   color: ${(props) => (props.selected ? "#fff" : "inherit")};

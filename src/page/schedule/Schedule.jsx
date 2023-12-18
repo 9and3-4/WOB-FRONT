@@ -20,7 +20,7 @@ const BoardListContainer = styled.div``;
 const Line = styled.div``;
 
 const Schedule = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(moment());
   const onDateSelect = (date) => {
     setSelectedDate(date);
   };
@@ -33,10 +33,9 @@ const Schedule = () => {
             <CalendarComp onDateSelect={onDateSelect} />
           </>
           <>
-            <Subtitle>
-              {selectedDate ? selectedDate.toDate().toDateString() : ""}
-            </Subtitle>
+            <Subtitle>{selectedDate.toDate().toDateString()}</Subtitle>
           </>
+
           <BoardListContainer>
             <Line />
             <BoardList />

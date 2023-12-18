@@ -66,6 +66,7 @@ const CalendarComp = ({ onDateSelect }) => {
   const [current, setCurrent] = useState(moment());
   const [year, setYear] = useState(current.year());
 
+  //주 정보 계산
   const weeks = React.useMemo(() => {
     const start = moment().year(year).startOf("year");
     console.log("start : moment:", moment());
@@ -79,26 +80,24 @@ const CalendarComp = ({ onDateSelect }) => {
         weekEnd.year(weekStart.year());
         console.log("연도 바뀌는 주 찾기 : ", weekEnd.year(weekStart.year()));
       }
-
+      const dates = Array.from({ length: 7 }).map((_, dayIndex) => {
+        const date = moment(weekStart).add(dayIndex, "days");
+        return {
+          weekday: date.format("ddd"),
+          date: date.toDate(),
+        };
+      });
       return {
         weekStart: weekStart.toDate(),
         weekEnd: weekEnd.toDate(),
-        dates: Array.from({ length: 7 }).map((_, dayIndex) => {
-          const date = moment(weekStart).add(dayIndex, "days");
-          return {
-            weekday: date.format("ddd"),
-            date: date.toDate(),
-          };
-        }),
+        dates: dates,
       };
     });
   }, [year]);
 
   React.useEffect(() => {
     setYear(current.year());
-  }, [current]);
 
-  React.useEffect(() => {
     const weekIndex = weeks.findIndex((week) => {
       const weekStart = moment(week.weekStart);
       const weekEnd = moment(week.weekEnd);
@@ -110,7 +109,7 @@ const CalendarComp = ({ onDateSelect }) => {
     if (weekIndex !== -1) {
       sliderRef.current.slickGoTo(weekIndex);
     }
-  }, [weeks, current]);
+  }, [current, weeks]);
 
   const handleDateClick = (date) => {
     const weekIndex = weeks.findIndex((week) => {
