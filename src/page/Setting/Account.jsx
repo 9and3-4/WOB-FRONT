@@ -3,6 +3,7 @@ import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
+import Modal from "../../utils/Modal";
 
 const Container = styled.div`
   /* padding: 24px; */
@@ -75,6 +76,10 @@ const Account = () => {
   const [google, setGoogle] = useState("");
   const [naver, setNaver] = useState("");
   const [kakao, setKakao] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false); // 모달 오픈
+  const [modalText, setModelText] = useState("정말 로그아웃 하시겠습니까?"); // 모달에 넣을 내용
+
   // 제 3자 로그인 정보를 가져옴
   useEffect(() => {
     const loginSetting = async () => {
@@ -82,19 +87,12 @@ const Account = () => {
       switch (rsp) {
         case "GOOGLE":
           setGoogle("연결됨");
-          // setNaver("");
-          // setKakao("");
           break;
         case "NAVER":
           setNaver("연결됨");
-          // setKakao("");
-          // setGoogle("");
           break;
         case "KAKAO":
           setKakao("연결됨");
-          // setNaver("");
-          // setGoogle("");
-
           break;
         default:
           break;
@@ -102,6 +100,22 @@ const Account = () => {
     };
     loginSetting();
   }, []);
+
+  // 로그아웃 버튼 눌렀을 때,
+  const onClickModal = () => {
+    setModalOpen(true);
+  };
+  // Modal 닫기 눌렀을 때, ModalOpen(false)
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  // Modal 확인 눌렀을 때,
+  const confirmModal = () => {
+    // 로그아웃 되는 axios 구현
+    setModalOpen(false);
+    alert("로그아웃 되었습니다.");
+    navigate("/login");
+  };
 
   return (
     <>
@@ -151,11 +165,20 @@ const Account = () => {
           </button>
         </SubContainer>
         <SubContainer>
-          <button>
+          <button onClick={() => onClickModal()}>
             <span className="text">로그아웃</span>
             <span className="pointer">&gt;</span>
           </button>
         </SubContainer>
+        <Modal
+          open={modalOpen}
+          close={closeModal}
+          confirm={confirmModal}
+          type={true}
+          header="알림"
+        >
+          {modalText}
+        </Modal>
       </Container>
     </>
   );
