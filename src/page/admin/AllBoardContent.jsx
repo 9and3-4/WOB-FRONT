@@ -113,7 +113,7 @@ const Buttons = styled.button`
     button {
       font-weight: 500;
       background-color: #DFEDE9;
-      border: 1px solid #04BF8A;
+      border: 1px solid #04bf8a;
       border-radius: 5px;
       padding: 15px;
       font-size: 15px;
@@ -121,18 +121,26 @@ const Buttons = styled.button`
     }
 `;
 
-// 검색 버튼
-const SearchIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  color: #04bf8a;
-  font-size: 23px;
-  `;
-
-const TableRow = styled.tr`
-
-
-  cursor: pointer;
+  // 검색 버튼
+  const SearchIcon = styled(FontAwesomeIcon)`
+    cursor: pointer;
+    color: #04bf8a;
+    font-size: 23px;
     `;
+
+  const TableRow = styled.tr`
+
+    &.active {
+      background-color: #DFEDE9;
+    }
+    &.inactive {
+      background-color: #ddd;
+    }
+    &.quit {
+      background-color: #b9696e96;
+    }
+    cursor: pointer;
+  `;
 
     const ModalButtonContainer = styled.div`
       display: flex;
@@ -163,8 +171,6 @@ const AllBoardContent = () => {
   const [selectedId, setSelectedId] = useState(null);
   const email = window.localStorage.getItem("email");
 
-  const [modalOpen, setModalOpen] = useState(false);
-
   const navigate = useNavigate();
 
   // 수정, 등록 시 경로 이동
@@ -191,14 +197,13 @@ const AllBoardContent = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedId(null);
-    setModalOpen(false);
   };
-
 
   // 게시글 활성화 또는 비활성화 요청 보내기
   const categoryListState = async (selectedId, state) => {
     await AdminAxiosApi.categoryListState(selectedId, state);
     console.log("state, seletedId : " + state, selectedId);
+
     // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
     setSelectedId(null); 
     setIsModalOpen(false);
@@ -249,7 +254,7 @@ const AllBoardContent = () => {
             <tr>로고</tr>
             <tr>종목</tr>
             <tr>이미지</tr>
-            <tr>버튼</tr>
+            <tr>선택</tr>
           </th>
         </table>
 
@@ -263,6 +268,7 @@ const AllBoardContent = () => {
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
             isActive={data.isActive} // 추가된 부분: isActive props 전달
+            className={data.isActive}
           >
 
             <ul className="data" key={index} >
@@ -270,7 +276,7 @@ const AllBoardContent = () => {
               <li><img src={data.logo} alt="로고" /></li>
               <li><p>{data.name}</p></li> 
               <li><img src={data.image} alt="이미지" /></li>
-              <li><button>버튼</button></li>
+              <li><button>활성화/비활성화</button></li>
             </ul>
 
             </TableRow>

@@ -41,11 +41,11 @@ const AdminAxiosApi =  {
     });             
   },
 
-  // 게시글 목록 페이징(페이지네이션)
+  // 게시글 페이지네이션 조회
   boardPageList: async (page, size) => {
     const accessToken = Common.getAccessToken();
     return await axios.get(
-      KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
+      Common.KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
       {
         headers: {
           "Content-Type": "application/json",
