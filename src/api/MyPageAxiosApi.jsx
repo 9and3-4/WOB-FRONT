@@ -15,7 +15,6 @@ const MyPageAxiosApi = {
   // Member Get One - 회원정보 상세 조회
   userGetOne: async (email) => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("회원조회 토큰 : ", accessToken);
     console.log("사용자 이메일 :", email);
     return await axios.get(KH_DOMAIN + `/users/detail/${email}`, {
       headers: {
@@ -28,9 +27,8 @@ const MyPageAxiosApi = {
   //회원 정보 수정
   userUpdate: async (email, nickname, image, mbti) => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("회원정보 수정 accessToken: ", accessToken);
     console.log(
-      "회원 정보 수정 이멜,닉넴,이미지, mbti : ",
+      "axios 수정 email,nick,image,mbti : ",
       email,
       nickname,
       image,

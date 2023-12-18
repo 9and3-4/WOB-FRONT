@@ -81,6 +81,7 @@ const IMGField = styled.div`
   padding: 20px;
 `;
 const EditNick = styled.div`
+  color: #04bf8a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +151,7 @@ const MyPageEdit = () => {
   useEffect(() => {
     const userInfo = async () => {
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
-      console.log("rsp data  :", rsp.data);
+      console.log("useEffect의 rsp data 확인 :", rsp.data);
       if (rsp.status === 200) {
         setUser(rsp.data);
         setUrl(rsp.data.image);
@@ -176,14 +177,25 @@ const MyPageEdit = () => {
   const handleChange = (e) => {
     setEditNickname(e.target.value);
   };
-  //회원정보 업데이트 Axios호출
+
+  //MBTI 선택 부분
+  const [selectedItem, setSelectedItem] = useState("");
+  // MBTI 선택됐을 때 실행될 함수
+  const handleSelectedItem = (item) => {
+    console.log("부모 컴포넌트에서 선택된 아이템:", item);
+    // 선택된 아이템을 부모 컴포넌트의 상태로 설정
+    setSelectedItem(item);
+  };
+
+  //회원정보 업데이트 Axios호출 . 회원정보 수정 '수정' 버튼
   const handleSubmit = async (e) => {
     const rsp = await MyPageAxiosApi.userUpdate(
       localStorage.email,
       editNickname,
-      url
+      url,
+      selectedItem
     );
-    console.log("회원정보 업데이트 rsp 확인 : ", rsp);
+    console.log("회원정보 업데이트 rsp 확인 : ", rsp.data);
     if (rsp.status === 200) {
       setEditMode(false);
       // setNickname(editNickname); // 회원 정보 업데이트 axios 호출 후 전역 상태관리 호출
@@ -217,18 +229,18 @@ const MyPageEdit = () => {
     }
   };
   const activityList = [
-    "헬스",
-    "골프",
-    "자전거",
-    "등산",
-    "축구",
-    "농구",
-    "야구",
-    "탁구",
-    "테니스",
-    "배드민턴",
-    "런닝",
-    "볼링",
+    "🏋️‍♀️헬스",
+    "🏌️‍♂️골프",
+    "🚲자전거",
+    "⛰️등산",
+    "⚽축구",
+    "🏀농구",
+    "⚾야구",
+    "🏓탁구",
+    "🎾테니스",
+    "🏸배드민턴",
+    "🏃‍♂️런닝",
+    "🎳볼링",
   ];
   const minValue = 1;
   const maxValue = 3;
@@ -299,7 +311,7 @@ const MyPageEdit = () => {
             <Input
               type="text"
               name="Nickname"
-              // placeholder={user.nickname}
+              placeholder={user.nickname}
               value={editNickname}
               onChange={handleChange}
             />
@@ -335,6 +347,7 @@ const MyPageEdit = () => {
                 options={mbtiList}
                 max={mbtiValue}
                 text={`MBTI를 선택해주세요.`}
+                handleSelectedItem={handleSelectedItem} // 함수 전달
               />
             )}
           </>

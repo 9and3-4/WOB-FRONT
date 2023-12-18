@@ -9,13 +9,14 @@ const MBTIGird = styled.div`
   padding: 40px;
 `;
 
-const SelectMBTI = ({ options, max, mbtiItem }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+const SelectMBTI = ({ options, max, handleSelectedItem }) => {
+  const [selectedItem, setSelectedItem] = useState("");
   const [value, setValue] = useState("");
   const maxSelection = max; // 최대 선택 할 수 있는 개수
   const handleSelect = (item) => {
     console.log("선택된 mbti : ", item);
-    setSelectedItems([item]);
+    setSelectedItem(item);
+    handleSelectedItem(item); // 선택된 아이템을 부모 컴포넌트로 전달
   };
 
   return (
@@ -25,7 +26,8 @@ const SelectMBTI = ({ options, max, mbtiItem }) => {
           <SelectButton
             key={mbti}
             onClick={() => handleSelect(mbti)}
-            selected={selectedItems.includes(mbti)}
+            selected={selectedItem.includes(mbti)}
+            value={mbti}
           >
             {mbti}
           </SelectButton>
