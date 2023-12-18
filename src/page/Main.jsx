@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AdCarousel from "../component/MainAd";
 import CalendarComp from "../component/CalendarComp";
@@ -8,6 +8,8 @@ import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Weather from "../hook/useWeather";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Container = styled.div`
   max-width: 768px;
@@ -73,13 +75,32 @@ const Subtitle = styled.div`
 const Main = () => {
   const navigate = useNavigate();
   const { addr, temp, sky, pty } = Weather();
+  const [selectDate, setSelectDate] = useState(null);
+  const [showCalendar, setShowCalender] = useState(false);
 
+  // 아이콘 클릭했을 때의 동작 (달력 나타남)
   const handleIconClick = () => {
-    navigate("/CalendarComp");
+    setShowCalender(true);
+  };
+
+  // 달력에 있는 날짜 선택
+  const hadleDateSelect = (date) => {
+    setSelectDate(date);
+    fetchPostByDate(date); // 날짜에 해당하는 게시글 가져오기
+    setShowCalender(false);
   };
 
   const handlePlusIconClick = () => {
     navigate("/postsubmit");
+  };
+
+  const fetchPostByDate = async (selectDate) => {
+    try {
+      // 선택한 날짜에 해당하는 게시글 가져오는 api 호출 -> 백 코드 생성후 마저 생성 예정.
+      const response = await fetch();
+    } catch (error) {
+      console.error("Error fetching posts: ", error);
+    }
   };
 
   return (
@@ -92,15 +113,29 @@ const Main = () => {
           <Button label="🏸 배드민턴" size="category" />
           <Button label="🏓 탁구" size="category" />
         </CategoryBox>
-        <DateBox>
+        <DateBox style={{ position: "relative", zIndex: 1 }}>
           2023년 12월
           <FontAwesomeIcon
             icon={faCalendarDays}
-            style={{ color: "var(--GREEN)" }}
+            style={{
+              color: "var(--GREEN)",
+              position: "absolute",
+              top: 10,
+              right: 20,
+            }}
             fontSize="25px"
             cursor="pointer"
             onClick={handleIconClick}
           />
+          {showCalendar && (
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <DatePicker
+                selected={selectDate}
+                onChange={hadleDateSelect}
+                inline
+              />
+            </div>
+          )}
         </DateBox>
         <CalenderBox>
           <CalendarComp onDateSelect={(date) => console.log(date)} />

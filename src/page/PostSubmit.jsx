@@ -166,6 +166,7 @@ const FixedText = styled.span`
 `;
 
 const PostSubmit = () => {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("normal");
 
   const handleOptionChange = (e) => {
@@ -211,20 +212,22 @@ const PostSubmit = () => {
 
     // 1. date 와 time을 Date 객체로 변환
     const koreaDate = new Date(date);
-    const koreaTime = new Date(date);
+    const koreaTime = new Date(time);
 
-    // 2. 현재 시간을 UTC 시간으로 계산
+    // 2. 현재 시간을 UTC(협정 시계) 시간으로 계산(DB 저장시 UTC 기준으로 저장 되기 때문) = 현재 로컬 시간대와 UTC와의 차이를 밀리초로 표현한 값.
+    // getTimezoneOffset() : 현재 실행 중인 시스템의 로컬 시간과 UTC(협정 시계)와의 시간 차이를 분단위로 반환. 한국은 UTC보다 9시간 빠르므로 -540이 반환.
+    // * 60 은 분을 초로 변환, 1000 곱하면 밀리초로 변환. (-540 * 60 * 1000 = -32400000 밀리초)
     const utcDate = new Date(
       koreaDate.getTime() - koreaDate.getTimezoneOffset() * 60 * 1000
     );
     const utcTime = new Date(
       koreaTime.getTime() - koreaTime.getTimezoneOffset() * 60 * 1000
     );
-    // 3. UTC to KST (UTC + 9시간)
-    const KR_TIME_DIFF = 9 * 60 * 60 * 1000; // 한국 시간(KST)은 UTC시간보다 9시간 더 빠르므로 9시간을 밀리초 단위로 변환.
+    // 3. UTC to KST (UTC + 9시간 = 한국 시간) = 한국 시간이 UTC보다 9시간 빠르게 밀리초 단위로 설정한 값.
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
 
-    const krDate = new Date(utcDate.getTime() + KR_TIME_DIFF);
-    const krTime = new Date(utcTime.getTime() + KR_TIME_DIFF);
+    const krDate = new Date(utcDate.getTime() + KR_TIME_DIFF); // 한국 날짜로 변환.
+    const krTime = new Date(utcTime); // 한국 시간으로 변환(화면 입력 시간 그대로 저장)
 
     // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
     const rsp = await PostAxiosApi.postSubmit({
@@ -236,8 +239,11 @@ const PostSubmit = () => {
       date: krDate,
       time: krTime,
     });
+
+    console.log("Response:", rsp);
     if (rsp.status === 200) {
       alert("등록 요청 완료");
+      navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
       // navigate("/postlist") 등록 완료 되면 게시글 목록으로 ?
     } else {
       alert("등록 실패");
