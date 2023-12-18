@@ -24,7 +24,7 @@ import AllPaymentGraph from "./page/admin/AllPaymentGraph";
 import AdminChat from "./page/admin/AdminChat";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
-import PostDetail from "./component/PostDetial";
+import PostDetail from "./component/PostDetail";
 
 function App() {
   return (
@@ -40,6 +40,7 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postdetail" element={<PostDetail />} />
+            <Route path="/postList" element={<PostList />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
