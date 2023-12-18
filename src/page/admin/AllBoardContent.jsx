@@ -10,6 +10,9 @@ import Layout from "../../component/admin/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../utils/Modal";
+import AdminBoardDetail from "./AdminBoardDetail";
+import AdminBoardModify from "./AdminBoardModify";
+
 
 // 전체 큰 틀css
 const BoardContainer = styled.div`
@@ -128,22 +131,23 @@ const SearchIcon = styled(FontAwesomeIcon)`
   `;
 
 const TableRow = styled.tr`
-  background-color: ${(props) => (props.isHovered ? "#eee" : "transparent")};
+  background-color: ${(props) => (props.isHovered ? "#04bf8a" : "transparent")};
   color: ${(props) => (props.isHovered ? "#ed342e" : "inherit")};
+  //background-color: ${(props) => (props.isActive === "inactive" ? "#ed342e" : "transparent")};
   cursor: pointer;
 
-    ${(props) => {
-      if (props.isActive === "inactive") {
+  ${(props) => {
+      if (props.isActive === "active") {
         return `
-          background-color: #fdffcb;
+          background-color: #ced417;
         `;
-      } else if (props.isActive === "quit") {
+      } else if (props.isActive === "inActive") {
         return `
-          background-color: #bbb;
+          background-color: #500c0c;
         `;
       }
-      return "";
-    }}
+      return "transparent";
+   }}
     `;
 
     const ModalButtonContainer = styled.div`
@@ -165,6 +169,13 @@ const TableRow = styled.tr`
       }
     `;
 
+    const FunctionContainer = styled.div`
+
+    `;
+
+    const Modify = styled.div``; 
+    const Modals = styled.div``; 
+
 // 게시판 목록 페이지 
 const AllBoardContent = () => {
 
@@ -172,7 +183,12 @@ const AllBoardContent = () => {
   const [boardList, setBoardList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [board, setBoard] = useState([]);
+  const email = window.localStorage.getItem("email");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modlaMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -185,8 +201,8 @@ const AllBoardContent = () => {
     navigate("searchMain");
   };
 
-  const handleRowClick = (user) => {
-    setSelectedUser(user);
+  const handleRowClick = (id) => {
+    setSelectedId(id);
     setIsModalOpen(true);
   };
 
@@ -199,16 +215,20 @@ const AllBoardContent = () => {
   };
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedUser(null);
+    setSelectedId(null);
+    setModalOpen(false);
   };
 
-  const manageCategoryListState = async (state) => {
-    await AdminAxiosApi.manageCategoryListState(state, selectedUser);
-    const updatedBoardList = await AdminAxiosApi.boardList();
-    setBoardList(updatedBoardList.data); // 상태가 변경될 때마다 데이터 다시 불러오기
+  // 게시글 활성화 또는 비활성화 요청 보내기
+  const manageCategoryListState = async (state,selectedId) => {
+    await AdminAxiosApi.manageCategoryListState(state, selectedId);
+    console.log("state, seletedId : " + state, selectedId);
+    // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
+    setSelectedId(null); 
     setIsModalOpen(false);
   };
 
+  // 게시판 목록 useEffect
   useEffect(() => {
     const accessToken = Common.getAccessToken();
     const getBoardList = async() => {
@@ -234,6 +254,34 @@ const AllBoardContent = () => {
     };
     getBoardList();
   }, []);
+
+  // 게시판 수정 
+    const BoardModify = async (name, logo, image) => {
+      console.log("BoardModify : " + name + " " + logo + " " + image + " ");
+      const rsp = await AdminAxiosApi.boardModify(name, logo, image);
+      if (rsp.data === true) {
+        const rsp = await AdminAxiosApi.boardList();
+        if (rsp.status === 200) setBoard(rsp.data);
+        console.log(rsp.data);
+      }else {
+        setModalOpen(true);
+        setModalMessage("수정 실패");
+      }
+    } ;
+
+  // 게시판 삭제 
+    const BoardDelete = async (categoryId) => {
+      const rsp = await AdminAxiosApi.boardDelete(categoryId);
+      console.log(rsp.data);
+      if (rsp.data === true) {
+        const rsp = await AdminAxiosApi.boardList();
+        if (rsp.status === 200) setBoard(rsp.data);
+        console.log(rsp.data);
+      }else {
+        setModalOpen(true);
+        setModalMessage("삭제 실패");
+      }
+    };
  
   return (
     <BoardContainer>
@@ -274,7 +322,7 @@ const AllBoardContent = () => {
               <li><img src={data.logo} alt="로고" /></li>
               <li><p>{data.name}</p></li> 
               <li><img src={data.image} alt="이미지" /></li>
-              <li><button>버튼</button></li>
+              <li><button manageCategoryListState={manageCategoryListState}>버튼</button></li>
             </ul>
 
             </TableRow>
@@ -284,7 +332,7 @@ const AllBoardContent = () => {
           <Modal
             open={isModalOpen}
             close={closeModal}
-            header={`customer id : ${selectedUser}`}
+            header={`customer id : ${selectedId}`}
           >
             <ModalButtonContainer>
               <ModalButton onClick={() => manageCategoryListState("active")}>
@@ -301,6 +349,13 @@ const AllBoardContent = () => {
         </div>
       )}
         </BoardLists>
+        
+        <FunctionContainer>
+          <Modify boardModify={AdminBoardModify}></Modify>
+          
+          <Modals open={modalOpen} close={closeModal} header="오류">{modlaMessage}</Modals>
+        </FunctionContainer>
+
         <Buttons>
           <button onClick={() => handleClick("/AdminBoardModify")}>수정하기</button>
           <button>삭제하기</button>

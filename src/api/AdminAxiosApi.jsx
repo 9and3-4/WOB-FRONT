@@ -50,7 +50,7 @@ const AdminAxiosApi =  {
       },
     });
   },
-  // 게시글 페이지네이션 조회
+  // 게시글 목록 페이징(페이지네이션)
   boardPageList: async (page, size) => {
     const accessToken = Common.getAccessToken();
     return await axios.get(
@@ -63,6 +63,35 @@ const AdminAxiosApi =  {
       }
     );
   },
+
+  // 페이지 수 조회
+  boardPageCount: async (page,size) => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(
+      KH_DOMAIN + `/category/count`, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
+
+  // 게시물 수정
+    boardModify: async (categoryId) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.put(
+        KH_DOMAIN + `/category/modify/${categoryId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+    },
+
   // 게시글 삭제
   boardDelete: async (categoryId) => {
     const accessToken = Common.getAccessToken();
@@ -77,11 +106,11 @@ const AdminAxiosApi =  {
     );
   },
 
-  // 게시판 활성화 바활성화 처리(get)
+  // 게시판 활성화 바활성화 처리(get)-categoryController
     managerCategoryInfoGet : async () => {
       const accessToken = Common.getAccessToken();
       return await axios.get(
-        KH_DOMAIN + `/active/category/state`,
+        KH_DOMAIN + `/category/allList`,
         {
           headers: {
           "Content-Type": "application/json",
@@ -91,72 +120,73 @@ const AdminAxiosApi =  {
       );
     },
 
-    // 게시판 활성화 비활성화(post)
-    manageCategoryListState: async (state, id) => {
-      const accessToken = Common.getAccessToken();
-      console.log('활성화 비활성화, id : ', state, id);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      };
-
-      const data = {
-        isActive: state,
-        id: id,
-      };
+    // 게시판 활성화 비활성화(post)-AdminActiveController
+    manageCategoryListState: async (id, state) => {
+      // const accessToken = Common.getAccessToken();
+      console.log('활성화 비활성화, id : ', id, state);
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "Bearer " + accessToken,
+      //   },
+      // };
 
       try {
-        const response = await axios.post(KH_DOMAIN + `/active/category/state`, data, config);
-        return response.data;
+        const response = await axios.post(KH_DOMAIN + `/category/status`, {
+          state: state, // 활성화 or 비활성화
+        id: id, // 회원 아이디
+        });
+        // 성공적으로 서버 요청이 완료된 경우
+        console.log(response.data); // 서버에서 받은 데이터 로깅 또는 처리
 
+        // 페이지 내용을 업데이트하는 로직 추가
       } catch (error) {
+        // 요청이 실패한 경우
         console.error('Error in manageCategoryListState:', error);
         throw error;
       } 
     },
 
   // 회원 활성화 바활성화 처리(get)
-  managerUserInfoGet : async () => {
-    const accessToken = Common.getAccessToken();
-    return await axios.get(
-      KH_DOMAIN + `/active/user/state`,
-      {
-        headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    }
-    );
-  },
+  // managerUserInfoGet : async () => {
+  //   const accessToken = Common.getAccessToken();
+  //   return await axios.get(
+  //     KH_DOMAIN + `/active/user/state`,
+  //     {
+  //       headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + accessToken,
+  //     },
+  //   }
+  //   );
+  // },
 
    // 회원 활성화 비활성화(post)
     // 게시판 활성화 비활성화(post)
-    manageUserListState: async (state, id) => {
-      const accessToken = Common.getAccessToken();
+    // manageUserListState: async (state, id) => {
+    //   const accessToken = Common.getAccessToken();
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      };
+    //   const config = {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + accessToken,
+    //     },
+    //   };
 
-      const data = {
-        isActive: state,
-        id: id,
-      };
+    //   const data = {
+    //     isActive: state,
+    //     id: id,
+    //   };
 
-      try {
-        const response = await axios.post(KH_DOMAIN + `/active/user/state`, data, config);
-        return response.data;
+    //   try {
+    //     const response = await axios.post(KH_DOMAIN + `/active/user/state`, data, config);
+    //     return response.data;
 
-      } catch (error) {
-        console.error('Error in manageUserListState:', error);
-        throw error;
-      } 
-    },
+    //   } catch (error) {
+    //     console.error('Error in manageUserListState:', error);
+    //     throw error;
+    //   } 
+    // },
 
 
   // 채팅 활성화 바활성화 처리

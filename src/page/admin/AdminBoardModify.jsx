@@ -1,5 +1,5 @@
 // 관리자 페이지 글수정하기
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Layout from "../../component/admin/Layout";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
@@ -24,7 +24,12 @@ const Container = styled.div`
     }
 `;
 
-const AdminBoardModify = () => {
+const AdminBoardModify = ({name, logo, image}) => {
+    const modifyBoard = () => {
+        console.log("modifyBoard : " + name + " " + logo  + " " + image  + " ");
+      };
+   
+
     return (
         <Container>
          <SubHeader />
@@ -33,6 +38,7 @@ const AdminBoardModify = () => {
                 <span>게시판 글 수정하기</span>
             </div>
 
+      
         <Layout />
         </Container>
     )

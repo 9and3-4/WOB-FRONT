@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Common from "../../utils/Common";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../component/admin/Layout";
+import AdminBoardModify from "../admin/AdminBoardModify";
 
 // 여기에 스타일드 컴포넌트를 정의합니다.
 const Container = styled.div`
@@ -124,10 +125,10 @@ const BoardDate = styled.p`
   text-align: right;
 `;
 
-// 게시글 상세 보기와 댓글 목록을 보여주는 컴포넌트입니다.
+// 게시글 상세 보기와 댓글 목록을 보여주는 컴포넌트
 
 const AdminBoardDetail = () => {
-  const { id } = useParams();
+  const { categoryId } = useParams();
   const [board, setBoard] = useState("");
   const [comments, setComments] = useState("");
   const [inputComment, setInputComment] = useState("");
@@ -140,44 +141,51 @@ const AdminBoardDetail = () => {
     setShowComments(!showComments);
   };
 
+  const handleModifyClick = () => {
+    navigate("/modify/{id}");
+  };
+
+  const handleDeleteClick = () => {
+    navigate("/delete");
+  };
+
+    // 게시판 상세 내용
   useEffect(() => {
     const token = Common.getAccessToken();
     const getBoardDetail = async () => {
-      console.log("getBoardDetail : " + id);
+      console.log("getBoardDetail : " + categoryId);
       try {
-        const response = await AdminAxiosApi.boardDetail(id); // 게시글 상세
+        const response = await AdminAxiosApi.boardDetail(categoryId); // 게시글 상세
         setBoard(response.data);
-        const response2 = await AdminAxiosApi.commentList(id); // 댓글 목록
+        const response2 = await AdminAxiosApi.boardList(categoryId); // 게시판 목록
         setComments(response2.data);
-        const response3 = await AdminAxiosApi.memberGetInfo(); // 현재 로그인 유저의 이메일
+        const response3 = await AdminAxiosApi.memberGetInfo(); // 현재 로그인 관리자의 이메일
         setLoginUserEmail(response3.data.email);
       } catch (e) {
         if (e.response.status === 401) {
           await Common.handleUnauthorized();
           const newToken = Common.getAccessToken();
           if (newToken !== token) {
-            const response = await AdminAxiosApi.boardDetail(id);
+            const response = await AdminAxiosApi.boardDetail(categoryId);
             setBoard(response.data);
-            const response2 = await AdminAxiosApi.commentList(id);
+            const response2 = await AdminAxiosApi.boardList(categoryId);
             setComments(response2.data);
           }
         }
       }
     };
     getBoardDetail();
-  }, [comAddFlag, id]);
+  }, [comAddFlag, categoryId]);
 
-  const modifyBoard = () => {
-    console.log("modifyBoard : " + id);
-  };
   const deleteBoard = () => {
-    console.log("deleteBoard : " + id);
+    console.log("deleteBoard : " + categoryId);
+
     // 삭제 확인을 위한 팝업 띄우기
     if (window.confirm("정말 삭제하시겠습니까?")) {
       const token = Common.getAccessToken();
       const deleteBoard = async () => {
         try {
-          const response = await AdminAxiosApi.boardDelete(id);
+          const response = await AdminAxiosApi.boardDelete(categoryId);
           console.log(response);
           window.alert("삭제되었습니다.");
           navigate("/boards");
@@ -186,7 +194,7 @@ const AdminBoardDetail = () => {
             await Common.handleUnauthorized();
             const newToken = Common.getAccessToken();
             if (newToken !== token) {
-              const response = await AdminAxiosApi.boardDelete(id);
+              const response = await AdminAxiosApi.boardDelete(categoryId);
               console.log(response);
               window.alert("삭제되었습니다.");
               window.location.href = "/boardList";
@@ -198,6 +206,8 @@ const AdminBoardDetail = () => {
     }
   };
 
+
+
   const handleCommentChange = (e) => {
     setInputComment(e.target.value);
   };
@@ -205,7 +215,7 @@ const AdminBoardDetail = () => {
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await AdminAxiosApi.commentWrite(id, inputComment);
+      const response = await AdminAxiosApi.commentWrite(categoryId, inputComment);
       console.log(response);
       setInputComment("");
       setComAddFlag(!comAddFlag);
@@ -234,8 +244,8 @@ const AdminBoardDetail = () => {
         </Button>
         {loginUserEmail === board.email && (
           <>
-            <Button onClick={modifyBoard}>수정</Button>
-            <Button onClick={deleteBoard}>삭제</Button>
+            <Button onClick={handleModifyClick}>수정</Button>
+            <Button onClick={handleDeleteClick}>삭제</Button>
           </>
         )}
       </ButtonContainer>
