@@ -14,7 +14,7 @@ const Container = styled.div`
 const FooterContainer = styled.div`
   display: flex;
   position: fixed;
-  bottom: 10px;
+  bottom: 0;
 `;
 
 const Layout = () => (

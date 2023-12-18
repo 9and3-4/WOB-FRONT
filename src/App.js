@@ -25,6 +25,14 @@ import AdminChat from "./page/admin/AdminChat";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
 import PostDetail from "./component/PostDetail";
+import Setting from "./page/Setting/Setting";
+import SettingLayout from "./layout/SettingLayout";
+import Account from "./page/Setting/Account";
+import PaymentDatails from "./page/Setting/PaymentDetails";
+import Policy from "./page/Setting/Policy";
+import Questions from "./page/Setting/Questions";
+import PasswordChange from "./page/Setting/PasswordChange";
+import Withdrawal from "./page/Setting/Withdrawal";
 
 function App() {
   return (
@@ -69,6 +77,16 @@ function App() {
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
           <Route path="/AdminChat" element={<AdminChat />} />
+          {/* 환경설정 */}
+          <Route element={<SettingLayout />}>
+            <Route path="/Setting" element={<Setting />} />
+            <Route path="/Account" element={<Account />} />
+            <Route path="/PaymentDetails" element={<PaymentDatails />} />
+            <Route path="/Policy" element={<Policy />} />
+            <Route path="/Questions" element={<Questions />} />
+            <Route path="/PasswordChange" element={<PasswordChange />} />
+            <Route path="/Withdrawal" element={<Withdrawal />} />
+          </Route>
         </Routes>
       </Router>
     </>

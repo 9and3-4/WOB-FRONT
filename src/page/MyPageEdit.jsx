@@ -298,7 +298,7 @@ const MyPageEdit = () => {
           {!editMode && (
             <EditLogo onClick={() => setEditMode(true)} src={Edit} alt="edit" />
           )}
-          <StyledLink to="/">
+          <StyledLink to="/Setting">
             <EditLogo src={Setting} alt="Setting" />
           </StyledLink>
         </EditLogoCon>

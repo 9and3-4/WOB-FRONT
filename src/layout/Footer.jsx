@@ -11,6 +11,7 @@ import Common from "../utils/Common";
 const Container = styled.div`
   display: flex;
   width: 768px;
+  background-color: white;
 `;
 const FooterIcon = styled.div`
   width: 100%;
