@@ -16,14 +16,12 @@ import AllPaymentContent from "./page/admin/AllPaymentContent";
 import AskContent from "./page/admin/AskContent";
 import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
-import AdminBoardDetail from "./page/admin/AdminBoardDetail";
 import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
 import StockRatioByRegion from "./page/admin/StockRatioByRegion";
 import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
 import AllPaymentGraph from "./page/admin/AllPaymentGraph";
 import AdminChat from "./page/admin/AdminChat";
-import AdminBoardModify from "./page/admin/AdminBoardModify";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
 import PostDetail from "./component/PostDetial";
@@ -58,8 +56,6 @@ function App() {
             path="/AdminBoardRegistration"
             element={<AdminBoardRegistration />}
           />
-          <Route path="/AdminBoardDetail" element={<AdminBoardDetail />} />
-          <Route path="/AdminBoardModify" element={<AdminBoardModify />} />
           {/* 전체 회원 관리 */}
           <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
           <Route path="/AdminVisitorStatus" element={<AdminVisitorStatus />} />

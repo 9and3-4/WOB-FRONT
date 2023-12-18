@@ -38,6 +38,22 @@ const KakaoMaps = () => {
     lat: 37.566826,
     long: 126.9786567,
   });
+  const data = [
+    {
+      location : "test1",
+      address : "test2",
+      category : "test3",
+      
+      location : "test1",
+      address : "test2",
+      category : "test3",
+
+      location : "test1",
+      address : "test2",
+      category : "test3",
+    }  
+  ]
+
   // 스크립트 엘리먼트를 추적하기 위한 ref
   const scriptRef = useRef(null); 
 

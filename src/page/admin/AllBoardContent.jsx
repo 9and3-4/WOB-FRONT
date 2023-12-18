@@ -10,8 +10,6 @@ import Layout from "../../component/admin/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../utils/Modal";
-import AdminBoardDetail from "./AdminBoardDetail";
-import AdminBoardModify from "./AdminBoardModify";
 
 
 // 전체 큰 틀css
@@ -131,23 +129,9 @@ const SearchIcon = styled(FontAwesomeIcon)`
   `;
 
 const TableRow = styled.tr`
-  background-color: ${(props) => (props.isHovered ? "#04bf8a" : "transparent")};
-  color: ${(props) => (props.isHovered ? "#ed342e" : "inherit")};
-  //background-color: ${(props) => (props.isActive === "inactive" ? "#ed342e" : "transparent")};
-  cursor: pointer;
 
-  ${(props) => {
-      if (props.isActive === "active") {
-        return `
-          background-color: #ced417;
-        `;
-      } else if (props.isActive === "inActive") {
-        return `
-          background-color: #500c0c;
-        `;
-      }
-      return "transparent";
-   }}
+
+  cursor: pointer;
     `;
 
     const ModalButtonContainer = styled.div`
@@ -169,13 +153,6 @@ const TableRow = styled.tr`
       }
     `;
 
-    const FunctionContainer = styled.div`
-
-    `;
-
-    const Modify = styled.div``; 
-    const Modals = styled.div``; 
-
 // 게시판 목록 페이지 
 const AllBoardContent = () => {
 
@@ -184,11 +161,9 @@ const AllBoardContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-  const [board, setBoard] = useState([]);
   const email = window.localStorage.getItem("email");
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [modlaMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -219,9 +194,10 @@ const AllBoardContent = () => {
     setModalOpen(false);
   };
 
+
   // 게시글 활성화 또는 비활성화 요청 보내기
-  const manageCategoryListState = async (state,selectedId) => {
-    await AdminAxiosApi.manageCategoryListState(state, selectedId);
+  const categoryListState = async (selectedId, state) => {
+    await AdminAxiosApi.categoryListState(selectedId, state);
     console.log("state, seletedId : " + state, selectedId);
     // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
     setSelectedId(null); 
@@ -234,7 +210,7 @@ const AllBoardContent = () => {
     const getBoardList = async() => {
       try {
         const rsp = await AdminAxiosApi.boardList();
-        console.log("데이터 정보 : ",rsp.data);
+        console.log("데이터 정보 : ",rsp);
         setBoardList(rsp.data);
       }catch (e) {
         if (e.response.status === 401) {
@@ -254,34 +230,6 @@ const AllBoardContent = () => {
     };
     getBoardList();
   }, []);
-
-  // 게시판 수정 
-    const BoardModify = async (name, logo, image) => {
-      console.log("BoardModify : " + name + " " + logo + " " + image + " ");
-      const rsp = await AdminAxiosApi.boardModify(name, logo, image);
-      if (rsp.data === true) {
-        const rsp = await AdminAxiosApi.boardList();
-        if (rsp.status === 200) setBoard(rsp.data);
-        console.log(rsp.data);
-      }else {
-        setModalOpen(true);
-        setModalMessage("수정 실패");
-      }
-    } ;
-
-  // 게시판 삭제 
-    const BoardDelete = async (categoryId) => {
-      const rsp = await AdminAxiosApi.boardDelete(categoryId);
-      console.log(rsp.data);
-      if (rsp.data === true) {
-        const rsp = await AdminAxiosApi.boardList();
-        if (rsp.status === 200) setBoard(rsp.data);
-        console.log(rsp.data);
-      }else {
-        setModalOpen(true);
-        setModalMessage("삭제 실패");
-      }
-    };
  
   return (
     <BoardContainer>
@@ -309,8 +257,8 @@ const AllBoardContent = () => {
         {boardList && 
           boardList.map((data, index) => (
             <TableRow
-            key={data.id}
-            onClick={() => handleRowClick(data.id)}
+            key={data.categoryId}
+            onClick={() => handleRowClick(data.categoryId)}
             onMouseEnter={() => handleRowMouseEnter(index)}
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
@@ -322,7 +270,7 @@ const AllBoardContent = () => {
               <li><img src={data.logo} alt="로고" /></li>
               <li><p>{data.name}</p></li> 
               <li><img src={data.image} alt="이미지" /></li>
-              <li><button manageCategoryListState={manageCategoryListState}>버튼</button></li>
+              <li><button>버튼</button></li>
             </ul>
 
             </TableRow>
@@ -332,16 +280,16 @@ const AllBoardContent = () => {
           <Modal
             open={isModalOpen}
             close={closeModal}
-            header={`customer id : ${selectedId}`}
+            header={`category id : ${selectedId}`}
           >
             <ModalButtonContainer>
-              <ModalButton onClick={() => manageCategoryListState("active")}>
+              <ModalButton onClick={() => categoryListState(selectedId,"active")}>
                 active
               </ModalButton>
-              <ModalButton onClick={() => manageCategoryListState("inactive")}>
+              <ModalButton onClick={() => categoryListState(selectedId, "inactive")}>
                 inactive
               </ModalButton>
-              <ModalButton onClick={() => manageCategoryListState("quit")}>
+              <ModalButton onClick={() => categoryListState(selectedId, "quit")}>
                 quit
               </ModalButton>
             </ModalButtonContainer>
@@ -349,16 +297,9 @@ const AllBoardContent = () => {
         </div>
       )}
         </BoardLists>
-        
-        <FunctionContainer>
-          <Modify boardModify={AdminBoardModify}></Modify>
-          
-          <Modals open={modalOpen} close={closeModal} header="오류">{modlaMessage}</Modals>
-        </FunctionContainer>
 
         <Buttons>
-          <button onClick={() => handleClick("/AdminBoardModify")}>수정하기</button>
-          <button>삭제하기</button>
+    
           <button onClick={() => handleClick("/AdminBoardRegistration")}>등록하기</button>
         </Buttons>
         {/* 햄버거 토글 사이드바 */}
