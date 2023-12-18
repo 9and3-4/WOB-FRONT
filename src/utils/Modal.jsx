@@ -46,6 +46,7 @@ const ModalStyle = styled.div`
         text-align: center;
         color: #999;
         background-color: transparent;
+        border: none;
       }
     }
     main {
