@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PostDetail from "../component/PostDetial";
+import PostDetail from "../component/PostDetail";
+import PostAxiosApi from "../api/PostAxiosApi";
 
 const Container = styled.div`
   max-width: 768px;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SubHeader from "../layout/SubHeader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PostAxiosApi from "../api/PostSubmitAxiosApi";
+import PostAxiosApi from "../api/PostAxiosApi";
 
 const Container = styled.div`
   max-width: 768px;
@@ -218,16 +218,24 @@ const PostSubmit = () => {
     // getTimezoneOffset() : 현재 실행 중인 시스템의 로컬 시간과 UTC(협정 시계)와의 시간 차이를 분단위로 반환. 한국은 UTC보다 9시간 빠르므로 -540이 반환.
     // * 60 은 분을 초로 변환, 1000 곱하면 밀리초로 변환. (-540 * 60 * 1000 = -32400000 밀리초)
     const utcDate = new Date(
-      koreaDate.getTime() - koreaDate.getTimezoneOffset() * 60 * 1000
+      koreaDate.getTime() - koreaDate.getTimezoneOffset() + 540 * 60 * 1000
     );
     const utcTime = new Date(
-      koreaTime.getTime() - koreaTime.getTimezoneOffset() * 60 * 1000
+      koreaTime.getTime() - koreaTime.getTimezoneOffset() - 540 * 60 * 1000
     );
+
     // 3. UTC to KST (UTC + 9시간 = 한국 시간) = 한국 시간이 UTC보다 9시간 빠르게 밀리초 단위로 설정한 값.
     const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
 
     const krDate = new Date(utcDate.getTime() + KR_TIME_DIFF); // 한국 날짜로 변환.
-    const krTime = new Date(utcTime); // 한국 시간으로 변환(화면 입력 시간 그대로 저장)
+    const krTime = new Date(utcTime.getTime() + KR_TIME_DIFF);
+
+    // 4. 날짜, 시간 string으로 변환
+    const krDateString = krDate.toISOString().split("T")[0];
+    const krTimeString = krTime.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
     const rsp = await PostAxiosApi.postSubmit({
@@ -236,8 +244,8 @@ const PostSubmit = () => {
       people,
       cost,
       detail,
-      date: krDate,
-      time: krTime,
+      date: krDateString,
+      time: krTimeString,
     });
 
     console.log("Response:", rsp);
