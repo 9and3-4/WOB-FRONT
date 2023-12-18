@@ -11,8 +11,9 @@ import Footer from "../layout/Footer";
 import Edit from "../images/Edit.png";
 import Setting from "../images/Setting.png";
 import { Link } from "react-router-dom";
-import SelectSports from "../component/interest/SelectSportsWithoutNextBtn";
+import SelectSports from "../component/interest/SelectSports";
 import SelectMBTI from "../component/MBTI/MBTI";
+import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
@@ -56,8 +57,9 @@ const UserNickname = styled.h2`
   margin-left: 20px;
 `;
 const Selected = styled.div`
-  padding: 20px 56px;
-  font-size: 20px;
+  padding: 15px 40px;
+  justify-content: center;
+  font-size: 30px;
   background-color: #04bf8a;
   color: #fff;
   border: #04bf8a;
@@ -73,6 +75,11 @@ const FieldEditTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+const MbtiContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const IMGField = styled.div`
@@ -159,6 +166,24 @@ const MyPageEdit = () => {
     };
     userInfo();
 
+    // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
+    const loginUserEmail = localStorage.getItem("email");
+    // 로그인한 사용자와 글쓴이가 같은지 비교
+    if (loginUserEmail === email) {
+      setIsCurrentUser(true);
+    }
+  }, [email]);
+
+  const [interest, setInterest] = useState([]);
+  useEffect(() => {
+    const userInterestSports = async () => {
+      const resp = await MyPageAxiosApi.userInterest(localStorage.email);
+      console.log("useEffect의 resp data 확인 :", resp.data);
+      if (resp.status === 200) {
+        setInterest(resp.data);
+      }
+    };
+    userInterestSports();
     // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
     const loginUserEmail = localStorage.getItem("email");
     // 로그인한 사용자와 글쓴이가 같은지 비교
@@ -325,9 +350,7 @@ const MyPageEdit = () => {
         </FieldEditTitle>
         <>
           {!editMode ? (
-            <Selected>
-              수정 전 선택된 버튼만 나오게 해야함 !!관심운동!!
-            </Selected>
+            <Selected>{interest}</Selected>
           ) : (
             <SelectSports
               options={activityList}
@@ -338,7 +361,7 @@ const MyPageEdit = () => {
           )}
         </>
         <Label>MBTI</Label>
-        <FieldEditTitle>
+        <MbtiContainer>
           <>
             {!editMode ? (
               <Selected>{user.mbti}</Selected>
@@ -351,7 +374,7 @@ const MyPageEdit = () => {
               />
             )}
           </>
-        </FieldEditTitle>
+        </MbtiContainer>
         {!editMode ? (
           <></>
         ) : (
