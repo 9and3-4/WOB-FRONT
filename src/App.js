@@ -24,7 +24,7 @@ import AllPaymentGraph from "./page/admin/AllPaymentGraph";
 import AdminChat from "./page/admin/AdminChat";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
-import PostDetail from "./component/PostDetail";
+import PostPreview from "./component/PostPreview";
 import Setting from "./page/Setting/Setting";
 import SettingLayout from "./layout/SettingLayout";
 import Account from "./page/Setting/Account";
@@ -49,7 +49,7 @@ function App() {
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
-            <Route path="/postdetail" element={<PostDetail />} />
+            <Route path="/postpreview" element={<PostPreview />} />
             <Route path="/postList" element={<PostList />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
