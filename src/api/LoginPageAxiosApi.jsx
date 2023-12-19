@@ -26,7 +26,7 @@ const LoginPageAxiosApi = {
   },
 
   loginTest: async () => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = Common.getAccessToken();
     return await axios.get(KH_DOMAIN + "/jwt-test", {
       headers: {
         "Content-Type": "application/json",

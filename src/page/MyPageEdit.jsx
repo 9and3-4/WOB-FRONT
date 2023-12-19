@@ -166,7 +166,7 @@ const MyPageEdit = () => {
   useEffect(() => {
     const userInfo = async () => {
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
-      console.log("useEffect의 rsp data 확인 :", rsp.data.interestSports);
+      console.log("useEffect의 rsp data 확인 :", rsp.data);
       if (rsp.status === 200) {
         setUser(rsp.data);
         setUrl(rsp.data.image);
@@ -218,7 +218,8 @@ const MyPageEdit = () => {
       localStorage.email,
       editNickname,
       url,
-      selectedItem
+      selectedItem,
+      selectedSports
     );
     console.log("회원정보 업데이트 rsp 확인 : ", rsp.data);
     if (rsp.status === 200) {
@@ -229,6 +230,7 @@ const MyPageEdit = () => {
       if (rsp.status === 200) {
         setUser(rsp.data);
         setUrl(rsp.data.image);
+        setInterest(rsp.data.interestSports);
       }
     }
   };
