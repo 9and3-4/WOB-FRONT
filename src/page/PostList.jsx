@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PostAxiosApi from "../api/PostAxiosApi";
 import PostPreview from "../component/PostPreview";
+import PostTopBar from "../component/PostTopBar";
 
 const Container = styled.div`
   max-width: 768px;
@@ -14,12 +15,21 @@ const Container = styled.div`
 
 const PostList = ({ selectedSports }) => {
   const [postList, setPostList] = useState([]);
+  const [selectedArea, setSelectedArea] = useState([]);
 
+  // 이 함수를 PostTopBar로 전달하여 선택된 지역을 업데이트
+  const handleAreaSelect = (selectedOptions) => {
+    setSelectedArea(selectedOptions);
+  };
+
+  // selectsports 변경시 실행
   useEffect(() => {
     const fetchPostList = async () => {
       try {
+        // 서버에서 게시판 목록 들고옴.
         const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
+        // 서버가 정상적으로 이루어졌을 때
         if (rsp.status === 200) {
           // 선택 운동에 따라 필터링
           const filterSports =
@@ -28,19 +38,21 @@ const PostList = ({ selectedSports }) => {
               : rsp.data.filter((post) =>
                   selectedSports.includes(post.category)
                 );
-
+          // 게시글 목록 상태 업데이트
           setPostList(filterSports);
         }
       } catch (error) {
         console.error("Error fetching post list:", error);
       }
     };
+    // 비동기 함수 호출
     fetchPostList();
   }, [selectedSports]); // selectedSports가 변경될 때마다 실행
 
   return (
     <>
       <Container>
+        <PostTopBar onAreaSelect={handleAreaSelect} />
         {postList &&
           postList.map((post) => (
             // PostPreview 컴포넌트를 호출하면서 필요한 데이터를 전달
