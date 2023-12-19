@@ -33,6 +33,8 @@ import Policy from "./page/Setting/Policy";
 import Questions from "./page/Setting/Questions";
 import PasswordChange from "./page/Setting/PasswordChange";
 import Withdrawal from "./page/Setting/Withdrawal";
+import Advertisings from "./page/admin/Advertisings";
+import AskContents from "./page/admin/AskContents";
 
 function App() {
   return (
@@ -59,6 +61,7 @@ function App() {
           <Route path="/AdminMain" element={<AdminMain />} />
           {/* 광고 관리 */}
           <Route path="/Advertising" element={<Advertising />} />
+          <Route path="/Advertisings" element={<Advertisings />} />
           {/* 전체 게시글 관리 */}
           <Route path="/AllBoardContent" element={<AllBoardContent />} />
           <Route
@@ -77,6 +80,7 @@ function App() {
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
           <Route path="/AdminChat" element={<AdminChat />} />
+          <Route path="/AskContents" element={<AskContents />} />
           {/* 환경설정 */}
           <Route element={<SettingLayout />}>
             <Route path="/Setting" element={<Setting />} />

@@ -41,6 +41,37 @@ const AdminAxiosApi =  {
     });             
   },
 
+    // 광고 등록
+    // AdSave: async (name, img, names) => {
+    //   const accessToken = Common.getAccessToken();
+    //   console.log("access : " + accessToken);
+    //   console.log("name : " + name);
+    //   console.log("img : " + img);
+    //   console.log("names : " + names);
+  
+    //   const category = {
+    //     name: name,
+    //     image: img,
+    //     names: names,
+    //   };
+    //   return await axios.post(KH_DOMAIN + "/ad/add", category, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + accessToken,
+    //     },
+    //   });
+    // },
+    // 광고 조회
+    // AdList: async () => {
+    //   const accessToken = Common.getAccessToken();
+    //   return await axios.get(KH_DOMAIN + "/ad/list", {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + accessToken,
+    //     },
+    //   });             
+    // },
+
   // 게시글 페이지네이션 조회
   boardPageList: async (page, size) => {
     const accessToken = Common.getAccessToken();

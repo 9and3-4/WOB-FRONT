@@ -11,7 +11,7 @@ import {
   Dummy,
 } from "../admin/LayoutStyles";
 import { UserContext } from "../../context/UserStore";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 
@@ -139,8 +139,8 @@ import { useNavigate } from "react-router-dom";
                     전체 게시판 관리
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/AllBoardContent")}>전체 게시판 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AdminBoardRegistration")}>전체 게시물 등록/수정/삭제</li>
+                    <li onClick={() => handleAreaNavigate("/AllBoardContent")}>전체 카테고리게시판 목록</li>
+                    <li onClick={() => handleAreaNavigate("/AdminBoardRegistration")}>전체 카테고리게시판 등록</li>
                 </ul>
             </li>
             <li>

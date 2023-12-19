@@ -1,5 +1,5 @@
 // 관리자 게시물 목록
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -385,6 +385,7 @@ const AllBoardContent = () => {
 
         <Buttons>
           <button onClick={() => handleClick("/AdminBoardRegistration")}>등록하기</button>
+          <button onClick={() => handleClick("/AdminMain")}>메인으로가기</button>
         </Buttons>
         {/* 햄버거 토글 사이드바 */}
         <Layout />
