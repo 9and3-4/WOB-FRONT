@@ -218,7 +218,7 @@ const KakaoMaps = () => {
     <Container>
       <div>
         <Button onClick={() => onClickCategory({ target: { id: 'CE7', className: '' } })}>
-          카페
+          카페 
         </Button>
         <Button onClick={() => onClickCategory({ target: { id: 'FD6', className: '' } })}>
           음식점

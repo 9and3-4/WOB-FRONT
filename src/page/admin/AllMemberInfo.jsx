@@ -192,7 +192,7 @@ const Buttons = styled.button`
 const AllMemberInfo = () => {
 
   // 맵 돌릴 리스트
-  const [boardList, setBoardList] = useState([]); // 회원내용으로 바꾸기
+  const [userGet, setUserGet] = useState([]); // 회원내용으로 바꾸기
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedId, setSelectedId] = useState(null); 
@@ -245,16 +245,16 @@ const AllMemberInfo = () => {
 
       // 게시판 목록 (페이지나누기) -(boardList 회원내용으로바꾸기)
       useEffect(() => {
-        const boardList = async () => {
+        const userGet = async () => {
           try {
             const res = await AdminAxiosApi.boardPageList(currentPage, 5);
             console.log(res.data);
-            setBoardList(res.data);
+            setUserGet(res.data);
           } catch (error) {
             console.log(error);
           }
         };
-        boardList();
+        userGet();
       }, [currentPage]);
 
     // 페이지 이동
@@ -291,20 +291,21 @@ const AllMemberInfo = () => {
   // 게시판 목록 useEffect(회원내용으로 바꾸기)
   useEffect(() => {
     const accessToken = Common.getAccessToken();
-    const getBoardList = async() => {
+    const getUserGet = async() => {
       try {
-        const rsp = await AdminAxiosApi.boardList();
-        console.log("데이터 정보 : ",rsp);
-        setBoardList(rsp.data);
+        const rsp = await AdminAxiosApi.userGet(localStorage.email);
+        console.log("userGet데이터 정보 : ",localStorage.email);
+        console.log("userGet데이터 정보 : ", rsp.data);
+        setUserGet(rsp.data);
       }catch (e) {
         if (e.response.status === 401) {
           console.log("결과가 잘 찍히지 않아요")
           await Common.handleUnauthorized();
           const newToken = Common.getAccessToken();
           if (newToken !== accessToken) {
-            const rsp = await AdminAxiosApi.boardList();
-            console.log(rsp.data);
-            setBoardList(rsp.data);
+            const rsp = await AdminAxiosApi.userGet();
+            console.log("AdminAxiosApi.userGet()", rsp.data);
+            setUserGet(rsp.data);
           }
         }
         else {
@@ -312,7 +313,7 @@ const AllMemberInfo = () => {
         }
       }
     };
-    getBoardList();
+    getUserGet();
   }, []);
  
   return (
@@ -338,8 +339,8 @@ const AllMemberInfo = () => {
         </table>
 
         <BoardLists>
-        {boardList && 
-          boardList.map((data, index) => (
+        {userGet && 
+          userGet.map((data, index) => (
             <TableRow
             key={data.categoryId}
             onClick={() => handleRowClick(data.categoryId)}
@@ -352,9 +353,9 @@ const AllMemberInfo = () => {
 
             <ul className="data" key={index} >
               <li><p>{index + num}</p></li>
-              <li><p>{data.email}</p></li>
-              <li><p>{data.nickName}</p></li> 
-              <li><p>{data.regDate}</p></li>
+              <li><p>{userGet.email}</p></li>
+              <li><p>{userGet.nickName}</p></li> 
+              <li><p>{userGet.regDate}</p></li>
               <li><button>활성화/비활성화</button></li>
             </ul>
             </TableRow>

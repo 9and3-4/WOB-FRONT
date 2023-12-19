@@ -9,6 +9,17 @@ const AdminAxiosApi =  {
   memberGet: async (id) => {
     return await axios.get(KH_DOMAIN + `/users/member?id=${id}`);
   },
+  
+  //회원 전체 조회
+  userGet: async () => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + `/users/list`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });             
+  },
 
    // (카테고리)게시글 등록
    categorySave: async (name, img, logo) => {
