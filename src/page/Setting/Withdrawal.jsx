@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import Button from "../../component/Button";
 import Modal from "../../utils/Modal";
+import SettingAxiosApi from "../../api/SettingAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
@@ -64,8 +65,7 @@ const RadioContainer = styled.label`
 `;
 const Withdrawal = () => {
   const navigate = useNavigate();
-  const [radio, setRadio] = useState(0);
-
+  const [radio, setRadio] = useState("");
   const [modalOpen, setModalOpen] = useState(false); // 모달 오픈
   const [modalText, setModelText] = useState("정말 탈퇴 하시겠습니까?"); // 모달에 넣을 내용
 
@@ -74,11 +74,20 @@ const Withdrawal = () => {
     setModalOpen(false);
   };
   // Modal 확인 눌렀을 때,
-  const confirmModal = () => {
+  const confirmModal = async () => {
     // 탈퇴하는 axios 구현
-    setModalOpen(false);
-    alert("탈퇴되었습니다.");
-    navigate("/login");
+    const rsp = await SettingAxiosApi.withdrawal(
+      localStorage.getItem("email"),
+      radio
+    );
+    console.log("탈퇴사유확인 : " + rsp.data);
+    if (rsp.data === true) {
+      setModalOpen(false);
+      alert("탈퇴되었습니다.");
+      navigate("/login");
+    } else {
+      alert("탈퇴가 정상적으로 처리되지 않았습니다.");
+    }
   };
 
   // 라디오 버튼 눌렀을 때 값 저장
@@ -90,7 +99,7 @@ const Withdrawal = () => {
   // 탈퇴하기 버튼 눌렀을 때,
   const onClickWithdrawalBtn = () => {
     // 만약 라디오 버튼을 선택하지 않았다면
-    if (radio === 0) {
+    if (radio === "") {
       alert("탈퇴 이유를 반드시 선택해주세요.");
     } else {
       // 탈퇴 이유를 한가지 선택했다면
@@ -117,7 +126,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(1)}
+              onClick={() => onClickRadioBtn("기록 삭제 목적")}
             />
             기록 삭제 목적
           </RadioContainer>
@@ -125,7 +134,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(2)}
+              onClick={() => onClickRadioBtn("이용이 불편하고 장애가 많아서")}
             />
             이용이 불편하고 장애가 많아서
           </RadioContainer>
@@ -133,7 +142,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(3)}
+              onClick={() => onClickRadioBtn("다른 사이트가 더 좋아서")}
             />
             다른 사이트가 더 좋아서
           </RadioContainer>
@@ -141,7 +150,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(4)}
+              onClick={() => onClickRadioBtn("삭제하고 싶은 내용이 있어서")}
             />
             삭제하고 싶은 내용이 있어서
           </RadioContainer>
@@ -149,7 +158,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(5)}
+              onClick={() => onClickRadioBtn("사용 빈도가 낮아서")}
             />
             사용 빈도가 낮아서
           </RadioContainer>
@@ -157,7 +166,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(6)}
+              onClick={() => onClickRadioBtn("콘텐츠 불만")}
             />
             콘텐츠 불만
           </RadioContainer>
@@ -165,7 +174,7 @@ const Withdrawal = () => {
             <RadioBtn
               type="radio"
               name="탈퇴이유"
-              onClick={() => onClickRadioBtn(7)}
+              onClick={() => onClickRadioBtn("기타")}
             />
             기타
           </RadioContainer>

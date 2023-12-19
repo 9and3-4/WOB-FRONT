@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
 import Modal from "../../utils/Modal";
+import SettingAxiosApi from "../../api/SettingAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
@@ -83,19 +84,25 @@ const Account = () => {
   // 제 3자 로그인 정보를 가져옴
   useEffect(() => {
     const loginSetting = async () => {
-      const rsp = "NAVER";
-      switch (rsp) {
-        case "GOOGLE":
-          setGoogle("연결됨");
-          break;
-        case "NAVER":
-          setNaver("연결됨");
-          break;
-        case "KAKAO":
-          setKakao("연결됨");
-          break;
-        default:
-          break;
+      const rsp = await SettingAxiosApi.socialType(
+        localStorage.getItem("email")
+      );
+      if (rsp.data) {
+        switch (rsp) {
+          case "GOOGLE":
+            setGoogle("연결됨");
+            break;
+          case "NAVER":
+            setNaver("연결됨");
+            break;
+          case "KAKAO":
+            setKakao("연결됨");
+            break;
+          default:
+            break;
+        }
+      } else {
+        console.log("제 3자 로그인 정보 가져오지 못함");
       }
     };
     loginSetting();
@@ -111,10 +118,16 @@ const Account = () => {
   };
   // Modal 확인 눌렀을 때,
   const confirmModal = () => {
-    // 로그아웃 되는 axios 구현
+    // 로그아웃 시, 로컬스토리지 클리어하고 로그인 화면으로 이동
     setModalOpen(false);
-    alert("로그아웃 되었습니다.");
-    navigate("/login");
+    localStorage.clear();
+    // 로컬스토리지의 키의 개수를 확인하여 0이면 비워진 것으로 판단
+    if (Object.keys(localStorage).length === 0) {
+      alert("로그아웃 되었습니다.");
+      navigate("/login");
+    } else {
+      alert("로그아웃이 정상적으로 처리되지 않았습니다.");
+    }
   };
 
   return (

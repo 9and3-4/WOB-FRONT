@@ -3,6 +3,7 @@ import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import Modal from "../../utils/Modal";
 import Button from "../../component/Button";
+import SettingAxiosApi from "../../api/SettingAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
@@ -61,10 +62,22 @@ const PasswordChange = () => {
   };
 
   // 수정하기 버튼 눌렀을 때,
-  const onClickBtn = () => {
-    setModalOpen(true);
-    setPw("");
-    setRePw("");
+  const onClickBtn = async () => {
+    // 비밀번호 변경하기 위해 email, rePw 전달
+    const rsp = await SettingAxiosApi.passwordChange(
+      localStorage.getItem("email"),
+      rePw
+    );
+    if (rsp.data) {
+      setModalOpen(true);
+      setPw("");
+      setRePw("");
+    } else {
+      setModelText("비밀번호 변경이 정상적으로 처리되지 않았습니다.");
+      setModalOpen(true);
+      setPw("");
+      setRePw("");
+    }
   };
 
   // 비밀번호 입력 됐을 때,
