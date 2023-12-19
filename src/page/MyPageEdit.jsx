@@ -16,7 +16,6 @@ import SelectMBTI from "../component/MBTI/MBTI";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 
 const Container = styled.div`
-  /* padding: 24px; */
   border-radius: 8px;
   width: 768px;
   margin: 0px auto;
@@ -30,10 +29,8 @@ const HeaderBox = styled.div`
 `;
 const EditBox = styled.div`
   margin-bottom: 10%;
-  /* border: 1px solid black; */
 `;
 const FooterBox = styled.div`
-  /* padding: 0 20px; */
   display: flex;
   justify-content: center;
   position: fixed;
@@ -55,13 +52,20 @@ const UserInfo = styled.div`
 
 const UserNickname = styled.h2`
   margin-left: 20px;
+  font-size: 3em;
+`;
+const InterestCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Selected = styled.div`
+  flex-direction: column;
+  align-items: center;
   padding: 15px 40px;
   justify-content: center;
-  font-size: 30px;
-  background-color: #04bf8a;
-  color: #fff;
+  font-size: 3em;
+  color: #04bf8a;
   border: #04bf8a;
   border-radius: 30px;
 `;
@@ -76,7 +80,7 @@ const FieldEditTitle = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-const MbtiContainer = styled.div`
+const UserContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,6 +107,9 @@ const Input = styled.input`
 const Label = styled.label`
   display: block;
   margin: 20px 10px;
+  padding: 10px;
+  width: 100%;
+  background-color: #dfede9;
   font-weight: bold;
   font-size: 1.5em;
 `;
@@ -150,6 +157,7 @@ const MyPageEdit = () => {
   const [editNickname, setEditNickname] = useState("");
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
+  const [interest, setInterest] = useState([]);
   const [nickname, setNickname] = useState("");
 
   // const context = useContext(UserContext);
@@ -158,32 +166,15 @@ const MyPageEdit = () => {
   useEffect(() => {
     const userInfo = async () => {
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
-      console.log("useEffect의 rsp data 확인 :", rsp.data);
+      console.log("useEffect의 rsp data 확인 :", rsp.data.interestSports);
       if (rsp.status === 200) {
         setUser(rsp.data);
         setUrl(rsp.data.image);
+        setInterest(rsp.data.interestSports);
       }
     };
     userInfo();
 
-    // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
-    const loginUserEmail = localStorage.getItem("email");
-    // 로그인한 사용자와 글쓴이가 같은지 비교
-    if (loginUserEmail === email) {
-      setIsCurrentUser(true);
-    }
-  }, [email]);
-
-  const [interest, setInterest] = useState([]);
-  useEffect(() => {
-    const userInterestSports = async () => {
-      const resp = await MyPageAxiosApi.userInterest(localStorage.email);
-      console.log("useEffect의 resp data 확인 :", resp.data);
-      if (resp.status === 200) {
-        setInterest(resp.data);
-      }
-    };
-    userInterestSports();
     // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
     const loginUserEmail = localStorage.getItem("email");
     // 로그인한 사용자와 글쓴이가 같은지 비교
@@ -348,20 +339,28 @@ const MyPageEdit = () => {
         <FieldEditTitle>
           <Label>관심 운동</Label>
         </FieldEditTitle>
-        <>
-          {!editMode ? (
-            <Selected>{interest}</Selected>
-          ) : (
-            <SelectSports
-              options={activityList}
-              min={minValue}
-              max={maxValue}
-              text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-            />
-          )}
-        </>
+        <UserContainer>
+          <InterestCon>
+            {!editMode ? (
+              interest.map((interestItem, index) => (
+                <>
+                  <Selected key={index} value={interestItem}>
+                    {interestItem}
+                  </Selected>
+                </>
+              ))
+            ) : (
+              <SelectSports
+                options={activityList}
+                min={minValue}
+                max={maxValue}
+                text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+              />
+            )}
+          </InterestCon>
+        </UserContainer>
         <Label>MBTI</Label>
-        <MbtiContainer>
+        <UserContainer>
           <>
             {!editMode ? (
               <Selected>{user.mbti}</Selected>
@@ -374,7 +373,7 @@ const MyPageEdit = () => {
               />
             )}
           </>
-        </MbtiContainer>
+        </UserContainer>
         {!editMode ? (
           <></>
         ) : (
