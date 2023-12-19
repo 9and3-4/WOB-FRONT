@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import CalendarComp from "../../component/CalendarComp";
+import PostList from "../PostListClon";
 
 const Boards = styled.div`
-  font-weight: 600;
   color: #999999;
   margin-bottom: 12px;
 `;
@@ -16,8 +16,7 @@ const Subtitle = styled.p`
 const BoardList = styled.h2`
   text-align: center;
 `;
-const BoardListContainer = styled.div``;
-const Line = styled.div``;
+const BoardA = styled.div``;
 
 const Schedule = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
@@ -35,12 +34,10 @@ const Schedule = () => {
           <>
             <Subtitle>{selectedDate.toDate().toDateString()}</Subtitle>
           </>
-
-          <BoardListContainer>
-            <Line />
-            <BoardList />
-          </BoardListContainer>
         </Boards>
+        <BoardA>
+          <PostList selectedDate={selectedDate} />
+        </BoardA>
       </div>
     </>
   );
