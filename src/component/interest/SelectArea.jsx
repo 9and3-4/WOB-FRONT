@@ -11,7 +11,7 @@ import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
 
 const AreaGird = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   padding: 40px;
 `;
@@ -44,9 +44,10 @@ const SelectArea = ({ options, min, max, title, text }) => {
 
   const handleNext = (selectedItems) => {
     const itemsWithInput = value ? [...selectedItems, value] : selectedItems;
+    // console.log("itemsWithInput : ", itemsWithInput);
 
-    if (LoginPageAxiosApi.interestSprots(itemsWithInput)) {
-      console.log("interestSprots 등록 완료");
+    if (LoginPageAxiosApi.interestAreas(itemsWithInput)) {
+      console.log("interestAreas 등록 완료");
     }
   };
 
@@ -55,6 +56,15 @@ const SelectArea = ({ options, min, max, title, text }) => {
       <TitleAlign>{title}</TitleAlign>
       <TextAlign>{text}</TextAlign>
       <AreaGird>
+        {options.map((activity) => (
+          <SelectButton
+            key={activity}
+            onClick={() => handleSelect(activity)}
+            selected={selectedItems.includes(activity)}
+          >
+            {activity}
+          </SelectButton>
+        ))}
         <NextButton
           active={isNextButtonActive}
           onClick={isNextButtonActive ? () => handleNext(selectedItems) : null}

@@ -27,6 +27,33 @@ const InterestEnter = () => {
     "런닝",
     "볼링",
   ];
+  const activityAreaList = [
+    "강남구",
+    "강북구",
+    "강동구",
+    "강서구",
+    "양천구",
+    "구로구",
+    "영등포구",
+    "금천구",
+    "동작구",
+    "관악구",
+    "서초구",
+    "송파구",
+    "마포구",
+    "서대문구",
+    "은평구",
+    "종로구",
+    "중구",
+    "성동구",
+    "용산구",
+    "광진구",
+    "중랑구",
+    "동대문구",
+    "성북구",
+    "도봉구",
+    "노원구",
+  ];
 
   const minValue = 1;
   const maxValue = 3;
@@ -42,20 +69,20 @@ const InterestEnter = () => {
     <>
       <Container>
         <WhiteBoard show={showWhiteBoard}>
-          <SelectSports
+          {/* <SelectSports
             options={activityList}
             min={minValue}
             max={maxValue}
             title={"관심운동 등록"}
             text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-          />
-          {/* <SelectArea
-            options={activityList}
+          /> */}
+          <SelectArea
+            options={activityAreaList}
             min={minValue}
             max={maxValue}
             title={"관심지역 등록"}
             text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-          /> */}
+          />
         </WhiteBoard>
       </Container>
     </>

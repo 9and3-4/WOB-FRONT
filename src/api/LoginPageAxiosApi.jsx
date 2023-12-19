@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./Interceptors";
 import Common, { KH_DOMAIN } from "../utils/Common";
 
 // http://localhost:3000/oauth2/authorization/google
@@ -24,32 +24,8 @@ const LoginPageAxiosApi = {
     return await axios.post(KH_DOMAIN + "/login", params);
   },
 
-  googleLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth2/authorization/google", {
-      withCredentials: true,
-    });
-  },
-
-  naverLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth2/authorization/naver", {
-      withCredentials: true,
-    });
-  },
-
-  kakaoLogin: async () => {
-    return await axios.get(KH_DOMAIN + "/oauth2/authorization/kakao", {
-      withCredentials: true,
-    });
-  },
-
   loginTest: async () => {
-    const accessToken = Common.getAccessToken();
-    return await axios.get(KH_DOMAIN + "/jwt-test", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await axios.get(KH_DOMAIN + "/jwt-test");
   },
 
   interestSprots: async (props) => {
@@ -57,6 +33,20 @@ const LoginPageAxiosApi = {
     const email = Common.getEmail();
     return await axios.post(
       KH_DOMAIN + `/interest/sports?email=${email}`,
+      props,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
+  interestAreas: async (props) => {
+    const accessToken = Common.getAccessToken();
+    const email = Common.getEmail();
+    return await axios.post(
+      KH_DOMAIN + `/interest/areas?email=${email}`,
       props,
       {
         headers: {

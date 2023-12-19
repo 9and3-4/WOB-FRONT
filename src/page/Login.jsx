@@ -52,7 +52,7 @@ const TestLoginPage = () => {
       password: password,
     });
     if (response.status === 200) {
-      const accessToken = response.headers.get("Authorization");
+      const accessToken = response.headers.get("authorization");
       const refreshToken = response.headers.get("authorization-refresh");
       console.log("accessToken return = ", accessToken);
       console.log("refreshToken return = ", refreshToken);
@@ -62,24 +62,24 @@ const TestLoginPage = () => {
       console.log("login email : ", Common.getEmail());
     }
   };
-  const handleGoogle = async () => {
-    const response = await LoginPageAxiosApi.googleLogin();
-    if (response.status === 200) {
-      console.log("google 리턴 값: ", response);
-    }
-  };
-  const handleNaver = async () => {
-    const response = await LoginPageAxiosApi.naverLogin();
-    if (response.status === 200) {
-      console.log("naver 리턴 값: ", response);
-    }
-  };
-  const handleKakao = async () => {
-    const response = await LoginPageAxiosApi.kakaoLogin();
-    if (response.status === 200) {
-      console.log("kakao 리턴 값: ", response);
-    }
-  };
+  // const handleGoogle = async () => {
+  //   const response = await LoginPageAxiosApi.googleLogin();
+  //   if (response.status === 200) {
+  //     console.log("google 리턴 값: ", response);
+  //   }
+  // };
+  // const handleNaver = async () => {
+  //   const response = await LoginPageAxiosApi.naverLogin();
+  //   if (response.status === 200) {
+  //     console.log("naver 리턴 값: ", response);
+  //   }
+  // };
+  // const handleKakao = async () => {
+  //   const response = await LoginPageAxiosApi.kakaoLogin();
+  //   if (response.status === 200) {
+  //     console.log("kakao 리턴 값: ", response);
+  //   }
+  // };
   const handleTest = async () => {
     const response = await LoginPageAxiosApi.loginTest();
     if (response.status === 200) {
