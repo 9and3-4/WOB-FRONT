@@ -12,7 +12,7 @@ const Container = styled.div`
   color: var(--GREEN);
 `;
 
-const PostList = () => {
+const PostList = ({ selectedSports }) => {
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
@@ -20,13 +20,22 @@ const PostList = () => {
       try {
         const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
-        if (rsp.status === 200) setPostList(rsp.data);
+        if (rsp.status === 200) {
+          // 선택 운동에 따라 필터링
+          const filterSports = rsp.data.filter((post) => {
+            return (
+              selectedSports.length === 0 || // 아무 운동도 선택하지 않은 경우 모든 게시글 표시
+              selectedSports.includes(post.category) // 선택한 운동에 해당하는 게시글만 표시
+            );
+          });
+          setPostList(filterSports);
+        }
       } catch (error) {
         console.error("Error fetching post list:", error);
       }
     };
     fetchPostList();
-  }, []);
+  }, [selectedSports]); // selectedSports가 변경될 때마다 실행
 
   return (
     <>
