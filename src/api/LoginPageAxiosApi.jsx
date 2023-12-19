@@ -1,4 +1,5 @@
-import axios from "./Interceptors";
+// import axios from "./Interceptors";
+import axios from "axios";
 import Common, { KH_DOMAIN } from "../utils/Common";
 
 // http://localhost:3000/oauth2/authorization/google
@@ -25,7 +26,13 @@ const LoginPageAxiosApi = {
   },
 
   loginTest: async () => {
-    return await axios.get(KH_DOMAIN + "/jwt-test");
+    const accessToken = localStorage.getItem("accessToken");
+    return await axios.get(KH_DOMAIN + "/jwt-test", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
   },
 
   interestSprots: async (props) => {

@@ -11,7 +11,7 @@ import Footer from "../layout/Footer";
 import Edit from "../images/Edit.png";
 import Setting from "../images/Setting.png";
 import { Link } from "react-router-dom";
-import SelectSports from "../component/interest/SelectSports";
+import SelectSports from "../component/interest/SelectSportsClon";
 import SelectMBTI from "../component/MBTI/MBTI";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 
@@ -198,9 +198,18 @@ const MyPageEdit = () => {
   const [selectedItem, setSelectedItem] = useState("");
   // MBTI 선택됐을 때 실행될 함수
   const handleSelectedItem = (item) => {
-    console.log("부모 컴포넌트에서 선택된 아이템:", item);
+    console.log("부모 컴포넌트에서 선택된 mbti아이템:", item);
     // 선택된 아이템을 부모 컴포넌트의 상태로 설정
     setSelectedItem(item);
+  };
+
+  //선택 종목
+  const [selectedSports, setSelectedSports] = useState([]);
+  //선택종목 실행함수
+  const handleSelected = (selectedList) => {
+    console.log("부모 컴포넌트에서 선택된 스포츠 아이템 : ", selectedList);
+    //선택 아이템 부모 컴포넌트 상태로 설정
+    setSelectedSports(selectedList);
   };
 
   //회원정보 업데이트 Axios호출 . 회원정보 수정 '수정' 버튼
@@ -355,6 +364,7 @@ const MyPageEdit = () => {
                 min={minValue}
                 max={maxValue}
                 text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+                handleSelected={handleSelected}
               />
             )}
           </InterestCon>
