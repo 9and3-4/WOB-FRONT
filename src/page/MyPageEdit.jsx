@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../context/UserStore";
 import MyPageAxiosApi from "../api/MyPageAxiosApi";
 import { storage } from "../api/firebase";
-import Common, { formatDate } from "../utils/Common";
 import { useNavigate } from "react-router-dom";
 import Footer from "../layout/Footer";
 import Edit from "../images/Edit.png";

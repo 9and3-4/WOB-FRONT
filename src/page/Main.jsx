@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdCarousel from "../component/MainAd";
 import CalendarComp from "../component/CalendarComp";
@@ -7,13 +7,15 @@ import Button from "../component/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { FaPlusCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PostList from "./PostListClon";
 // import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
+import MyPageAxiosApi from "../api/MyPageAxiosApi";
+import SelectSports from "../component/interest/SelectSportsClon";
 
 const Container = styled.div`
   max-width: 768px;
@@ -88,6 +90,16 @@ const PostBox = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
+const Selected = styled.div`
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 40px;
+  justify-content: center;
+  font-size: 3em;
+  color: #04bf8a;
+  border: #04bf8a;
+  border-radius: 30px;
+`;
 
 const PlusButton = styled(FaPlusCircle)`
   bottom: 20px;
@@ -99,14 +111,34 @@ const PlusButton = styled(FaPlusCircle)`
 
 const Main = () => {
   const navigate = useNavigate();
+  const { email } = useParams();
   const { addr, temp, sky, pty } = Weather();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [selectDate, setSelectDate] = useState(null);
   const [showCalendar, setShowCalender] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment());
+  const [interest, setInterest] = useState([]);
   const onDateSelect = (date) => {
     setSelectedDate(date);
     console.log("selectedDate", selectedDate);
   };
+  useEffect(() => {
+    const userInfo = async () => {
+      const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
+      console.log("메인 이메일 받기 : ", localStorage.email);
+      console.log("useEffect interest : ", rsp.data.interestSports);
+      if (rsp.status === 200) {
+        setInterest(rsp.data.interestSports);
+      }
+    };
+    userInfo();
+    // 로컬 스토리지에서 로그인한 사용자 정보를 가져옵니다.
+    const loginUserEmail = localStorage.getItem("email");
+    // 로그인한 사용자와 글쓴이가 같은지 비교
+    if (loginUserEmail === email) {
+      setIsCurrentUser(true);
+    }
+  }, [email]);
 
   // 아이콘 클릭했을 때의 동작 (달력 나타남)
   const handleIconClick = () => {
@@ -139,9 +171,11 @@ const Main = () => {
         <AdCarousel />
         <CategoryBox>
           <Button label="모든 레져" size="category" />
-          <Button label="🏀 농구" size="category" />
-          <Button label="🏸 배드민턴" size="category" />
-          <Button label="🏓 탁구" size="category" />
+          {interest.map((interestItem, index) => (
+            <Button key={index} label={interestItem}>
+              {interestItem}
+            </Button>
+          ))}
         </CategoryBox>
         <DateBox style={{ position: "relative", zIndex: 1 }}>
           {selectedDate.format("YYYY년 MM월 DD일")}
