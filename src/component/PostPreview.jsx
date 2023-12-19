@@ -22,7 +22,7 @@ const DetailBox = styled.div`
   min-width: 300px;
   height: 135px;
   background-color: var(--MINT);
-  color: var(--BLACK);
+  color: #555555;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   margin: 5px;
@@ -44,11 +44,18 @@ const DateBox = styled.div`
 `;
 
 const SecondBox = styled.div`
-  width: 90%;
+  width: 100%;
   padding-top: 20px;
   padding-left: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+`;
+
+const ColumnBox = styled.div`
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PlaceBox = styled.div`
@@ -67,26 +74,34 @@ const Icon = styled(FontAwesomeIcon)`
   margin-right: 8px; /* 아이콘과 텍스트 사이의 간격을 조절 */
 `;
 
-const PostDetail = () => {
+const PostPreview = ({ title, date, time, place, people, category }) => {
   return (
     <>
       <Container>
         <DetailBox>
-          <Titlebox>양재천에서 함께 산책해요!</Titlebox>
-          <DateBox>2023-12-17 18:00</DateBox>
+          <Titlebox>{title}</Titlebox>
+          <DateBox>
+            {date} {time}
+          </DateBox>
           <SecondBox>
-            <PlaceBox>
-              <Icon icon={faLocationDot} />
-              양재천
-            </PlaceBox>
-            <PeopleBox>
-              <Icon icon={faChild} />
-              5명
-            </PeopleBox>
-            <CategoryBox>
-              <Icon icon={faPersonWalking} />
-              산책
-            </CategoryBox>
+            <ColumnBox>
+              <PlaceBox>
+                <Icon icon={faLocationDot} />
+                {place}
+              </PlaceBox>
+            </ColumnBox>
+            <ColumnBox>
+              <PeopleBox>
+                <Icon icon={faChild} />
+                {people} 명 모집
+              </PeopleBox>
+            </ColumnBox>
+            <ColumnBox>
+              <CategoryBox>
+                <Icon icon={faPersonWalking} />
+                {category}
+              </CategoryBox>
+            </ColumnBox>
           </SecondBox>
         </DetailBox>
       </Container>
@@ -94,4 +109,4 @@ const PostDetail = () => {
   );
 };
 
-export default PostDetail;
+export default PostPreview;

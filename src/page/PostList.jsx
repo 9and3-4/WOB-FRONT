@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PostAxiosApi from "../api/PostAxiosApi";
+import PostPreview from "../component/PostPreview";
 
 const Container = styled.div`
   max-width: 768px;
@@ -32,15 +33,16 @@ const PostList = () => {
       <Container>
         {postList &&
           postList.map((post) => (
-            <li key={post.id}>
-              {post.title}
-              {post.date}
-              {post.time}
-              {post.place}
-              {post.cost}
-              {post.people}
-              {post.detail}
-            </li>
+            // PostPreview 컴포넌트를 호출하면서 필요한 데이터를 전달
+            <PostPreview
+              key={post.id}
+              title={post.title}
+              date={post.date}
+              time={post.time}
+              place={post.place}
+              people={post.people}
+              category={post.category}
+            />
           ))}
       </Container>
     </>

@@ -217,9 +217,11 @@ const PostSubmit = () => {
     // 2. 현재 시간을 UTC(협정 시계) 시간으로 계산(DB 저장시 UTC 기준으로 저장 되기 때문) = 현재 로컬 시간대와 UTC와의 차이를 밀리초로 표현한 값.
     // getTimezoneOffset() : 현재 실행 중인 시스템의 로컬 시간과 UTC(협정 시계)와의 시간 차이를 분단위로 반환. 한국은 UTC보다 9시간 빠르므로 -540이 반환.
     // * 60 은 분을 초로 변환, 1000 곱하면 밀리초로 변환. (-540 * 60 * 1000 = -32400000 밀리초)
+    // 날짜를 UTC로 변환할 때 9시간 더하기
     const utcDate = new Date(
       koreaDate.getTime() - koreaDate.getTimezoneOffset() + 540 * 60 * 1000
     );
+    // 시간을 UTC로 변환할 때 9시간 빼기
     const utcTime = new Date(
       koreaTime.getTime() - koreaTime.getTimezoneOffset() - 540 * 60 * 1000
     );
@@ -240,6 +242,7 @@ const PostSubmit = () => {
     // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
     const rsp = await PostAxiosApi.postSubmit({
       title,
+      category,
       place,
       people,
       cost,

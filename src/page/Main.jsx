@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PostDetail from "../component/PostDetail";
+import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
 
 const Container = styled.div`
@@ -179,13 +179,7 @@ const Main = () => {
           <PlusButton onClick={handlePlusIconClick} />
         </BottomContainer>
         <PostBox>
-          <PostDetail />
-          <PostDetail />
-          <PostDetail />
-          <PostDetail />
-          <PostDetail />
-          <PostDetail />
-          <PostDetail />
+          <PostList />
         </PostBox>
       </Container>
     </>
