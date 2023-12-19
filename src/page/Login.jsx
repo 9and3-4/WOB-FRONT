@@ -62,24 +62,6 @@ const TestLoginPage = () => {
       console.log("login email : ", Common.getEmail());
     }
   };
-  // const handleGoogle = async () => {
-  //   const response = await LoginPageAxiosApi.googleLogin();
-  //   if (response.status === 200) {
-  //     console.log("google 리턴 값: ", response);
-  //   }
-  // };
-  // const handleNaver = async () => {
-  //   const response = await LoginPageAxiosApi.naverLogin();
-  //   if (response.status === 200) {
-  //     console.log("naver 리턴 값: ", response);
-  //   }
-  // };
-  // const handleKakao = async () => {
-  //   const response = await LoginPageAxiosApi.kakaoLogin();
-  //   if (response.status === 200) {
-  //     console.log("kakao 리턴 값: ", response);
-  //   }
-  // };
   const handleTest = async () => {
     const response = await LoginPageAxiosApi.loginTest();
     if (response.status === 200) {
