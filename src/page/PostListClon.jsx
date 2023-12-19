@@ -19,7 +19,7 @@ const PostList = ({ selectedSports, selectedDate }) => {
   useEffect(() => {
     const fetchPostList = async () => {
       try {
-        const rsp = await PostAxiosApi.postListAll();
+        const rsp = await PostAxiosApi.postListAll(localStorage.email);
         console.log(rsp.data);
         if (rsp.status === 200) {
           // 선택 운동에 따라 필터링

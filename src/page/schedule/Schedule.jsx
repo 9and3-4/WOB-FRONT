@@ -32,7 +32,7 @@ const Schedule = () => {
             <CalendarComp onDateSelect={onDateSelect} />
           </>
           <>
-            <Subtitle>{selectedDate.toDate().toDateString()}</Subtitle>
+            <Subtitle>{selectedDate.format("YYYY년 MM월 DD일")}</Subtitle>
           </>
         </Boards>
         <BoardA>

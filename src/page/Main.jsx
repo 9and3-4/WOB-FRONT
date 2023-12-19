@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AdCarousel from "../component/MainAd";
 import CalendarComp from "../component/CalendarComp";
+import moment from "moment";
 import Button from "../component/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
@@ -10,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PostList from "./PostList";
+import PostList from "./PostListClon";
+// import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
 
 const Container = styled.div`
@@ -100,6 +102,11 @@ const Main = () => {
   const { addr, temp, sky, pty } = Weather();
   const [selectDate, setSelectDate] = useState(null);
   const [showCalendar, setShowCalender] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(moment());
+  const onDateSelect = (date) => {
+    setSelectedDate(date);
+    console.log("selectedDate", selectedDate);
+  };
 
   // 아이콘 클릭했을 때의 동작 (달력 나타남)
   const handleIconClick = () => {
@@ -137,7 +144,7 @@ const Main = () => {
           <Button label="🏓 탁구" size="category" />
         </CategoryBox>
         <DateBox style={{ position: "relative", zIndex: 1 }}>
-          2023년 12월
+          {selectedDate.format("YYYY년 MM월 DD일")}
           <FontAwesomeIcon
             icon={faCalendarDays}
             style={{
@@ -161,7 +168,10 @@ const Main = () => {
           )}
         </DateBox>
         <CalenderBox>
-          <CalendarComp onDateSelect={(date) => console.log(date)} />
+          <CalendarComp
+            // onDateSelect={(date) => console.log(date)}
+            onDateSelect={onDateSelect}
+          />
         </CalenderBox>
         <MediumContainer>
           <CategoryBox2>
@@ -179,7 +189,7 @@ const Main = () => {
           <PlusButton onClick={handlePlusIconClick} />
         </BottomContainer>
         <PostBox>
-          <PostList />
+          <PostList selectedDate={selectedDate} />
         </PostBox>
       </Container>
     </>
