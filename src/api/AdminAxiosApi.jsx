@@ -45,7 +45,7 @@ const AdminAxiosApi =  {
   boardPageList: async (page, size) => {
     const accessToken = Common.getAccessToken();
     return await axios.get(
-      Common.KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
+      KH_DOMAIN + `/category/list/page?page=${page}&size=${size}`,
       {
         headers: {
           "Content-Type": "application/json",

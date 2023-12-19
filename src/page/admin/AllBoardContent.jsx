@@ -1,5 +1,5 @@
 // 관리자 게시물 목록
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +104,7 @@ const BoardLists = styled.div`
   }
 `;
 
-// 등록, 삭제, 수정버튼
+// 등록 버튼
 const Buttons = styled.button`
     border: 1px solid white;
     background-color: white;
@@ -127,25 +127,26 @@ const Buttons = styled.button`
     color: #04bf8a;
     font-size: 23px;
     `;
-
+  // 활성화 비활성화 버튼 색 구별하기
   const TableRow = styled.tr`
 
-    &.active {
+    &.active { 
       background-color: #DFEDE9;
     }
-    &.inactive {
+    &.inactive { 
       background-color: #ddd;
     }
-    &.quit {
+    &.quit { 
       background-color: #b9696e96;
     }
     cursor: pointer;
   `;
-
+    // 모당 버튼 큰 틀
     const ModalButtonContainer = styled.div`
       display: flex;
       justify-content: center;
       `;
+      // 모달 버튼
     const ModalButton = styled.button`
       margin: 0 20px;
       width: 100px;
@@ -161,6 +162,32 @@ const Buttons = styled.button`
       }
     `;
 
+    const PaginationContainer = styled.div`
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+      `;
+
+    const PageButton = styled.button`
+      border: 1px solid #ddd;
+      padding: 5px;
+      width: 28px;
+      margin: 0 5px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: darkgray;
+      }
+
+      &:focus {
+        outline: none;
+        background-color: royalblue;
+      }
+      `;
+
 // 게시판 목록 페이지 
 const AllBoardContent = () => {
 
@@ -169,9 +196,12 @@ const AllBoardContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-  const email = window.localStorage.getItem("email");
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
+  const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
+  const [num, setNum] = useState(0); // 인덱스 번호
 
   const navigate = useNavigate();
+
 
   // 수정, 등록 시 경로 이동
   const handleClick = (path) => {
@@ -181,23 +211,72 @@ const AllBoardContent = () => {
   const goToSearchPage = () => {
     navigate("searchMain");
   };
-
+  // 행 하나 클릭 시 카테고리 아이디값 받아옴
   const handleRowClick = (id) => {
     setSelectedId(id);
     setIsModalOpen(true);
   };
-
+  // 행 하나 눌렀을 때 
   const handleRowMouseEnter = (index) => {
     setHoveredRow(index);
   };
-
+  // 행 하나 클릭 후
   const handleRowMouseLeave = () => {
     setHoveredRow(null);
   };
+  // 활성화 비활성화 모달 닫음
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedId(null);
   };
+
+    // 총 페이지 수 계산
+    useEffect(() => {
+      const totalPage = async () => {
+        try {
+          const res = await AdminAxiosApi.boardPageCount(0, 5);
+          setTotalPage(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      totalPage();
+      }, []);
+
+      // 게시판 목록 (페이지나누기) 
+      useEffect(() => {
+        const boardList = async () => {
+          try {
+            const res = await AdminAxiosApi.boardPageList(currentPage, 5);
+            console.log(res.data);
+            setBoardList(res.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        boardList();
+      }, [currentPage]);
+
+    // 페이지 이동
+    const handlePageChange = (number) => {
+      console.log(number);
+      setCurrentPage(number -1);
+      // 페이지 변경 시 목록의 순서를 나타내는 코드 추가
+      setNum((number - 1) * 5 + 1); // 각 페이지의 첫번째 인덱스 번호
+    };
+
+    // 페이지 네이션 버튼
+    const renderPagination = () => {
+      return (
+        <PaginationContainer>
+          {Array.from({ length: totalPage }, (_, i) => i + 1).map((page) => (
+            <PageButton key={page} onClick={() => handlePageChange(page)}>
+              {page}
+            </PageButton>
+          ))}
+        </PaginationContainer>
+      );
+    };
 
   // 게시글 활성화 또는 비활성화 요청 보내기
   const categoryListState = async (selectedId, state) => {
@@ -268,19 +347,19 @@ const AllBoardContent = () => {
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
             isActive={data.isActive} // 추가된 부분: isActive props 전달
-            className={data.isActive}
+            className={data.isActive} // css에서 색 3가지 중 하나 선택해 색 바꿈
           >
 
             <ul className="data" key={index} >
-              <li><p>{index + 1}</p></li>
+              <li><p>{index + num}</p></li>
               <li><img src={data.logo} alt="로고" /></li>
               <li><p>{data.name}</p></li> 
               <li><img src={data.image} alt="이미지" /></li>
               <li><button>활성화/비활성화</button></li>
             </ul>
-
             </TableRow>
           ))}
+          {renderPagination()}
            {isModalOpen && (
         <div>
           <Modal
@@ -305,7 +384,6 @@ const AllBoardContent = () => {
         </BoardLists>
 
         <Buttons>
-    
           <button onClick={() => handleClick("/AdminBoardRegistration")}>등록하기</button>
         </Buttons>
         {/* 햄버거 토글 사이드바 */}

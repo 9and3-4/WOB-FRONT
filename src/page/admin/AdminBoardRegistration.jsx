@@ -7,6 +7,7 @@ import { useState } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { storage } from "../../api/firebase";
 import Layout from "../../component/admin/Layout";
+import { useNavigate } from "react-router-dom";
 
 // 전체 감싸는 css
 const Container = styled.div`
@@ -130,13 +131,13 @@ const SubmitButton = styled.button`
   }
 `;
 
-
 const AdminBoardRegistration = () => {
       const [name, setName] = useState(""); // 종목
       const [img, setImg] = useState(""); // 사진이미지
       const [logo, setLogo] = useState(""); // 로고
       const [file, setFile] = useState(null); // 파일1(사진이미지)
       const [file2, setFile2] = useState(null); // 파일2(로고이미지)
+      const navigate = useNavigate();
     
       // 종목명 name에 저장
       const handleNameChange = (e) => {
@@ -162,11 +163,9 @@ const AdminBoardRegistration = () => {
         }
       };
 
-      // 새로 추가된 내용 저장
-      const handleReset = () => {
-        setName("");
-        setImg("");
-        setLogo("");
+      // 취소 버튼 누르면 목록으로 감
+      const handleReset = () =>{
+        navigate(-1);
       };
     
       // img 파일 선택
@@ -184,18 +183,18 @@ const AdminBoardRegistration = () => {
           const storageRef = storage.ref();
           const fileRef = storageRef.child(file.name);
     
-          // 파일을 업로드하고 기다립니다.
+          // 파일을 업로드하고 기다림
           await fileRef.put(file);
           console.log("File uploaded successfully!");
     
-          // 다운로드 URL을 가져오고 기다립니다.
+          // 다운로드 URL을 가져오고 기다림
           const url = await fileRef.getDownloadURL();
           console.log("img 저장경로 확인 : " + url);
     
-          // 상태를 업데이트합니다.
+          // 상태 업데이트
           setImg(url);
         } catch (error) {
-          // 에러를 처리합니다.
+          // 에러 처리
           console.error("Upload failed", error);
         }
       };
