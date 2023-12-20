@@ -36,6 +36,7 @@ import Withdrawal from "./page/Setting/Withdrawal";
 import AskContents from "./page/admin/AskContents";
 import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
+import Address from "./component/Address";
 
 function App() {
   return (
@@ -92,6 +93,8 @@ function App() {
             <Route path="/Questions" element={<Questions />} />
             <Route path="/PasswordChange" element={<PasswordChange />} />
             <Route path="/Withdrawal" element={<Withdrawal />} />
+            {/* 주소Api */}
+            <Route path="/Address" element={<Address />} />
           </Route>
         </Routes>
       </Router>
