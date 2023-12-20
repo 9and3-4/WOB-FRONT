@@ -1,6 +1,9 @@
 import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Common from "../../utils/Common";
+import SettingAxiosApi from "../../api/SettingAxiosApi";
 const Container = styled.div`
   /* padding: 24px; */
   border-radius: 8px;
@@ -37,6 +40,43 @@ const SettingBtn = styled.button`
 
 const Setting = () => {
   const navigate = useNavigate();
+  const [roomId, setRoomId] = useState("");
+
+  // 채팅방 생성
+  const handleCreateChatRoom = async (title) => {
+    // 1. 해당 게시글의 roomId 값 조회
+    const rsp = await SettingAxiosApi.postListById(1); // postId 값 전달
+    console.log("해당 게시글의 roomId 조회 : " + rsp.data.roomId);
+
+    // 2. 해당 게시글의 roomId가 공백이면 ( 첫 채팅방 생성 ) 채팅방 생성하기.
+    if (rsp.data.roomId == null) {
+      const accessToken = Common.getAccessToken();
+      try {
+        // 채팅방 제목 전달하여 roomId 받아오기
+        const response = await SettingAxiosApi.chatCreate(title);
+        setRoomId(response.data);
+        console.log(response.data);
+        // 해당 유저의 채팅방 입장 기록을
+        navigate(`/PaymentDetails/${response.data}`);
+      } catch (e) {
+        if (e.response.status === 401) {
+          await Common.handleUnauthorized();
+          const newToken = Common.getAccessToken();
+          if (newToken !== accessToken) {
+            const response = await SettingAxiosApi.chatCreate(title);
+            setRoomId(response.data);
+            console.log(response.data);
+            navigate(`/PaymentDetails/${response.data}`);
+          }
+        }
+      }
+      const req = await SettingAxiosApi.postAddRoomId(1, roomId);
+      console.log("rsq.data : ", req.data);
+    } else {
+      // 만약 이미 채팅방이 생성되어 있다면, 새로 생성하지 않고 채팅방 입장.
+      navigate(`/PaymentDetails/${rsp.data.roomId}`);
+    }
+  };
 
   return (
     <>
@@ -58,7 +98,7 @@ const Setting = () => {
           <span className="text">문의하기</span>
           <span className="pointer">&gt;</span>
         </SettingBtn>
-        <SettingBtn onClick={() => navigate("/PaymentDetails")}>
+        <SettingBtn onClick={() => handleCreateChatRoom("일반채팅방")}>
           <img
             src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/won.png?alt=media&token=6e1058ae-9f43-4c10-add5-6e2f1a79531e"
             alt="결제내역"

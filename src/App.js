@@ -86,7 +86,7 @@ function App() {
           <Route element={<SettingLayout />}>
             <Route path="/Setting" element={<Setting />} />
             <Route path="/Account" element={<Account />} />
-            <Route path="/PaymentDetails" element={<PaymentDatails />} />
+            <Route path="/PaymentDetails:roomId" element={<PaymentDatails />} />
             <Route path="/Policy" element={<Policy />} />
             <Route path="/Questions" element={<Questions />} />
             <Route path="/PasswordChange" element={<PasswordChange />} />
