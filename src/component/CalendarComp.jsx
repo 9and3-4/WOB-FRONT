@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Container = styled.div`
   display: flex;
@@ -61,10 +62,14 @@ const DayNumber = styled.span`
   font-size: 1.2em;
   font-weight: bold;
 `;
-const CalendarComp = ({ onDateSelect }) => {
+const CalendarComp = ({ onDateSelect, selectedDate }) => {
   const sliderRef = React.useRef();
   const [current, setCurrent] = useState(moment());
   const [year, setYear] = useState(current.year());
+
+  useEffect(() => {
+    setCurrent(moment(selectedDate));
+  }, [selectedDate]);
 
   //주 정보 계산
   const weeks = React.useMemo(() => {
@@ -111,6 +116,7 @@ const CalendarComp = ({ onDateSelect }) => {
     }
   }, [current, weeks]);
 
+  //선택된 날짜가 변경될 때마다 onDateSelect콜백함수 호출
   const handleDateClick = (date) => {
     const weekIndex = weeks.findIndex((week) => {
       const weekStart = moment(week.weekStart);
