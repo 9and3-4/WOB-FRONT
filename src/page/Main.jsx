@@ -7,6 +7,7 @@ import Button from "../component/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { FaPlusCircle } from "react-icons/fa";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
@@ -15,7 +16,6 @@ import PostList from "./PostListClon";
 // import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
 import MyPageAxiosApi from "../api/MyPageAxiosApi";
-import SelectSports from "../component/interest/SelectSportsClon";
 
 const Container = styled.div`
   max-width: 768px;
@@ -90,16 +90,6 @@ const PostBox = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
-const Selected = styled.div`
-  flex-direction: column;
-  align-items: center;
-  padding: 15px 40px;
-  justify-content: center;
-  font-size: 3em;
-  color: #04bf8a;
-  border: #04bf8a;
-  border-radius: 30px;
-`;
 
 const PlusButton = styled(FaPlusCircle)`
   bottom: 20px;
@@ -107,6 +97,16 @@ const PlusButton = styled(FaPlusCircle)`
   color: var(--GREEN);
   font-size: 35px;
   cursor: pointer;
+  margin: 10px;
+`;
+
+const ListButton = styled(FontAwesomeIcon).attrs({ icon: faListUl })`
+  bottom: 20px;
+  right: 20px;
+  color: var(--GREEN);
+  font-size: 35px;
+  cursor: pointer;
+  padding-left: 5px;
 `;
 
 const Main = () => {
@@ -152,8 +152,14 @@ const Main = () => {
     setShowCalender(false);
   };
 
+  // + 클릭시 일정 등록 페이지로 이동
   const handlePlusIconClick = () => {
     navigate("/postsubmit");
+  };
+
+  // = 클릭시 게시글 리스트 페이지로 이동
+  const handleListIconClick = () => {
+    navigate("/postlist");
   };
 
   const fetchPostByDate = async (selectDate) => {
@@ -221,6 +227,7 @@ const Main = () => {
         <BottomContainer>
           <Subtitle>신나게 운동하자 우리 ☺</Subtitle>
           <PlusButton onClick={handlePlusIconClick} />
+          <ListButton onClick={handleListIconClick} />
         </BottomContainer>
         <PostBox>
           <PostList selectedDate={selectedDate} />

@@ -40,7 +40,7 @@ const DropdownCheckbox = styled.div`
   }
 `;
 
-const PostTopBar = () => {
+const PostTopBar = ({ onAreaSelect }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedArea, setSelectedArea] = useState([]);
   const dropdownRef = useRef(null);
@@ -115,6 +115,7 @@ const PostTopBar = () => {
       const updateArea = [...selectedArea.slice(1), selected];
       setSelectedArea(updateArea);
     }
+    onAreaSelect(selectedArea); // 부모 컴포넌트로 선택된 지역 전달
     setDropdownVisible(false); // 드롭다운 창 닫기
   };
 

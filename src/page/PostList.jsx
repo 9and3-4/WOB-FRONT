@@ -13,7 +13,7 @@ const Container = styled.div`
   color: var(--GREEN);
 `;
 
-const PostList = ({ selectedSports }) => {
+const PostList = () => {
   const [postList, setPostList] = useState([]);
   const [selectedArea, setSelectedArea] = useState([]);
 
@@ -24,22 +24,20 @@ const PostList = ({ selectedSports }) => {
 
   // selectsports 변경시 실행
   useEffect(() => {
-    const fetchPostList = async () => {
+    const fetchPostList = async (selectedOptions) => {
       try {
         // 서버에서 게시판 목록 들고옴.
         const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
         // 서버가 정상적으로 이루어졌을 때
         if (rsp.status === 200) {
-          // 선택 운동에 따라 필터링
-          const filterSports =
-            (selectedSports || []).length === 0
+          // 선택 지역에 따라 필터링
+          const filterArea =
+            (selectedArea || []).length === 0
               ? rsp.data
-              : rsp.data.filter((post) =>
-                  selectedSports.includes(post.category)
-                );
+              : rsp.data.filter((post) => selectedArea.includes(post.place));
           // 게시글 목록 상태 업데이트
-          setPostList(filterSports);
+          setPostList(filterArea);
         }
       } catch (error) {
         console.error("Error fetching post list:", error);
@@ -47,7 +45,7 @@ const PostList = ({ selectedSports }) => {
     };
     // 비동기 함수 호출
     fetchPostList();
-  }, [selectedSports]); // selectedSports가 변경될 때마다 실행
+  }, [selectedArea]); // selectedSports가 변경될 때마다 실행
 
   return (
     <>
