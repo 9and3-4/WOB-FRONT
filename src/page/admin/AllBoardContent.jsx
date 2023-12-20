@@ -1,5 +1,5 @@
 // 관리자 게시물 목록
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -346,8 +346,8 @@ const AllBoardContent = () => {
             onMouseEnter={() => handleRowMouseEnter(index)}
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
-            isActive={data.isActive} // 추가된 부분: isActive props 전달
-            className={data.isActive} // css에서 색 3가지 중 하나 선택해 색 바꿈
+            active={data.active} // 추가된 부분: isActive props 전달
+            className={data.active} // css에서 색 3가지 중 하나 선택해 색 바꿈
           >
 
             <ul className="data" key={index} >

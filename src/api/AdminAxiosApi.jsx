@@ -9,17 +9,76 @@ const AdminAxiosApi =  {
   memberGet: async (id) => {
     return await axios.get(KH_DOMAIN + `/users/member?id=${id}`);
   },
-  
+
   //회원 전체 조회
   userGet: async () => {
-    const accessToken = Common.getAccessToken();
+    const accessToken = localStorage.getItem("accessToken");
     return await axios.get(KH_DOMAIN + `/users/list`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
       },
-    });             
+    });
   },
+
+     // 회원 페이지네이션 조회
+     userPageList: async (page, size) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.get(
+        KH_DOMAIN + `/users/list/page?page=${page}&size=${size}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+    },
+  
+    // 회원 페이지 수 조회
+    userPageCount: async (page,size) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.get(
+        KH_DOMAIN + `/users/count`, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+    },
+  
+    // 회원 활성화 바활성화 처리(get)-userController
+      userInfoGet : async () => {
+        const accessToken = Common.getAccessToken();
+        return await axios.get(
+          KH_DOMAIN + `/users/allList`,
+          {
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+        );
+      },
+  
+      // 회원 활성화 비활성화(post)-AdminActiveController
+      userListState: async (id, state) => {
+        const accessToken = Common.getAccessToken();
+        console.log('활성화 비활성화, id : ', id, state);
+        const data = {
+          id: id,
+          active: state,
+        };
+          return await axios.put(KH_DOMAIN + `/users/state`,data, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + accessToken,
+            },
+          });
+      },
+  
 
    // (카테고리)게시글 등록
    categorySave: async (name, img, logo) => {
@@ -51,37 +110,6 @@ const AdminAxiosApi =  {
       },
     });             
   },
-
-    // 광고 등록
-    // AdSave: async (name, img, names) => {
-    //   const accessToken = Common.getAccessToken();
-    //   console.log("access : " + accessToken);
-    //   console.log("name : " + name);
-    //   console.log("img : " + img);
-    //   console.log("names : " + names);
-  
-    //   const category = {
-    //     name: name,
-    //     image: img,
-    //     names: names,
-    //   };
-    //   return await axios.post(KH_DOMAIN + "/ad/add", category, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + accessToken,
-    //     },
-    //   });
-    // },
-    // 광고 조회
-    // AdList: async () => {
-    //   const accessToken = Common.getAccessToken();
-    //   return await axios.get(KH_DOMAIN + "/ad/list", {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + accessToken,
-    //     },
-    //   });             
-    // },
 
   // 게시글 페이지네이션 조회
   boardPageList: async (page, size) => {
@@ -131,7 +159,7 @@ const AdminAxiosApi =  {
       console.log('활성화 비활성화, id : ', id, state);
       const data = {
         categoryId: id,
-        isActive: state,
+        active: state,
       };
         return await axios.put(KH_DOMAIN + `/category/state`,data, {
           headers: {
@@ -140,19 +168,6 @@ const AdminAxiosApi =  {
           },
         });
     },
-
-  // 회원 활성화 바활성화 처리(get)
-
-   // 회원 활성화 비활성화(post)
-
-  // 채팅 활성화 바활성화 처리
-
-   // 채팅 활성화 비활성화(post)
-
-  // 광고 활성화 바활성화 처리
-
-   // 광고 활성화 비활성화(post)
-
 
 };
 

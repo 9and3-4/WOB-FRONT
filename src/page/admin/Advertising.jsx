@@ -192,7 +192,7 @@ const Buttons = styled.button`
 const Advertising = () => {
 
   // 맵 돌릴 리스트
-  const [boardList, setBoardList] = useState([]); // 광고내용으로 바꾸기
+  const [adSave, setAdSave] = useState([]); // 광고내용으로 바꾸기
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedId, setSelectedId] = useState(null); 
@@ -245,16 +245,16 @@ const Advertising = () => {
 
       // 게시판 목록 (페이지나누기) -(boardList 광고내용으로바꾸기)
       useEffect(() => {
-        const boardList = async () => {
+        const adList = async () => {
           try {
             const res = await AdminAxiosApi.boardPageList(currentPage, 5);
             console.log(res.data);
-            setBoardList(res.data);
+            setAdSave(res.data);
           } catch (error) {
             console.log(error);
           }
         };
-        boardList();
+        adList();
       }, [currentPage]);
 
     // 페이지 이동
@@ -291,20 +291,20 @@ const Advertising = () => {
   // 게시판 목록 useEffect(광고내용으로 바꾸기)
   useEffect(() => {
     const accessToken = Common.getAccessToken();
-    const getBoardList = async() => {
+    const getAdSave = async() => {
       try {
-        const rsp = await AdminAxiosApi.boardList();
+        const rsp = await AdminAxiosApi.adSave();
         console.log("데이터 정보 : ",rsp);
-        setBoardList(rsp.data);
+        setAdSave(rsp.data);
       }catch (e) {
         if (e.response.status === 401) {
           console.log("결과가 잘 찍히지 않아요")
           await Common.handleUnauthorized();
           const newToken = Common.getAccessToken();
           if (newToken !== accessToken) {
-            const rsp = await AdminAxiosApi.boardList();
+            const rsp = await AdminAxiosApi.adSave();
             console.log(rsp.data);
-            setBoardList(rsp.data);
+            setAdSave(rsp.data);
           }
         }
         else {
@@ -312,7 +312,7 @@ const Advertising = () => {
         }
       }
     };
-    getBoardList();
+    getAdSave();
   }, []);
  
   return (
@@ -338,11 +338,11 @@ const Advertising = () => {
         </table>
 
         <BoardLists>
-        {boardList && 
-          boardList.map((data, index) => (
+        {adSave && 
+          adSave.map((data, index) => (
             <TableRow
-            key={data.categoryId}
-            onClick={() => handleRowClick(data.categoryId)}
+            key={data.Id}
+            onClick={() => handleRowClick(data.Id)}
             onMouseEnter={() => handleRowMouseEnter(index)}
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
@@ -353,9 +353,9 @@ const Advertising = () => {
             {/* 광고내용으로 바꾸기 */}
             <ul className="data" key={index} > 
               <li><p>{index + num}</p></li>
-              <li><p>{data.email}</p></li>
-              <li><p>{data.nickName}</p></li> 
-              <li><p>{data.regDate}</p></li>
+              <li><p>{data.title}</p></li>
+              <li><p>{data.image}</p></li> 
+              <li><p>{data.content}</p></li>
               <li><button>활성화/비활성화</button></li>
             </ul>
             </TableRow>
@@ -385,7 +385,6 @@ const Advertising = () => {
         </BoardLists>
 
         <Buttons>
-          <button onClick={() => handleClick("/Advertisings")}>등록하기</button>
           <button onClick={() => handleClick("/AdminMain")}>메인으로가기</button>
         </Buttons>
         {/* 햄버거 토글 사이드바 */}

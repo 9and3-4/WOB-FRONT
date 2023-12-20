@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../utils/Modal";
 
-
 // 전체 큰 틀css
 const BoardContainer = styled.div`
     max-width: 768px;
@@ -141,7 +140,7 @@ const Buttons = styled.button`
     }
     cursor: pointer;
   `;
-    // 모당 버튼 큰 틀
+    // 모달 버튼 큰 틀
     const ModalButtonContainer = styled.div`
       display: flex;
       justify-content: center;
@@ -192,10 +191,10 @@ const Buttons = styled.button`
 const AllMemberInfo = () => {
 
   // 맵 돌릴 리스트
-  const [userGet, setUserGet] = useState([]); // 회원내용으로 바꾸기
+  const [userGet, setUserGet] = useState([]); // 회원리스트
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const [selectedId, setSelectedId] = useState(null); 
+  const [selectId, setSelectId] = useState(null); 
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [num, setNum] = useState(0); // 인덱스 번호
@@ -213,7 +212,7 @@ const AllMemberInfo = () => {
   };
   // 행 하나 클릭 시 카테고리 아이디값 받아옴
   const handleRowClick = (id) => {
-    setSelectedId(id);
+    setSelectId(id);
     setIsModalOpen(true);
   };
   // 행 하나 눌렀을 때 
@@ -227,14 +226,14 @@ const AllMemberInfo = () => {
   // 활성화 비활성화 모달 닫음
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedId(null);
+    setSelectId(null);
   };
 
     // 총 페이지 수 계산
     useEffect(() => {
       const totalPage = async () => {
         try {
-          const res = await AdminAxiosApi.boardPageCount(0, 5);
+          const res = await AdminAxiosApi.userPageCount(0, 5);
           setTotalPage(res.data);
         } catch (error) {
           console.log(error);
@@ -247,7 +246,7 @@ const AllMemberInfo = () => {
       useEffect(() => {
         const userGet = async () => {
           try {
-            const res = await AdminAxiosApi.boardPageList(currentPage, 5);
+            const res = await AdminAxiosApi.userPageList(currentPage, 5);
             console.log(res.data);
             setUserGet(res.data);
           } catch (error) {
@@ -278,13 +277,13 @@ const AllMemberInfo = () => {
       );
     };
 
-  // 게시글 활성화 또는 비활성화 요청 보내기(회원내용으로 바꾸기)
-  const categoryListState = async (selectedId, state) => {
-    await AdminAxiosApi.categoryListState(selectedId, state);
-    console.log("state, seletedId : " + state, selectedId);
+  // 게시글 활성화 또는 비활성화 요청 보내기(회원내용)
+  const userListState = async (selectId, state) => {
+    await AdminAxiosApi.userListState(selectId, state);
+    console.log("selectId, state : " + selectId,state);
 
     // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
-    setSelectedId(null); 
+    setSelectId(null); 
     setIsModalOpen(false);
   };
 
@@ -293,10 +292,9 @@ const AllMemberInfo = () => {
     const accessToken = Common.getAccessToken();
     const getUserGet = async() => {
       try {
-        const rsp = await AdminAxiosApi.userGet(localStorage.email);
-        console.log("userGet데이터 정보 : ",localStorage.email);
-        console.log("userGet데이터 정보 : ", rsp.data);
+        const rsp = await AdminAxiosApi.userGet();
         setUserGet(rsp.data);
+        console.log("userGet데이터 정보 : ", rsp.data);
       }catch (e) {
         if (e.response.status === 401) {
           console.log("결과가 잘 찍히지 않아요")
@@ -333,7 +331,6 @@ const AllMemberInfo = () => {
             <tr>번호</tr>
             <tr>이메일</tr>
             <tr>닉네임</tr>
-            <tr>가입일자</tr>
             <tr>활성화/비활성화</tr>
           </th>
         </table>
@@ -342,20 +339,19 @@ const AllMemberInfo = () => {
         {userGet && 
           userGet.map((data, index) => (
             <TableRow
-            key={data.categoryId}
-            onClick={() => handleRowClick(data.categoryId)}
+            key={data.id} // 고유한 키 생성
+            onClick={() => handleRowClick(data.id)}
             onMouseEnter={() => handleRowMouseEnter(index)}
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
-            isActive={data.isActive} // 추가된 부분: isActive props 전달
-            className={data.isActive} // css에서 색 3가지 중 하나 선택해 색 바꿈
+            active={data.active} // 추가된 부분: isActive props 전달
+            className={data.active} // css에서 색 3가지 중 하나 선택해 색 바꿈
           >
 
             <ul className="data" key={index} >
               <li><p>{index + num}</p></li>
-              <li><p>{userGet.email}</p></li>
-              <li><p>{userGet.nickName}</p></li> 
-              <li><p>{userGet.regDate}</p></li>
+              <li><p>{data.email}</p></li>
+              <li><p>{data.nickname}</p></li> 
               <li><button>활성화/비활성화</button></li>
             </ul>
             </TableRow>
@@ -366,16 +362,16 @@ const AllMemberInfo = () => {
           <Modal
             open={isModalOpen}
             close={closeModal}
-            header={`화원 아이디 : ${selectedId}`}
+            header={`회원 아이디 : ${selectId}`}
           >
             <ModalButtonContainer>
-              <ModalButton onClick={() => categoryListState(selectedId,"active")}>
+              <ModalButton onClick={() => userListState(selectId,"active")}>
                 활동회원
               </ModalButton>
-              <ModalButton onClick={() => categoryListState(selectedId, "inactive")}>
+              <ModalButton onClick={() => userListState(selectId, "inactive")}>
                 휴먼회원
               </ModalButton>
-              <ModalButton onClick={() => categoryListState(selectedId, "quit")}>
+              <ModalButton onClick={() => userListState(selectId, "quit")}>
                 탈퇴회원
               </ModalButton>
             </ModalButtonContainer>
