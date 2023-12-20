@@ -10,6 +10,7 @@ const WhiteBoard = styled.div`
   bottom: 0;
   transition: transform 0.5s ease-in-out;
   transform: translateY(${(props) => (props.show ? "0" : "100%")});
+  overflow: hidden;
 `;
 
 export { WhiteBoard };

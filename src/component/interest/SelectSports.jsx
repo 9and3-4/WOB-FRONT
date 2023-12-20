@@ -16,7 +16,7 @@ const SportsGird = styled.div`
   padding: 40px;
 `;
 
-const SelectSports = ({ options, min, max, title, text }) => {
+const SelectSports = ({ options, min, max, title, text, onComplete }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [value, setValue] = useState("");
   const minSelection = min; // 최소 선택 할 수 있는 개수
@@ -46,7 +46,11 @@ const SelectSports = ({ options, min, max, title, text }) => {
     const itemsWithInput = value ? [...selectedItems, value] : selectedItems;
 
     if (LoginPageAxiosApi.interestSprots(itemsWithInput)) {
+      console.log(itemsWithInput);
       console.log("interestSprots 등록 완료");
+    }
+    if (onComplete) {
+      onComplete(); // 완료 콜백 호출
     }
   };
 
