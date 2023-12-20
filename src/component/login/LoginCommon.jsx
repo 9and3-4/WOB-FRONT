@@ -23,6 +23,13 @@ const GreenButton = styled.button`
   padding: 10px;
   width: 250px;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  ${(props) =>
+    !props.disabled &&
+    `
+    &:hover {
+      cursor: pointer;
+    }
+  `}
 `;
 
 const BlackButton = styled.button`
@@ -34,5 +41,8 @@ const BlackButton = styled.button`
   border-radius: 30px;
   padding: 10px;
   width: 120px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export { InputBar, AuthInputBar, GreenButton, BlackButton };

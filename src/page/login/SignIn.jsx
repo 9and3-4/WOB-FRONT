@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { InputBar, GreenButton, BlackButton } from "./LoginCommon";
+import {
+  InputBar,
+  GreenButton,
+  BlackButton,
+} from "../../component/login/LoginCommon";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -48,6 +52,11 @@ const RowAlignBox = styled.div`
 
 const Logo = styled.img`
   width: 200px;
+  &:hover {
+    cursor: pointer;
+    background-color: #dfede9;
+    border-radius: 25%;
+  }
 `;
 const OauthLogo = styled.img`
   width: 40px;

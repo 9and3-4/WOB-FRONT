@@ -34,6 +34,8 @@ import Questions from "./page/Setting/Questions";
 import PasswordChange from "./page/Setting/PasswordChange";
 import Withdrawal from "./page/Setting/Withdrawal";
 import AskContents from "./page/admin/AskContents";
+import SignIn from "./page/login/SignIn";
+import SignUp from "./page/login/SignUp";
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<TestLoginPage />} />
           <Route path="/interestenter" element={<InterestEnter />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
@@ -96,4 +100,3 @@ function App() {
 }
 
 export default App;
-

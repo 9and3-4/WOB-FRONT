@@ -16,6 +16,11 @@ const LoginPageAxiosApi = {
     return await axios.post(KH_DOMAIN + "/sign-up", params);
   },
 
+  userNickNameCheck: async (props) => {
+    const { nickname } = props;
+    return await axios.get(`${KH_DOMAIN}/check-nickname?nickName=${nickname}`);
+  },
+
   userLogin: async (props) => {
     const params = {
       email: props.email,
@@ -33,6 +38,21 @@ const LoginPageAxiosApi = {
         Authorization: "Bearer " + accessToken,
       },
     });
+  },
+
+  mailConfirm: async (props) => {
+    const params = {
+      email: props.email,
+    };
+    return await axios.post(KH_DOMAIN + "/login/mailConfirm", params);
+  },
+
+  mailVerify: async (props) => {
+    const params = {
+      email: props.email,
+      code: props.code,
+    };
+    return await axios.post(KH_DOMAIN + "/login/mailVerify", params);
   },
 
   interestSprots: async (props) => {
