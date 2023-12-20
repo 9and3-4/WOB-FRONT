@@ -169,6 +169,75 @@ const AdminAxiosApi =  {
         });
     },
 
+      //광고 전체 조회
+      adList: async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(KH_DOMAIN + `/ad/list`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        });
+      },
+
+     // 광고 페이지네이션 조회
+     adPageList: async (page, size) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.get(
+        KH_DOMAIN + `/ad/list/page?page=${page}&size=${size}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+    },
+  
+    // 광고 페이지 수 조회
+    adPageCount: async (page,size) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.get(
+        KH_DOMAIN + `/ad/count`, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+    },
+  
+    // 광고 활성화 바활성화 처리(get)
+      adInfoGet : async () => {
+        const accessToken = Common.getAccessToken();
+        return await axios.get(
+          KH_DOMAIN + `/ad/allList`,
+          {
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+        );
+      },
+  
+      // 광고 활성화 비활성화(post)
+      adListState: async (id, state) => {
+        const accessToken = Common.getAccessToken();
+        console.log('활성화 비활성화, id : ', id, state);
+        const data = {
+          id: id,
+          active: state,
+        };
+          return await axios.put(KH_DOMAIN + `/ad/state`,data, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + accessToken,
+            },
+          });
+      },
+
 };
 
 export default AdminAxiosApi;

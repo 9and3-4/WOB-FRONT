@@ -42,7 +42,7 @@ const BoardContainer = styled.div`
         line-height: 30px;
         justify-content: space-between;
         height: 70px;
-        padding: 20px 42px;
+        padding: 20px 20px;
       }
     }
 
@@ -81,11 +81,10 @@ const BoardLists = styled.div`
       background-color: #04BF8A;
     }
     
-    li {
+    tr {
       width: 100px;
       height: 100px;
       overflow: hidden;
-      margin-bottom: 10px;
     }
     // 번호, 종목 
     p {
@@ -192,7 +191,7 @@ const Buttons = styled.button`
 const Advertising = () => {
 
   // 맵 돌릴 리스트
-  const [adSave, setAdSave] = useState([]); // 광고내용으로 바꾸기
+  const [adList, setAdList] = useState([]); // 광고내용으로 바꾸기
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedId, setSelectedId] = useState(null); 
@@ -234,7 +233,7 @@ const Advertising = () => {
     useEffect(() => {
       const totalPage = async () => {
         try {
-          const res = await AdminAxiosApi.boardPageCount(0, 5);
+          const res = await AdminAxiosApi.adPageCount(0, 5);
           setTotalPage(res.data);
         } catch (error) {
           console.log(error);
@@ -247,9 +246,9 @@ const Advertising = () => {
       useEffect(() => {
         const adList = async () => {
           try {
-            const res = await AdminAxiosApi.boardPageList(currentPage, 5);
+            const res = await AdminAxiosApi.adPageList(currentPage, 5);
             console.log(res.data);
-            setAdSave(res.data);
+            setAdList(res.data);
           } catch (error) {
             console.log(error);
           }
@@ -279,8 +278,8 @@ const Advertising = () => {
     };
 
   // 게시글 활성화 또는 비활성화 요청 보내기(광고내용으로 바꾸기)
-  const categoryListState = async (selectedId, state) => {
-    await AdminAxiosApi.categoryListState(selectedId, state);
+  const adListState = async (selectedId, state) => {
+    await AdminAxiosApi.adListState(selectedId, state);
     console.log("state, seletedId : " + state, selectedId);
 
     // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
@@ -291,20 +290,20 @@ const Advertising = () => {
   // 게시판 목록 useEffect(광고내용으로 바꾸기)
   useEffect(() => {
     const accessToken = Common.getAccessToken();
-    const getAdSave = async() => {
+    const getAdList = async() => {
       try {
-        const rsp = await AdminAxiosApi.adSave();
+        const rsp = await AdminAxiosApi.adList();
         console.log("데이터 정보 : ",rsp);
-        setAdSave(rsp.data);
+        setAdList(rsp.data);
       }catch (e) {
         if (e.response.status === 401) {
           console.log("결과가 잘 찍히지 않아요")
           await Common.handleUnauthorized();
           const newToken = Common.getAccessToken();
           if (newToken !== accessToken) {
-            const rsp = await AdminAxiosApi.adSave();
+            const rsp = await AdminAxiosApi.adList();
             console.log(rsp.data);
-            setAdSave(rsp.data);
+            setAdList(rsp.data);
           }
         }
         else {
@@ -312,7 +311,7 @@ const Advertising = () => {
         }
       }
     };
-    getAdSave();
+    getAdList();
   }, []);
  
   return (
@@ -330,34 +329,40 @@ const Advertising = () => {
         <table className="list">
           <th>
             <tr>번호</tr>
-            <tr>광고이름</tr>
-            <tr>광고이미지</tr>
-            <tr>광고내용</tr>
+            <tr>광고제목</tr>
+            <tr>광고종목</tr>
+            <tr>이미지</tr>
+            <tr>비용</tr>
+            <tr>게시기간</tr>
+            <tr>작성일자</tr>
             <tr>활성화/비활성화</tr>
           </th>
         </table>
 
         <BoardLists>
-        {adSave && 
-          adSave.map((data, index) => (
+        {adList && 
+          adList.map((data, index) => (
             <TableRow
-            key={data.Id}
-            onClick={() => handleRowClick(data.Id)}
+            key={data.id}
+            onClick={() => handleRowClick(data.id)}
             onMouseEnter={() => handleRowMouseEnter(index)}
             onMouseLeave={handleRowMouseLeave}
             isHovered={hoveredRow === index}
-            isActive={data.isActive} // 추가된 부분: isActive props 전달
-            className={data.isActive} // css에서 색 3가지 중 하나 선택해 색 바꿈
+            active={data.active} // 추가된 부분: isActive props 전달
+            className={data.active} // css에서 색 3가지 중 하나 선택해 색 바꿈
           >
 
             {/* 광고내용으로 바꾸기 */}
-            <ul className="data" key={index} > 
-              <li><p>{index + num}</p></li>
-              <li><p>{data.title}</p></li>
-              <li><p>{data.image}</p></li> 
-              <li><p>{data.content}</p></li>
-              <li><button>활성화/비활성화</button></li>
-            </ul>
+            <th className="data" key={index} > 
+              <tr><p>{index + num}</p></tr>
+              <tr><p>{data.title}</p></tr>
+              <tr><p>{data.name}</p></tr> 
+              <tr><img src={data.image} alt="광고이미지" /></tr>
+              <tr><p>{data.fee}</p></tr> 
+              <tr><p>{data.period}</p></tr> 
+              <tr><p>{data.regDate}</p></tr> 
+              <tr><button>활성화/비활성화</button></tr>
+            </th>
             </TableRow>
           ))}
           {renderPagination()}
@@ -369,13 +374,13 @@ const Advertising = () => {
             header={`광고 번호 : ${selectedId}`}
           >
             <ModalButtonContainer>
-              <ModalButton onClick={() => categoryListState(selectedId,"active")}>
+              <ModalButton onClick={() => adListState(selectedId,"active")}>
                 활동광고
               </ModalButton>
-              <ModalButton onClick={() => categoryListState(selectedId, "inactive")}>
+              <ModalButton onClick={() => adListState(selectedId, "inactive")}>
                 임박광고
               </ModalButton>
-              <ModalButton onClick={() => categoryListState(selectedId, "quit")}>
+              <ModalButton onClick={() => adListState(selectedId, "quit")}>
                 지난광고
               </ModalButton>
             </ModalButtonContainer>
