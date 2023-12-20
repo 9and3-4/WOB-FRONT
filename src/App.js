@@ -20,7 +20,6 @@ import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
 import StockRatioByRegion from "./page/admin/StockRatioByRegion";
 import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
-import AllPaymentGraph from "./page/admin/AllPaymentGraph";
 import AdminChat from "./page/admin/AdminChat";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
@@ -79,7 +78,6 @@ function App() {
           {/* 전체 결제 내역 관리 */}
           <Route path="/AllPaymentContent" element={<AllPaymentContent />} />
           <Route path="/AllPaymentList" element={<AllPaymentList />} />
-          <Route path="/AllPaymentGraph" element={<AllPaymentGraph />} />
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
           <Route path="/AdminChat" element={<AdminChat />} />

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Layout from "../../component/admin/Layout";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
+import RegionEvents from "../../component/admin/MixBarChart";
 
 const Container = styled.div`
   max-width: 768px;
@@ -32,6 +33,7 @@ const StockRatioByRegion = () => {
                 <FullLogoBth />
                 <span>지역별 종목 비율</span>
             </div>
+            <RegionEvents />
         <Layout />
         </Container>
     )

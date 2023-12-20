@@ -1,177 +1,104 @@
-// // 방문자 현황(인구통계시각화자료)
-// import React, { useState, useEffect } from "react";
-// import { Bar } from "react-chartjs-2";
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-// } from "chart.js";
-// import AxiosApi from "../../api/AxiosApi";
-// import styled from "styled-components";
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   margin-bottom: 30px;
-//   background-color: #fff;
-//   min-width: 500px;
-//   max-width: 900px;
-//   padding: 20px;
-//   border-radius: 10px;
-//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-//   margin: 30px auto;
-// `;
+// 방문자 현황 차트
+import React, { PureComponent } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import styled from 'styled-components';
 
-// const InputContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 10px; // 버튼 사이의 간격
-// `;
+const data = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 
-// const Input = styled.input`
-//   padding: 10px;
-//   margin: 10px 0;
-//   border: 1px solid #ddd;
-//   border-radius: 4px;
-//   width: 300px;
-//   font-size: 16px;
-// `;
+const Chart = styled.div`
+    width: 800px;
+    height: 800px;
+`;
 
-// const Button = styled.button`
-//   padding: 0px 20px;
-//   margin: 5px;
-//   border: none;
-//   border-radius: 4px;
-//   background-color: #4caf50;
-//   color: white;
-//   cursor: pointer;
-//   font-size: 16px;
+const CustomizedDot = (props) => {
+  const { cx, cy, stroke, payload, value } = props;
 
-//   &:hover {
-//     background-color: #45a049;
-//   }
-// `;
+  if (value > 2500) {
+    return (
+      <svg x={cx - 10} y={cy - 10} width={20} height={20} fill="red" viewBox="0 0 1024 1024">
+        <path d="M512 1009.984c-274.912 0-497.76-222.848-497.76-497.76s222.848-497.76 497.76-497.76c274.912 0 497.76 222.848 497.76 497.76s-222.848 497.76-497.76 497.76zM340.768 295.936c-39.488 0-71.52 32.8-71.52 73.248s32.032 73.248 71.52 73.248c39.488 0 71.52-32.8 71.52-73.248s-32.032-73.248-71.52-73.248zM686.176 296.704c-39.488 0-71.52 32.8-71.52 73.248s32.032 73.248 71.52 73.248c39.488 0 71.52-32.8 71.52-73.248s-32.032-73.248-71.52-73.248zM772.928 555.392c-18.752-8.864-40.928-0.576-49.632 18.528-40.224 88.576-120.256 143.552-208.832 143.552-85.952 0-164.864-52.64-205.952-137.376-9.184-18.912-31.648-26.592-50.08-17.28-18.464 9.408-21.216 21.472-15.936 32.64 52.8 111.424 155.232 186.784 269.76 186.784 117.984 0 217.12-70.944 269.76-186.784 8.672-19.136 9.568-31.2-9.12-40.096z" />
+      </svg>
+    );
+  }
 
-// // Register the components you need
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend
-// );
+  return (
+    <svg x={cx - 10} y={cy - 10} width={20} height={20} fill="green" viewBox="0 0 1024 1024">
+      <path d="M517.12 53.248q95.232 0 179.2 36.352t145.92 98.304 98.304 145.92 36.352 179.2-36.352 179.2-98.304 145.92-145.92 98.304-179.2 36.352-179.2-36.352-145.92-98.304-98.304-145.92-36.352-179.2 36.352-179.2 98.304-145.92 145.92-98.304 179.2-36.352zM663.552 261.12q-15.36 0-28.16 6.656t-23.04 18.432-15.872 27.648-5.632 33.28q0 35.84 21.504 61.44t51.2 25.6 51.2-25.6 21.504-61.44q0-17.408-5.632-33.28t-15.872-27.648-23.04-18.432-28.16-6.656zM373.76 261.12q-29.696 0-50.688 25.088t-20.992 60.928 20.992 61.44 50.688 25.6 50.176-25.6 20.48-61.44-20.48-60.928-50.176-25.088zM520.192 602.112q-51.2 0-97.28 9.728t-82.944 27.648-62.464 41.472-35.84 51.2q-1.024 1.024-1.024 2.048-1.024 3.072-1.024 8.704t2.56 11.776 7.168 11.264 12.8 6.144q25.6-27.648 62.464-50.176 31.744-19.456 79.36-35.328t114.176-15.872q67.584 0 116.736 15.872t81.92 35.328q37.888 22.528 63.488 50.176 17.408-5.12 19.968-18.944t0.512-18.944-3.072-7.168-1.024-3.072q-26.624-55.296-100.352-88.576t-176.128-33.28z" />
+    </svg>
+  );
+};
 
-// const VisitStateChat = () => {
-//   // 차트 데이터
-//   const [chartData, setChartData] = useState({
-//     labels: [],
-//     datasets: [],
-//   });
-//   // 지역명
-//   const [region, setRegion] = useState("신도림");
+export default class VisitStateChat extends PureComponent {
+  static demoUrl = 'https://codesandbox.io/s/line-chart-with-customized-dot-7on4t';
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const rsp = await AxiosApi.genderChart(region);
-//         if (rsp.status === 200) {
-//           setChartData({
-//             labels: Array.from(
-//               { length: rsp.data.female.length },
-//               (_, i) => i + 1
-//             ),
-//             datasets: [
-//               {
-//                 label: "여성",
-//                 data: rsp.data.female,
-//                 backgroundColor: "rgba(255, 99, 132, 0.8)",
-//                 borderColor: "rgba(255, 99, 132, 1)",
-//                 borderWidth: 1,
-//               },
-//               {
-//                 label: "남성",
-//                 data: rsp.data.male,
-//                 backgroundColor: "rgba(54, 162, 235, 0.8)",
-//                 borderColor: "rgba(54, 162, 235, 1)",
-//                 borderWidth: 1,
-//               },
-//             ],
-//           });
-//         }
-//       } catch (e) {
-//         console.log(e);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-//   const options = {
-//     responsive: true,
-//     scales: {
-//       x: {
-//         type: "category",
-//       },
-//       y: {
-//         type: "linear",
-//       },
-//     },
-//   };
-
-//   const handleRegionChange = (e) => {
-//     setRegion(e.target.value); // 지역명 상태 업데이트 함수
-//   };
-//   const handleRegionClick = async () => {
-//     try {
-//       const rsp = await AxiosApi.genderChart(region);
-//       if (rsp.status === 200) {
-//         setChartData({
-//           labels: Array.from(
-//             { length: rsp.data.female.length },
-//             (_, i) => i + 1
-//           ),
-//           datasets: [
-//             {
-//               label: "여성",
-//               data: rsp.data.female,
-//               backgroundColor: "rgba(255, 99, 132, 0.6)",
-//               borderColor: "rgba(255, 99, 132, 1)",
-//               borderWidth: 1,
-//             },
-//             {
-//               label: "남성",
-//               data: rsp.data.male,
-//               backgroundColor: "rgba(54, 162, 235, 0.6)",
-//               borderColor: "rgba(54, 162, 235, 1)",
-//               borderWidth: 1,
-//             },
-//           ],
-//         });
-//       }
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   };
-
-//   return (
-//     <Container>
-//       <InputContainer>
-//         <Input
-//           type="text"
-//           value={region}
-//           onChange={handleRegionChange}
-//           placeholder="지역명 입력"
-//         />
-//         <Button onClick={handleRegionClick}>조회</Button>
-//       </InputContainer>
-//       <h2>{region} 지역의 남여 성별 인구 분포(2019년 기준)</h2>
-//       <Bar data={chartData} options={options} />
-//     </Container>
-//   );
-// };
-
-// export default VisitStateChat;
+  render() {
+    return (
+        <Chart>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" dot={<CustomizedDot />} />
+          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+        </LineChart>
+      </ResponsiveContainer>
+      </Chart>
+    );
+  }
+}

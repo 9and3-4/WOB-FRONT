@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Layout from "../../component/admin/Layout";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
+import KeywordSearch from "../../component/admin/PieChartWithCustomizedLabel";
 
 const Container = styled.div`
   max-width: 768px;
@@ -32,7 +33,7 @@ const SearchKeyword = () => {
                 <FullLogoBth />
                 <span>검색키워드 높은 순</span>
             </div>
-
+            <KeywordSearch />
         <Layout />
         </Container>
     )

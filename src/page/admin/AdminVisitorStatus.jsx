@@ -4,8 +4,8 @@ import styled from "styled-components";
 import Layout from "../../component/admin/Layout";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import SubHeader from "../../layout/SubHeader";
-// import VisitStateChat from "../../component/admin/VisitStateChat";
-// import PieChart from "../../component/admin/PieChar";
+import VisitStateChat from "../../component/admin/VisitStateChat";
+
 
 const Container = styled.div`
   max-width: 768px;
@@ -33,10 +33,8 @@ const AdminVisitorStatus = () => {
             <div className="Logo">
                 <FullLogoBth />
                 <span>방문자 현황</span>
-                {/* <VisitStateChat />
-                <PieChart /> */}
             </div>
-  
+            <VisitStateChat/>
         <Layout />
         </Container>
     )
