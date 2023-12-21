@@ -36,6 +36,7 @@ import AskContents from "./page/admin/AskContents";
 import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
+import Chatting from "./page/Setting/Chatting";
 
 function App() {
   return (
@@ -86,7 +87,7 @@ function App() {
           <Route element={<SettingLayout />}>
             <Route path="/Setting" element={<Setting />} />
             <Route path="/Account" element={<Account />} />
-            <Route path="/PaymentDetails:roomId" element={<PaymentDatails />} />
+            <Route path="/PaymentDetails" element={<PaymentDatails />} />
             <Route path="/Policy" element={<Policy />} />
             <Route path="/Questions" element={<Questions />} />
             <Route path="/PasswordChange" element={<PasswordChange />} />
@@ -94,6 +95,7 @@ function App() {
             {/* 주소Api */}
             <Route path="/Address" element={<Address />} />
           </Route>
+          <Route path="/Chatting/:roomId" element={<Chatting />} />
         </Routes>
       </Router>
     </>

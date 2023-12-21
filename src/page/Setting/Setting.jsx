@@ -40,41 +40,37 @@ const SettingBtn = styled.button`
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState();
 
   // 채팅방 생성
   const handleCreateChatRoom = async (title) => {
     // 1. 해당 게시글의 roomId 값 조회
-    const rsp = await SettingAxiosApi.postListById(1); // postId 값 전달
+    const rsp = await SettingAxiosApi.postListById(7); // postId 값 전달
     console.log("해당 게시글의 roomId 조회 : " + rsp.data.roomId);
-
+    setRoomId(rsp.data.roomId);
+    console.log("setRoomId : " + roomId);
     // 2. 해당 게시글의 roomId가 공백이면 ( 첫 채팅방 생성 ) 채팅방 생성하기.
-    if (rsp.data.roomId == null) {
+    if (rsp.data.roomId === null) {
       const accessToken = Common.getAccessToken();
       try {
         // 채팅방 제목 전달하여 roomId 받아오기
-        const response = await SettingAxiosApi.chatCreate(title);
-        setRoomId(response.data);
-        console.log(response.data);
-        // 해당 유저의 채팅방 입장 기록을
-        navigate(`/PaymentDetails/${response.data}`);
+        const response = await SettingAxiosApi.chatCreate(title, 7);
+        const req = await SettingAxiosApi.postAddRoomId(7, response.data);
+        console.log("rsq.data : ", req.data);
+        navigate(`/Chatting/${response.data}`);
       } catch (e) {
         if (e.response.status === 401) {
           await Common.handleUnauthorized();
           const newToken = Common.getAccessToken();
           if (newToken !== accessToken) {
             const response = await SettingAxiosApi.chatCreate(title);
-            setRoomId(response.data);
-            console.log(response.data);
-            navigate(`/PaymentDetails/${response.data}`);
+            navigate(`/Chatting/${response.data}`);
           }
         }
       }
-      const req = await SettingAxiosApi.postAddRoomId(1, roomId);
-      console.log("rsq.data : ", req.data);
     } else {
       // 만약 이미 채팅방이 생성되어 있다면, 새로 생성하지 않고 채팅방 입장.
-      navigate(`/PaymentDetails/${rsp.data.roomId}`);
+      navigate(`/Chatting/${rsp.data.roomId}`);
     }
   };
 

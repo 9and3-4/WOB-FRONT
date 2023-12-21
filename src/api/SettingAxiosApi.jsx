@@ -50,7 +50,7 @@ const SettingAxiosApi = {
   // 채팅방 목록 보기
   chatList: async () => {
     const accessToken = Common.getAccessToken();
-    return await axios.get(Common.KH_DOMAIN + "/chat/list", {
+    return await axios.get(KH_DOMAIN + "/chat/list", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
@@ -60,7 +60,8 @@ const SettingAxiosApi = {
   // 채팅방 정보 보기
   chatDetail: async (roomId) => {
     const accessToken = Common.getAccessToken();
-    return await axios.get(Common.KH_DOMAIN + `/chat/room/${roomId}`, {
+    console.log("roomId : " + roomId);
+    return await axios.get(KH_DOMAIN + `/chat/room/${roomId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
@@ -68,10 +69,11 @@ const SettingAxiosApi = {
     });
   },
   // 채팅방 생성
-  chatCreate: async (name) => {
+  chatCreate: async (name, postId) => {
     const accessToken = Common.getAccessToken();
     const chat = {
       name: name,
+      postId: postId,
     };
     return await axios.post(KH_DOMAIN + "/chat/new", chat, {
       headers: {
@@ -84,7 +86,7 @@ const SettingAxiosApi = {
   // 이전 채팅 가져오기
   recentChatLoad: async (roomId) => {
     const accessToken = Common.getAccessToken();
-    return await axios.get(Common.KH_DOMAIN + `/chat/message/${roomId}`, {
+    return await axios.get(KH_DOMAIN + `/chat/message/${roomId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
