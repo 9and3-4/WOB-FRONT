@@ -95,7 +95,7 @@ const PostTopBar = ({ onAreaSelect }) => {
     setDropdownVisible(!dropdownVisible);
   };
   // 체크박스 상태 변경 시 호출되는 함수
-  const handleFilterChange = (selected) => {
+  const handleFilterChange = async (selected) => {
     // 선택된 지역이 이미 목록에 있는지 확인
     const alreadyselected = selectedArea.includes(selected);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SubHeader from "../layout/SubHeader";
@@ -165,6 +165,33 @@ const FixedText = styled.span`
   transition: opacity 0.2s ease; /* 부드러운 투명도 변화를 위한 트랜지션 설정 */
 `;
 
+const StyledSelect = styled.select`
+  margin: 0 50px;
+  width: 100%;
+  height: auto;
+  line-height: normal;
+  padding: 1em;
+  border: 1px solid gray;
+  border-radius: 18px;
+  outline-style: none;
+  margin-bottom: 20px;
+
+  &:hover {
+    border-color: var(--GREEN); // 호버 시 테두리 색상 변경
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #4caf50; // 포커스 시 테두리 색상 변경
+  }
+
+  option {
+    background-color: var(--MINT); /* 옵션 배경 색상 */
+    font-size: 14px; /* 옵션 글꼴 크기 */
+    color: #333; /* 옵션 텍스트 색상 */
+  }
+`;
+
 const PostSubmit = () => {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("normal");
@@ -174,9 +201,11 @@ const PostSubmit = () => {
   };
 
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState([]); // 카테고리 목록
+  const [seletedCategory, setSelectedCategory] = useState(""); // 선택된 카테고리 추가
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [local, setLocal] = useState("");
   const [place, setPlace] = useState("");
   const [cost, setCost] = useState("");
   const [people, setPeople] = useState("");
@@ -186,26 +215,22 @@ const PostSubmit = () => {
   const [advertisement, setAdvertisement] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const CustomInput = ({ value, placeholder, onChange }) => {
-    const [isInputEmpty, setIsInputEmpty] = useState(!value);
-
-    const handleInputChange = (e) => {
-      onChange(e);
-      setIsInputEmpty(!e.target.value);
+  // 카테고리 목록 가져오기
+  useEffect(() => {
+    // 카테고리 목록 가져오는 API 호출
+    const categoryList = async () => {
+      try {
+        const rsp = await PostAxiosApi.categoryList();
+        console.log(rsp.data);
+        setCategory(rsp.data);
+        console.log(category); // 데이터 확인
+      } catch (error) {
+        console.error("error : ", error);
+      }
     };
-
-    return (
-      <InputContainer>
-        <Input
-          type="text"
-          value={value}
-          placeholder={isInputEmpty ? "" : placeholder}
-          onChange={handleInputChange}
-        />
-        <FixedText show={isInputEmpty}>명</FixedText>
-      </InputContainer>
-    );
-  };
+    // 비동기 함수 호출
+    categoryList();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -242,7 +267,8 @@ const PostSubmit = () => {
     // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
     const rsp = await PostAxiosApi.postSubmit({
       title,
-      category,
+      seletedCategory,
+      local,
       place,
       people,
       cost,
@@ -261,7 +287,8 @@ const PostSubmit = () => {
     }
     console.log({
       title,
-      category,
+      seletedCategory,
+      local,
       date: krDate,
       time: krTime,
       place,
@@ -307,13 +334,19 @@ const PostSubmit = () => {
               placeholder="제목"
               onChange={(e) => setTitle(e.target.value)}
             />
-
-            <Input
-              type="text"
-              value={category}
-              placeholder="종목"
-              onChange={(e) => setCategory(e.target.value)}
-            />
+            <StyledSelect
+              value={seletedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="" disabled>
+                종목 선택
+              </option>
+              {category.map((cate) => (
+                <option key={cate.categoryId} value={cate.name}>
+                  {cate.name}
+                </option>
+              ))}
+            </StyledSelect>
             <DateBox>
               <DatePicker
                 className="datedate"
@@ -341,6 +374,13 @@ const PostSubmit = () => {
                 customInput={<StyledInput />}
               />
             </TimeBox>
+
+            <Input
+              type="text"
+              value={local}
+              placeholder="지역구"
+              onChange={(e) => setLocal(e.target.value)}
+            />
 
             <Input
               type="text"

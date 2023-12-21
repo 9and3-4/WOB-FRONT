@@ -57,7 +57,7 @@ const PostList = ({ selectedSports, selectedDate }) => {
               time={post.time}
               place={post.place}
               people={post.people}
-              category={post.category}
+              category={post.categoryName}
             />
           ))}
       </Container>
