@@ -19,22 +19,23 @@ const PostList = ({ selectedDate }) => {
   useEffect(() => {
     const fetchPostList = async () => {
       try {
-        const rsp = await PostAxiosApi.postListAll(localStorage.email);
+        const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
         if (rsp.status === 200) {
           // 전체 게시글 받아온 후 필터링
           const allPosts = rsp.data;
           // 선택 날짜에 따라 필터링
-          const filteredPosts = allPosts.filter((post) =>
-            moment(post.date).isSame(selectedDate, "day")
-          );
+          const filteredPosts = selectedDate
+            ? allPosts.filter((post) =>
+                moment(post.date).isSame(selectedDate, "day")
+              )
+            : allPosts;
           setPostList(filteredPosts);
         }
       } catch (error) {
         console.error("Error fetching post list:", error);
       }
     };
-
     fetchPostList();
   }, [selectedDate]);
 
