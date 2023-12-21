@@ -22,14 +22,17 @@ const PostList = ({ selectedDate }) => {
         const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
         if (rsp.status === 200) {
-          // 전체 게시글 받아온 후 필터링
+          // 전체 게시글 받아온 후 날짜에 따라 정렬
           const allPosts = rsp.data;
+          const sortedPosts = allPosts.sort(
+            (a, b) => moment(b.date).valueOf() - moment(a.date).valueOf()
+          );
           // 선택 날짜에 따라 필터링
           const filteredPosts = selectedDate
             ? allPosts.filter((post) =>
                 moment(post.date).isSame(selectedDate, "day")
               )
-            : allPosts;
+            : sortedPosts;
           setPostList(filteredPosts);
         }
       } catch (error) {
@@ -50,7 +53,7 @@ const PostList = ({ selectedDate }) => {
               title={post.title}
               date={post.date}
               time={post.time}
-              place={post.place}
+              local={post.local}
               people={post.people}
               category={post.categoryName}
             />

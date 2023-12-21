@@ -74,7 +74,7 @@ const Icon = styled(FontAwesomeIcon)`
   margin-right: 8px; /* 아이콘과 텍스트 사이의 간격을 조절 */
 `;
 
-const PostPreview = ({ title, date, time, place, people, category }) => {
+const PostPreview = ({ title, date, time, local, people, category }) => {
   return (
     <>
       <Container>
@@ -87,7 +87,7 @@ const PostPreview = ({ title, date, time, place, people, category }) => {
             <ColumnBox>
               <PlaceBox>
                 <Icon icon={faLocationDot} />
-                {place}
+                {local}
               </PlaceBox>
             </ColumnBox>
             <ColumnBox>

@@ -6,16 +6,20 @@ const PostAxiosApi = {
   // 일정 등록
   postSubmit: async (props) => {
     const token = Common.getAccessToken();
+    const userEmail = localStorage.getItem("email");
+    console.log(props.cost);
+
     const post = {
       title: props.title,
       categoryName: props.seletedCategory,
       local: props.local,
       place: props.place,
       people: props.people,
-      expectationCost: props.cost,
+      fee: props.cost,
       introduction: props.detail,
       date: props.date,
       time: props.time,
+      userEmail: userEmail,
     };
     console.log(
       "일정 등록 : ",
@@ -24,10 +28,11 @@ const PostAxiosApi = {
       post.local,
       post.place,
       post.people,
-      post.cost,
-      post.detail,
+      post.expectationCost,
+      post.introduction,
       post.date,
-      post.time
+      post.time,
+      post.email
     );
     return await axios.post(KH_DOMAIN + "/post/new", post, {
       headers: {

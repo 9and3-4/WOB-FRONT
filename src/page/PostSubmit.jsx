@@ -276,21 +276,15 @@ const PostSubmit = () => {
       date: krDateString,
       time: krTimeString,
     });
+    console.log("categoryname : ", seletedCategory);
+    console.log("Response:", rsp.data);
 
-    console.log("Response:", rsp);
-    if (rsp.status === 200) {
-      alert("등록 요청 완료");
-      navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
-      // navigate("/postlist") 등록 완료 되면 게시글 목록으로 ?
-    } else {
-      alert("등록 실패");
-    }
     console.log({
       title,
       seletedCategory,
       local,
-      date: krDate,
-      time: krTime,
+      date: krDateString,
+      time: krTimeString,
       place,
       cost,
       people,
@@ -299,6 +293,13 @@ const PostSubmit = () => {
       advertisement,
       isModalOpen,
     });
+    if (rsp.data) {
+      alert("등록 요청 완료");
+      navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
+      // navigate("/postlist") 등록 완료 되면 게시글 목록으로 ?
+    } else {
+      alert("등록 실패");
+    }
   };
 
   return (
