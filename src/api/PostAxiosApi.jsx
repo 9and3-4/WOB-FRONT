@@ -20,6 +20,7 @@ const PostAxiosApi = {
       date: props.date,
       time: props.time,
       userEmail: userEmail,
+      type: props.type,
     };
     console.log(
       "일정 등록 : ",
@@ -28,11 +29,12 @@ const PostAxiosApi = {
       post.local,
       post.place,
       post.people,
-      post.expectationCost,
+      post.fee,
       post.introduction,
       post.date,
       post.time,
-      post.email
+      post.email,
+      post.type
     );
     return await axios.post(KH_DOMAIN + "/post/new", post, {
       headers: {

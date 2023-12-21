@@ -5,6 +5,7 @@ import SubHeader from "../layout/SubHeader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PostAxiosApi from "../api/PostAxiosApi";
+import Modal from "../utils/Modal";
 
 const Container = styled.div`
   max-width: 768px;
@@ -151,20 +152,6 @@ const TimeBox = styled.div`
   }
 `;
 
-const InputContainer = styled.div`
-  position: relative;
-`;
-
-const FixedText = styled.span`
-  position: absolute;
-  right: 20px; /* 오른쪽에 위치시킬 거리 조절 */
-  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
-  transform: translateY(-50%); /* 세로 중앙 정렬을 위한 보정 */
-  color: var(--BLACK); /* 텍스트 색상 설정 */
-  opacity: ${(props) => (props.show ? 1 : 1)}; /* 항상 투명도를 1로 유지 */
-  transition: opacity 0.2s ease; /* 부드러운 투명도 변화를 위한 트랜지션 설정 */
-`;
-
 const StyledSelect = styled.select`
   margin: 0 50px;
   width: 100%;
@@ -213,7 +200,7 @@ const PostSubmit = () => {
   // 레슨 일정 등록에 필요한 state 변수들
   const [image, setImage] = useState(null);
   const [advertisement, setAdvertisement] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   // 카테고리 목록 가져오기
   useEffect(() => {
@@ -231,6 +218,35 @@ const PostSubmit = () => {
     // 비동기 함수 호출
     categoryList();
   }, []);
+
+  // 서울에 있는 모든 구를 선택할 수 있는 맵
+  const seoulArea = [
+    "강남구",
+    "강동구",
+    "강북구",
+    "강서구",
+    "관악구",
+    "광진구",
+    "구로구",
+    "금천구",
+    "노원구",
+    "도봉구",
+    "동대문구",
+    "동작구",
+    "마포구",
+    "서대문구",
+    "서초구",
+    "성동구",
+    "성북구",
+    "송파구",
+    "양천구",
+    "영등포구",
+    "용산구",
+    "은평구",
+    "종로구",
+    "중구",
+    "중랑구",
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -264,7 +280,7 @@ const PostSubmit = () => {
       minute: "2-digit",
     });
 
-    // 여기에서 등록된 일정을 서버에 보낼 수 있음 {} 객체 형태로 묶어서 전달
+    // 여기에서 등록된 일정을 서버에 보낼 수 있음 props로 받아 {} 객체 형태로 묶어서 전달
     const rsp = await PostAxiosApi.postSubmit({
       title,
       seletedCategory,
@@ -275,8 +291,9 @@ const PostSubmit = () => {
       detail,
       date: krDateString,
       time: krTimeString,
+      type: selectedOption,
     });
-    console.log("categoryname : ", seletedCategory);
+    console.log("type : ", selectedOption);
     console.log("Response:", rsp.data);
 
     console.log({
@@ -290,16 +307,22 @@ const PostSubmit = () => {
       people,
       detail,
       image,
-      advertisement,
-      isModalOpen,
+      selectedOption,
     });
     if (rsp.data) {
       alert("등록 요청 완료");
       navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
-      // navigate("/postlist") 등록 완료 되면 게시글 목록으로 ?
     } else {
       alert("등록 실패");
     }
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const confirmModal = () => {
+    // Ad 데이터 전송하는 axios
   };
 
   return (
@@ -376,12 +399,19 @@ const PostSubmit = () => {
               />
             </TimeBox>
 
-            <Input
-              type="text"
+            <StyledSelect
               value={local}
-              placeholder="지역구"
               onChange={(e) => setLocal(e.target.value)}
-            />
+            >
+              <option value="" disabled>
+                지역구
+              </option>
+              {seoulArea.map((area) => (
+                <option key={area} value={area}>
+                  {area}
+                </option>
+              ))}
+            </StyledSelect>
 
             <Input
               type="text"
@@ -419,7 +449,7 @@ const PostSubmit = () => {
                   onChange={(e) => setImage(e.target.files[0])}
                 />
                 <br />
-                <AdButton type="button" onClick={() => setIsModalOpen(true)}>
+                <AdButton type="button" onClick={() => setModalOpen(true)}>
                   광고 등록 (선택 사항)
                 </AdButton>
                 <br />
@@ -431,6 +461,15 @@ const PostSubmit = () => {
             </ButtonBox>
           </Form>
         </InputBox>
+        <Modal
+          open={modalOpen}
+          close={closeModal}
+          confirm={confirmModal}
+          type={true}
+          header="알림"
+        >
+          {/* 내용 작성 부분 */}
+        </Modal>
       </Container>
     </>
   );
