@@ -12,7 +12,6 @@ import AdminMain from "./page/admin/AdminMain";
 import Advertising from "./page/admin/Advertising";
 import AllBoardContent from "./page/admin/AllBoardContent";
 import AllMemberInfo from "./page/admin/AllMemberInfo";
-import AllPaymentContent from "./page/admin/AllPaymentContent";
 import AskContent from "./page/admin/AskContent";
 import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
@@ -20,7 +19,6 @@ import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
 import StockRatioByRegion from "./page/admin/StockRatioByRegion";
 import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
-import AdminChat from "./page/admin/AdminChat";
 import InterestEnter from "./page/interestEnter";
 import PostList from "./page/PostList";
 import PostPreview from "./component/PostPreview";
@@ -37,9 +35,6 @@ import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
-import PostDetail from "./page/PostDetail";
-import Condition from "./page/Condition";
-import ForgotPassword from "./page/ForgotPassword";
 
 function App() {
   return (
@@ -47,12 +42,10 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
+          <Route path="/login" element={<TestLoginPage />} />
+          <Route path="/interestenter" element={<InterestEnter />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot-pw" element={<ForgotPassword />} />
-          <Route path="/interestenter" element={<InterestEnter />} />
-          <Route path="/condition" element={<Condition />} />
-          <Route path="/login" element={<TestLoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
@@ -60,7 +53,6 @@ function App() {
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
             <Route path="/postList" element={<PostList />} />
-            <Route path="/postDetail/:id" element={<PostDetail />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
@@ -83,11 +75,9 @@ function App() {
           <Route path="/StockRatioByRegion" element={<StockRatioByRegion />} />
           <Route path="/SearchKeyword" element={<SearchKeyword />} />
           {/* 전체 결제 내역 관리 */}
-          <Route path="/AllPaymentContent" element={<AllPaymentContent />} />
           <Route path="/AllPaymentList" element={<AllPaymentList />} />
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
-          <Route path="/AdminChat" element={<AdminChat />} />
           <Route path="/AskContents" element={<AskContents />} />
           {/* 환경설정 */}
           <Route element={<SettingLayout />}>
