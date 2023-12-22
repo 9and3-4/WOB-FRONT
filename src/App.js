@@ -35,6 +35,8 @@ import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
+import CompletePayment from "./page/Payment/CompletePayment";
+import Payment from "./page/Payment/Payment";
 
 function App() {
   return (
@@ -92,6 +94,11 @@ function App() {
             <Route path="/Address" element={<Address />} />
           </Route>
           <Route path="/Chatting/:roomId" element={<Chatting />} />
+          <Route
+            path="/CompletePayment/:paymentId"
+            element={<CompletePayment />}
+          />
+          <Route path="/Payment" element={<Payment />} />
         </Routes>
       </Router>
     </>
