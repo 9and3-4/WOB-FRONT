@@ -55,12 +55,13 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
-            <Route path="/postdetail/:postId" element={<PostDetail />} />
+
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
           <Route path="/postsubmit" element={<PostSubmit />} />
+          <Route path="/postdetail/:postId" element={<PostDetail />} />
           {/* 선영 관리자페이지 */}
           {/* 관리자 메인 메뉴 페이지 */}
           <Route path="/AdminMain" element={<AdminMain />} />
