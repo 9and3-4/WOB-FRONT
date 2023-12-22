@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import moment from "moment";
-import SettingAxiosApi from "../api/SettingAxiosApi";
+import PostAxiosApi from "../api/PostAxiosApi";
 import { useParams } from "react-router-dom";
 import KakaoMaps from "./map/Maps";
 
@@ -15,15 +14,15 @@ const Container = styled.div`
 `;
 const PictureCon = styled.div`
   height: 300px;
-  border: 1px solid yellow;
+  border: 1px solid gray;
 `;
 const Title = styled.div`
   height: 40px;
-  border: 1px solid yellow;
+  border: 1px solid gray;
 `;
 const Category = styled.div`
   height: 40px;
-  border: 1px solid yellow;
+  border: 1px solid gray;
 `;
 
 const PostDetail = () => {
@@ -33,10 +32,12 @@ const PostDetail = () => {
 
   useEffect(() => {
     const getPostDetail = async () => {
+      console.log("포스트 아이디 : " + postId);
       try {
-        const rsp = await SettingAxiosApi.postListById(postId);
-        console.log("postId값 postDetail에서 data 받아지나?", postNum);
-        const setPostNum = localStorage.postId;
+        const rsp = await PostAxiosApi.postListById(postId);
+        console.log("postId값 postDetail에서 data 받아지나?", postId);
+        console.log("서버 응답:", rsp.data); // 서버 응답 확인
+        // const setPostNum = localStorage.postId;
         setPost(rsp.data);
       } catch (error) {
         console.log(error);
@@ -46,6 +47,7 @@ const PostDetail = () => {
       getPostDetail();
     }
   }, [postId]);
+  // if (!post) return <></>;
   return (
     <Container>
       <PictureCon>사진</PictureCon>

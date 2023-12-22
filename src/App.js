@@ -37,6 +37,7 @@ import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
 import CompletePayment from "./page/Payment/CompletePayment";
 import Payment from "./page/Payment/Payment";
+import PostDetail from "./page/PostDetail";
 
 function App() {
   return (
@@ -54,7 +55,7 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
-            <Route path="/postList" element={<PostList />} />
+            <Route path="/postdetail/:postId" element={<PostDetail />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>

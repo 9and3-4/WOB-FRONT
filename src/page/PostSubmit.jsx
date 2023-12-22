@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PostAxiosApi from "../api/PostAxiosApi";
 import Modal from "../utils/Modal";
 import { storage } from "../api/firebase";
+import Address from "../component/Address";
 
 const Container = styled.div`
   max-width: 768px;
@@ -332,6 +333,15 @@ const PostSubmit = () => {
     }
   };
 
+  // 주소
+  const handlePlaceChange = (e) => {
+    setPlace(e.target.value);
+  };
+
+  const setAddr = (addr) => {
+    setPlace(addr);
+  };
+
   const handleUploadClick = async (e) => {
     try {
       // 사용자가 선택한 파일 가져오기
@@ -454,11 +464,12 @@ const PostSubmit = () => {
               ))}
             </StyledSelect>
 
+            <Address setPlace={setPlace} />
             <Input
               type="text"
               value={place}
-              placeholder="장소"
-              onChange={(e) => setPlace(e.target.value)}
+              placeholder="상세 주소"
+              onChange={handlePlaceChange}
             />
 
             <Input

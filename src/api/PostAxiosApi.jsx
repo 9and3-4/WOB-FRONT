@@ -67,6 +67,31 @@ const PostAxiosApi = {
       },
     });
   },
+  // post에 roomId 추가
+  postAddRoomId: async (postId, roomId) => {
+    const token = Common.getAccessToken();
+    const contents = {
+      id: postId,
+      roomId: roomId,
+    };
+    return await axios.put(KH_DOMAIN + "/chat/modify", contents, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+  },
+  // postId로 게시글 상세 조회
+  postListById: async (postId) => {
+    console.log("호출됨!!");
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + `/post/postListById/${postId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  },
 };
 
 export default PostAxiosApi;
