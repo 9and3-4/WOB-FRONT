@@ -11,30 +11,6 @@ const Container = styled.div`
   background-color: #04bf8a;
 `;
 
-const slideOutLeft = keyframes`
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-`;
-
-const slideInRight = keyframes`
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-`;
-
-const AnimationContainer = styled.div`
-  animation: ${({ sportsCompleted }) =>
-      sportsCompleted ? slideOutLeft : slideInRight}
-    0.5s ease;
-`;
-
 const InterestEnter = () => {
   const [showWhiteBoard, setShowWhiteBoard] = useState(false);
   const [sportsCompleted, setSportsCompleted] = useState(false);
@@ -99,26 +75,24 @@ const InterestEnter = () => {
     <>
       <Container>
         <WhiteBoard show={showWhiteBoard}>
-          <AnimationContainer sportsCompleted={sportsCompleted}>
-            {sportsCompleted ? (
-              <SelectArea
-                options={activityAreaList}
-                min={minValue}
-                max={maxValue}
-                title={"관심지역 등록"}
-                text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-              />
-            ) : (
-              <SelectSports
-                onComplete={handleSportsCompletion}
-                options={activityList}
-                min={minValue}
-                max={maxValue}
-                title={"관심운동 등록"}
-                text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-              />
-            )}
-          </AnimationContainer>
+          {sportsCompleted ? (
+            <SelectArea
+              options={activityAreaList}
+              min={minValue}
+              max={maxValue}
+              title={"관심지역 등록"}
+              text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+            />
+          ) : (
+            <SelectSports
+              onComplete={handleSportsCompletion}
+              options={activityList}
+              min={minValue}
+              max={maxValue}
+              title={"관심운동 등록"}
+              text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+            />
+          )}
         </WhiteBoard>
       </Container>
     </>

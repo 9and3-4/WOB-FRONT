@@ -11,6 +11,7 @@ const LoginPageAxiosApi = {
       email: props.email,
       password: props.password,
       nickname: props.nickname,
+      selectedAgreement: props.selectedAgreement,
     };
     // console.log(params);
     return await axios.post(KH_DOMAIN + "/sign-up", params);
@@ -82,6 +83,14 @@ const LoginPageAxiosApi = {
         },
       }
     );
+  },
+  modifyForgotPassword: async (props) => {
+    const params = {
+      email: props.email,
+      password: props.password,
+    };
+    // console.log(params);
+    return await axios.post(KH_DOMAIN + "/forgot-pw", params);
   },
 };
 export default LoginPageAxiosApi;

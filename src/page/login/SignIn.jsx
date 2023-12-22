@@ -84,8 +84,12 @@ const SignIn = () => {
     }
   }, []);
 
+  const handleForgotPasswordClick = () => {
+    navigate("/forgot-pw");
+  };
+
   const handleSignUpClick = () => {
-    navigate("/signup");
+    navigate("/condition");
   };
 
   const handleRememberMeChange = () => {
@@ -164,7 +168,9 @@ const SignIn = () => {
             로그인
           </GreenButton>
           <RowAlignBox>
-            <BlackButton>Forgot Password?</BlackButton>
+            <BlackButton onClick={handleForgotPasswordClick}>
+              Forgot Password?
+            </BlackButton>
             <BlackButton onClick={handleSignUpClick}>회원가입</BlackButton>
           </RowAlignBox>
           <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>

@@ -12,7 +12,7 @@ import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
 const SportsGird = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 20px 30px;
   padding: 40px;
 `;
 
@@ -72,10 +72,9 @@ const SelectSports = ({ options, min, max, title, text, onComplete }) => {
           placeholder="기타"
           onChange={(e) => setValue(e.target.value)}
           disabled={selectedItems.length >= maxSelection}
-          hasValue={value !== ""}
         />
         <NextButton
-          active={isNextButtonActive}
+          active={isNextButtonActive ? true : undefined}
           onClick={isNextButtonActive ? () => handleNext(selectedItems) : null}
         >
           다음

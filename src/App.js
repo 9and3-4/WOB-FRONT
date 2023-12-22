@@ -38,6 +38,8 @@ import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
 import PostDetail from "./page/PostDetail";
+import Condition from "./page/Condition";
+import ForgotPassword from "./page/ForgotPassword";
 
 function App() {
   return (
@@ -45,10 +47,12 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/login" element={<TestLoginPage />} />
-          <Route path="/interestenter" element={<InterestEnter />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-pw" element={<ForgotPassword />} />
+          <Route path="/interestenter" element={<InterestEnter />} />
+          <Route path="/condition" element={<Condition />} />
+          <Route path="/login" element={<TestLoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />

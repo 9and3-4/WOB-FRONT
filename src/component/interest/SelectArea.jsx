@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import {
   TitleAlign,
@@ -32,7 +32,8 @@ const SelectOptionBoard = styled.div`
   overflow: hidden;
   position: relative;
   transition: height 0.5s ease; // 트랜지션 추가
-  ${({ isOpen }) => isOpen && "height: 600px;"}// isOpen에 따라 높이 변경
+  height: ${({ isOpen }) =>
+    isOpen ? "550px" : "160px"}; // isOpen에 따라 높이 변경
 `;
 
 const SelectOptionBoardHeader = styled.div`
@@ -48,11 +49,12 @@ const OptionBoardHeaderLogo = styled.img`
   margin-left: 10px;
 `;
 const OptionBoardBody = styled.div`
-  transition: height 0.3s ease; // 트랜지션 추가
   box-sizing: border-box;
-  overflow: auto;
-  ${({ isOpen }) => isOpen && "border: 2px solid #dfede9;"}
-  ${({ isOpen }) => isOpen && "height: 440px;"} // isOpen에 따라 높이 변경
+  overflow-y: auto;
+  border: 2px solid #dfede9;
+  transition: height 0.5s ease; // 트랜지션 추가
+  height: ${({ isOpen }) =>
+    isOpen ? "400px" : "50px"}; // isOpen에 따라 높이 변경
 `;
 
 const SelectOptionBoardFooter = styled.div`
@@ -67,12 +69,13 @@ const SelectOptionBoardFooter = styled.div`
   border-bottom-right-radius: 40px; /* 오른쪽 하단 모서리 둥글게 */
   position: absolute;
   bottom: 0;
+  cursor: pointer;
 `;
 
 const AreasGird = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 20px 30px;
   padding: 40px;
 `;
 
@@ -80,8 +83,8 @@ const SelectArea = ({ options, min, max, title, text }) => {
   const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const minSelection = min; // 최소 선택 할 수 있는 개수
-  const maxSelection = max; // 최대 선택 할 수 있는 개수
+  const minSelection = min;
+  const maxSelection = max;
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -112,6 +115,14 @@ const SelectArea = ({ options, min, max, title, text }) => {
       navigate("/");
     }
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsOpen(!isOpen);
+    }, 600);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
     <CenterBox>

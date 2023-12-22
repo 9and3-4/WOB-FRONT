@@ -3,13 +3,13 @@ import {
   InputBar,
   AuthInputBar,
   GreenButton,
-} from "../../component/login/LoginCommon";
+} from "../component/login/LoginCommon";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { KH_DOMAIN } from "../../utils/Common";
+import { KH_DOMAIN } from "../utils/Common";
 import { useState } from "react";
-import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
-import Modal from "../../utils/Modal";
-import Common from "../../utils/Common";
+import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
+import Modal from "../utils/Modal";
+import Common from "../utils/Common";
 
 const Container = styled.div`
   max-width: 768px;
@@ -51,13 +51,6 @@ const Logo = styled.img`
     border-radius: 25%;
   }
 `;
-const OauthLogo = styled.img`
-  width: 40px;
-  margin: 10px 20px;
-  background-color: white;
-  padding: 5px;
-  border-radius: 50%;
-`;
 
 const BlackButton = styled(GreenButton)`
   background-color: #353535;
@@ -77,14 +70,11 @@ const SmallGreenButton = styled.button`
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
-const SignUp = () => {
+const ForgotPassword = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [modalOpen, setModalOpen] = useState(false); // 모달 오픈
-  const [modalText, setModelText] = useState("정말 로그아웃 하시겠습니까?"); // 모달에 넣을 내용
   const [emailVerified, setEmailVerified] = useState(false);
   const [codeVerified, setCodeVerified] = useState(false);
   const navigate = useNavigate();
@@ -106,26 +96,6 @@ const SignUp = () => {
 
   const handlePasswordCheckChange = (e) => {
     setPasswordCheck(e.target.value);
-  };
-
-  const handleNickNameChange = (e) => {
-    setNickName(e.target.value);
-  };
-
-  const handleCheckNickName = async () => {
-    try {
-      const result = await LoginPageAxiosApi.userNickNameCheck({
-        nickname: nickName,
-      });
-      console.log("결과는? ", result.data);
-      const message = result.data
-        ? "사용 불가능한 닉네임입니다."
-        : "사용 가능한 닉네임입니다.";
-      setModelText(message);
-      setModalOpen(true);
-    } catch (error) {
-      console.error("Error during nickname check:", error);
-    }
   };
 
   const handleCheckEmail = async () => {
@@ -157,52 +127,30 @@ const SignUp = () => {
     }
   };
 
-  const handleSignUpClick = () => {
+  const handleChangePasswordClick = () => {
     if (emailVerified && codeVerified && password === passwordCheck) {
       // 이메일과 코드가 확인되었을 때 처리할 로직
-      console.log("이메일과 인증번호가 유효합니다. 회원가입을 시작합니다.");
-      handleSignUp();
+      console.log(
+        "이메일과 인증번호가 유효합니다. 비밀번호 변경을 시작합니다."
+      );
+      handleChangePassword();
     } else if (emailVerified && codeVerified && password !== passwordCheck) {
       console.log("비밀번호와 비밀번호 확인이 불일치합니다.");
     } else {
-      console.log("이메일과 인증번호가 유효하지않습니다. 회원가입 실패");
+      console.log("이메일과 인증번호가 유효하지않습니다. 비밀번호 변경 실패");
     }
   };
 
-  const handleSignUp = async () => {
-    const response = await LoginPageAxiosApi.userSignUp({
-      email: email,
-      password: password,
-      nickname: nickName,
-      selectedAgreement: selectedAgreement,
-    });
-    if (response.status === 200) {
-      console.log("sign-up 리턴 값: ", response);
-      handleLogin();
-    }
-  };
-
-  const handleLogin = async () => {
-    const response = await LoginPageAxiosApi.userLogin({
+  const handleChangePassword = async () => {
+    const response = await LoginPageAxiosApi.modifyForgotPassword({
       email: email,
       password: password,
     });
     if (response.status === 200) {
-      const accessToken = response.headers.get("authorization");
-      const refreshToken = response.headers.get("authorization-refresh");
-      console.log("accessToken return = ", accessToken);
-      console.log("refreshToken return = ", refreshToken);
-      Common.setEmail(email);
-      Common.setAccessToken(accessToken);
-      Common.setRefreshToken(refreshToken);
-      console.log("login email : ", Common.getEmail());
-      navigate("/interestenter");
+      console.log("forgot-pw 리턴 값: ", response);
+      console.log("signin으로 돌아갑니다.");
+      navigate("/signin");
     }
-  };
-
-  // Modal 닫기 눌렀을 때, ModalOpen(false)
-  const closeModal = () => {
-    setModalOpen(false);
   };
 
   return (
@@ -235,16 +183,6 @@ const SignUp = () => {
                 인증확인
               </SmallGreenButton>
             </RowAlignBox>
-            <RowAlignBox>
-              <AuthInputBar
-                placeholder="Nick Name"
-                value={nickName}
-                onChange={handleNickNameChange}
-              />
-              <SmallGreenButton onClick={handleCheckNickName}>
-                중복확인
-              </SmallGreenButton>
-            </RowAlignBox>
             <InputBar
               type="password"
               placeholder="Password"
@@ -259,29 +197,15 @@ const SignUp = () => {
             />
           </AlignBox>
           <BlackButton
-            disabled={
-              !email || !code || !nickName || !password || !passwordCheck
-            }
-            onClick={handleSignUpClick}
+            disabled={!email || !code || !password || !passwordCheck}
+            onClick={handleChangePasswordClick}
           >
-            동의하고 시작하기
+            비밀번호 변경하기
           </BlackButton>
-          <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>
-            <OauthLogo src="/google-log.png" />
-          </Link>
-          <Link to={`${KH_DOMAIN}/oauth2/authorization/naver`}>
-            <OauthLogo src="/naver-log.png" />
-          </Link>
-          <Link to={`${KH_DOMAIN}/oauth2/authorization/kakao`}>
-            <OauthLogo src="/kakao-log.png" />
-          </Link>
         </LoginBox>
       </AlignBox>
-      <Modal open={modalOpen} close={closeModal} header="알림">
-        {modalText}
-      </Modal>
     </Container>
   );
 };
 
-export default SignUp;
+export default ForgotPassword;
