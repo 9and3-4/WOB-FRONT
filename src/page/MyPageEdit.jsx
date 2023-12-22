@@ -32,13 +32,15 @@ const HeaderBox = styled.div`
   margin: 0 auto;
 `;
 const EditBox = styled.div`
-  margin-bottom: 10%;
+  margin-bottom: 15%;
 `;
 const FooterBox = styled.div`
+  height: 90px;
+  background-color: white;
   display: flex;
   justify-content: center;
   position: fixed;
-  bottom: 10px;
+  bottom: 0px;
 `;
 
 const LogoImage = styled.img`
@@ -337,7 +339,14 @@ const MyPageEdit = () => {
         <LogoImage src={logoImage} alt="logo" onClick={goToHome} />
         <EditLogoCon>
           {!editMode && (
-            <EditLogo onClick={() => setEditMode(true)} src={Edit} alt="edit" />
+            <EditLogo
+              onClick={() => {
+                setEditMode(true);
+                setIsOpen(!isOpen);
+              }}
+              src={Edit}
+              alt="edit"
+            />
           )}
           <StyledLink to="/Setting">
             <EditLogo src={Setting} alt="Setting" />

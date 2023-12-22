@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Weather from "../hook/useWeather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PostList from "./PostList";
+import PostList from "./PostListClon";
 // import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
 import MyPageAxiosApi from "../api/MyPageAxiosApi";
