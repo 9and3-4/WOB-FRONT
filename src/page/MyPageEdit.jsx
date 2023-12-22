@@ -9,6 +9,13 @@ import Edit from "../images/Edit.png";
 import Setting from "../images/Setting.png";
 import { Link } from "react-router-dom";
 import SelectSports from "../component/interest/SelectSportsClon";
+import SelectArea from "../component/interest/SelectAreaClon";
+import {
+  OptionBoardBody,
+  SelectOptionBoardFooter,
+  SelectOptionBoard,
+  SelectOptionBoardHeader,
+} from "../component/interest/SelectAreaClon";
 import SelectMBTI from "../component/MBTI/MBTI";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
 
@@ -145,6 +152,7 @@ const EditBtn = styled.div`
 const StyledLink = styled(Link)`
   margin: 0 30px;
 `;
+const Text = styled.div``;
 
 const MyPageEdit = () => {
   const { email } = useParams();
@@ -155,7 +163,12 @@ const MyPageEdit = () => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
   const [interest, setInterest] = useState([]);
+  const [area, setArea] = useState([]);
   const [nickname, setNickname] = useState("");
+  const [isOpen, setIsOpen] = useState([]);
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   // const context = useContext(UserContext);
   // const { setNickname } = context;
@@ -168,6 +181,7 @@ const MyPageEdit = () => {
         setUser(rsp.data);
         setUrl(rsp.data.image);
         setInterest(rsp.data.interestSports);
+        setArea(rsp.data.interestArea);
       }
     };
     userInfo();
@@ -228,6 +242,7 @@ const MyPageEdit = () => {
         setUser(rsp.data);
         setUrl(rsp.data.image);
         setInterest(rsp.data.interestSports);
+        setArea(rsp.data.interestArea);
       }
     }
   };
@@ -287,6 +302,33 @@ const MyPageEdit = () => {
     "ENFJ",
     "ENTJ",
   ];
+  const activityAreaList = [
+    "강남구",
+    "강북구",
+    "강동구",
+    "강서구",
+    "양천구",
+    "구로구",
+    "영등포구",
+    "금천구",
+    "동작구",
+    "관악구",
+    "서초구",
+    "송파구",
+    "마포구",
+    "서대문구",
+    "은평구",
+    "종로구",
+    "중구",
+    "성동구",
+    "용산구",
+    "광진구",
+    "중랑구",
+    "동대문구",
+    "성북구",
+    "도봉구",
+    "노원구",
+  ];
   const mbtiValue = 1;
 
   return (
@@ -302,6 +344,7 @@ const MyPageEdit = () => {
           </StyledLink>
         </EditLogoCon>
       </HeaderBox>
+
       <EditBox>
         <FieldEditTitle>
           <Label>프로필 사진</Label>
@@ -325,14 +368,15 @@ const MyPageEdit = () => {
             </IMGField>
           </>
         )}
-        <FieldEditTitle>
-          <Label>닉네임</Label>
-        </FieldEditTitle>
+        <SelectOptionBoardHeader isOpen={isOpen}>
+          <Text>닉네임</Text>
+        </SelectOptionBoardHeader>
         <EditNick>
           {!editMode ? (
             <UserNickname>{user.nickname}</UserNickname>
           ) : (
-            <Input
+            <OptionBoardBody
+              isOpen={isOpen}
               type="text"
               name="Nickname"
               placeholder={user.nickname}
@@ -340,9 +384,33 @@ const MyPageEdit = () => {
               onChange={handleChange}
             />
           )}
+          <SelectOptionBoardFooter />
         </EditNick>
         <FieldEditTitle>
           <Label>희망 지역</Label>
+        </FieldEditTitle>
+        <FieldEditTitle>
+          <UserContainer>
+            <InterestCon>
+              {!editMode ? (
+                area.map((areaItem, index) => (
+                  <>
+                    <Selected key={index} value={areaItem}>
+                      {areaItem}
+                    </Selected>
+                  </>
+                ))
+              ) : (
+                <SelectArea
+                  options={activityAreaList}
+                  min={minValue}
+                  max={maxValue}
+                  text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
+                  handleSelected={handleSelected}
+                />
+              )}
+            </InterestCon>
+          </UserContainer>
         </FieldEditTitle>
         <FieldEditTitle>
           <Label>관심 운동</Label>

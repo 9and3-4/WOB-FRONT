@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PostAxiosApi from "../api/PostAxiosApi";
 import PostPreview from "../component/PostPreview";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   max-width: 768px;
@@ -12,29 +14,29 @@ const Container = styled.div`
   align-items: center;
   color: var(--GREEN);
 `;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
 
-const PostList = ({ selectedSports, selectedDate }) => {
+const PostList = ({ selectedDate, postId }) => {
   const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
+  const [selectPost, setSelectPost] = useState(null);
 
   useEffect(() => {
     const fetchPostList = async () => {
       try {
-        const rsp = await PostAxiosApi.postListAll(localStorage.email);
+        const rsp = await PostAxiosApi.postListAll();
         console.log(rsp.data);
         if (rsp.status === 200) {
-          // 선택 운동에 따라 필터링
-          const filterSports =
-            (selectedSports || []).length === 0
-              ? rsp.data
-              : rsp.data.filter((post) =>
-                  selectedSports.includes(post.category)
-                );
-
+          // 전체 게시글 받아온 후 필터링
+          const allPosts = rsp.data;
           // 선택 날짜에 따라 필터링
-          const filteredPosts = filterSports.filter((post) =>
-            moment(post.date).isSame(selectedDate, "day")
-          );
-
+          const filteredPosts = selectedDate
+            ? allPosts.filter((post) =>
+                moment(post.date).isSame(selectedDate, "day")
+              )
+            : allPosts;
           setPostList(filteredPosts);
         }
       } catch (error) {
@@ -42,7 +44,7 @@ const PostList = ({ selectedSports, selectedDate }) => {
       }
     };
     fetchPostList();
-  }, [selectedSports, selectedDate]); // selectedSports가 변경될 때마다 실행
+  }, [selectedDate]);
 
   return (
     <>
@@ -50,15 +52,16 @@ const PostList = ({ selectedSports, selectedDate }) => {
         {postList &&
           postList.map((post) => (
             // PostPreview 컴포넌트를 호출하면서 필요한 데이터를 전달
-            <PostPreview
-              key={post.id}
-              title={post.title}
-              date={post.date}
-              time={post.time}
-              place={post.place}
-              people={post.people}
-              category={post.categoryName}
-            />
+            <StyledLink to={`/postDetail/${post.id}`} key={post.id}>
+              <PostPreview
+                title={post.title}
+                date={post.date}
+                time={post.time}
+                place={post.place}
+                people={post.people}
+                category={post.categoryName}
+              />
+            </StyledLink>
           ))}
       </Container>
     </>

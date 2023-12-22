@@ -37,6 +37,7 @@ import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
+import PostDetail from "./page/PostDetail";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
             <Route path="/postList" element={<PostList />} />
+            <Route path="/postDetail/:id" element={<PostDetail />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
