@@ -39,6 +39,7 @@ import CompletePayment from "./page/Payment/CompletePayment";
 import Payment from "./component/Payment";
 import PostDetail from "./page/PostDetail";
 import FreeChat from "./page/Chatting/FreeChat";
+import ChatCreate from "./page/Chatting/ChatCreate";
 
 function App() {
   return (
@@ -92,6 +93,8 @@ function App() {
             <Route path="/PasswordChange" element={<PasswordChange />} />
             <Route path="/Withdrawal" element={<Withdrawal />} />
             <Route path="/FreeChat" element={<FreeChat />} />
+            <Route path="/ChatCreate" element={<ChatCreate />} />
+
             {/* 주소Api */}
             <Route path="/Address" element={<Address />} />
           </Route>

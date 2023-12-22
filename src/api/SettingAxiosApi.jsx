@@ -47,10 +47,20 @@ const SettingAxiosApi = {
       },
     });
   },
-  // 채팅방 목록 보기
+  // 게시글 채팅방 목록 보기 (postId 있음)
   chatList: async () => {
     const accessToken = Common.getAccessToken();
     return await axios.get(KH_DOMAIN + "/chat/list", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  },
+  // 자유 채팅방 목록 보기 (postId 없음)
+  freeChatList: async () => {
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + "/chat/freeList", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
@@ -68,7 +78,7 @@ const SettingAxiosApi = {
       },
     });
   },
-  // 채팅방 생성
+  // 게시글 채팅방 생성
   chatCreate: async (name, postId) => {
     const accessToken = Common.getAccessToken();
     const chat = {
@@ -83,6 +93,19 @@ const SettingAxiosApi = {
     });
   },
 
+  // 자유 채팅방 생성
+  freeChatCreate: async (name) => {
+    const accessToken = Common.getAccessToken();
+    const chat = {
+      name: name,
+    };
+    return await axios.post(KH_DOMAIN + "/chat/freeNew", chat, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  },
   // 이전 채팅 가져오기
   recentChatLoad: async (roomId) => {
     const accessToken = Common.getAccessToken();
