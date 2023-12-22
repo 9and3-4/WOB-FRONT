@@ -40,39 +40,6 @@ const SettingBtn = styled.button`
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [roomId, setRoomId] = useState();
-
-  // 채팅방 생성
-  const handleCreateChatRoom = async (title) => {
-    // 1. 해당 게시글의 roomId 값 조회
-    const rsp = await SettingAxiosApi.postListById(7); // postId 값 전달
-    console.log("해당 게시글의 roomId 조회 : " + rsp.data.roomId);
-    setRoomId(rsp.data.roomId);
-    console.log("setRoomId : " + roomId);
-    // 2. 해당 게시글의 roomId가 공백이면 ( 첫 채팅방 생성 ) 채팅방 생성하기.
-    if (rsp.data.roomId === null) {
-      const accessToken = Common.getAccessToken();
-      try {
-        // 채팅방 제목 전달하여 roomId 받아오기
-        const response = await SettingAxiosApi.chatCreate(title, 7);
-        const req = await SettingAxiosApi.postAddRoomId(7, response.data);
-        console.log("rsq.data : ", req.data);
-        navigate(`/Chatting/${response.data}`);
-      } catch (e) {
-        if (e.response.status === 401) {
-          await Common.handleUnauthorized();
-          const newToken = Common.getAccessToken();
-          if (newToken !== accessToken) {
-            const response = await SettingAxiosApi.chatCreate(title);
-            navigate(`/Chatting/${response.data}`);
-          }
-        }
-      }
-    } else {
-      // 만약 이미 채팅방이 생성되어 있다면, 새로 생성하지 않고 채팅방 입장.
-      navigate(`/Chatting/${rsp.data.roomId}`);
-    }
-  };
 
   return (
     <>
@@ -94,7 +61,7 @@ const Setting = () => {
           <span className="text">문의하기</span>
           <span className="pointer">&gt;</span>
         </SettingBtn>
-        <SettingBtn onClick={() => handleCreateChatRoom("일반채팅방")}>
+        <SettingBtn onClick={() => navigate("/PaymentDetails")}>
           <img
             src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/won.png?alt=media&token=6e1058ae-9f43-4c10-add5-6e2f1a79531e"
             alt="결제내역"

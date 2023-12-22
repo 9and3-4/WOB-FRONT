@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import SettingAxiosApi from "../../api/SettingAxiosApi";
-import PaymentAxiosApi from "../../api/PaymentAxiosApi";
+import PaymentAxiosApi from "../api/PaymentAxiosApi";
 
-const PaymentBtn = styled.button``;
+const PaymentBtn = styled.button`
+  background-color: var(--MINT); // 버튼 배경 없애기
+  border: none;
+  width: 120px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 1px #bbbbbb;
+  &:hover {
+    background-color: var(--GREEN);
+  }
+`;
 const Payment = (props) => {
   const {
     userName,

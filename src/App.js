@@ -36,7 +36,7 @@ import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
 import Chatting from "./page/Setting/Chatting";
 import CompletePayment from "./page/Payment/CompletePayment";
-import Payment from "./page/Payment/Payment";
+import Payment from "./component/Payment";
 import PostDetail from "./page/PostDetail";
 
 function App() {
@@ -55,13 +55,11 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
-
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
           <Route path="/MyPage" element={<MyPageEdit />} />
           <Route path="/postsubmit" element={<PostSubmit />} />
-          <Route path="/postdetail/:postId" element={<PostDetail />} />
           {/* 선영 관리자페이지 */}
           {/* 관리자 메인 메뉴 페이지 */}
           <Route path="/AdminMain" element={<AdminMain />} />
@@ -101,6 +99,7 @@ function App() {
             element={<CompletePayment />}
           />
           <Route path="/Payment" element={<Payment />} />
+          <Route path="/postdetail/:postId" element={<PostDetail />} />
         </Routes>
       </Router>
     </>

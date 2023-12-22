@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import KakaoMap from "../component/Map";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
+import ChatStart from "../component/ChatStart";
+import Payment from "../component/Payment";
 
 const Container = styled.div`
   max-width: 768px;
