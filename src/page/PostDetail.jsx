@@ -5,8 +5,6 @@ import { useParams } from "react-router-dom";
 import KakaoMap from "../component/Map";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
-import ChatStart from "../component/ChatStart";
-import Payment from "../component/Payment";
 
 const Container = styled.div`
   max-width: 768px;
@@ -22,13 +20,18 @@ const ContentBox = styled.div`
 `;
 
 const PictureCon = styled.div`
-  height: 300px;
-  border: 1px solid gray;
+  height: auto;
   border-radius: 20px;
   margin-bottom: 10px;
 `;
 
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
 const TitleBox = styled.div`
+  margin-top: 10px;
   height: 40px;
   font-size: 1.5rem;
   font-weight: bold;
@@ -36,7 +39,7 @@ const TitleBox = styled.div`
 
 const TextBox = styled.div`
   height: 30px;
-  padding: 10px 10px;
+  padding: 10px 5px;
 `;
 
 const ButtonBox = styled.div`
@@ -67,7 +70,7 @@ const FooterBox = styled.div`
   bottom: 0px;
 `;
 
-const PostDetail = () => {
+const PostDetail = ({ categoryImage }) => {
   const { postId } = useParams(); //postId를 url에서 받아옴
   const [post, setPost] = useState("");
   const [postNum, setPostNum] = useState("");
@@ -94,7 +97,9 @@ const PostDetail = () => {
     <Container>
       <ContentBox>
         <Header />
-        <PictureCon>{post.categoryImage}</PictureCon>
+        <PictureCon>
+          <Image src={post.categoryImage} alt="카테고리 이미지" />
+        </PictureCon>
         <TitleBox> {post.title} </TitleBox>
         <TextBox>카테고리 {post.categoryName}</TextBox>
         <KakaoMap />
