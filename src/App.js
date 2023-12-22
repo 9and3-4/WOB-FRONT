@@ -34,10 +34,11 @@ import AskContents from "./page/admin/AskContents";
 import SignIn from "./page/login/SignIn";
 import SignUp from "./page/login/SignUp";
 import Address from "./component/Address";
-import Chatting from "./page/Setting/Chatting";
+import Chatting from "./page/Chatting/Chatting";
 import CompletePayment from "./page/Payment/CompletePayment";
 import Payment from "./component/Payment";
 import PostDetail from "./page/PostDetail";
+import FreeChat from "./page/Chatting/FreeChat";
 
 function App() {
   return (
@@ -90,6 +91,7 @@ function App() {
             <Route path="/Questions" element={<Questions />} />
             <Route path="/PasswordChange" element={<PasswordChange />} />
             <Route path="/Withdrawal" element={<Withdrawal />} />
+            <Route path="/FreeChat" element={<FreeChat />} />
             {/* 주소Api */}
             <Route path="/Address" element={<Address />} />
           </Route>

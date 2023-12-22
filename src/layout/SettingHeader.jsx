@@ -38,7 +38,7 @@ const MenuText = styled.div`
   font-size: 28px;
 `;
 
-const SettingHeader = ({ title, navi }) => {
+const SettingHeader = ({ title }) => {
   const navigate = useNavigate();
 
   return (

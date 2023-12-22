@@ -50,7 +50,7 @@ const Footer = () => {
         <StyledLink onClick={() => handleLinkClick("/schedule")}>
           <Icon src={Calendar} alt="Calendar" />
         </StyledLink>
-        <StyledLink onClick={() => handleLinkClick("/")}>
+        <StyledLink onClick={() => handleLinkClick("/FreeChat")}>
           <Icon src={Chat} alt="Chat" />
         </StyledLink>
         <StyledLink onClick={() => handleLinkClick("/KakaoMap")}>
