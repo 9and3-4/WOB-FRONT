@@ -3,9 +3,6 @@ import { Outlet } from "react-router-dom";
 import {
   Container,
   StyledSideMenu,
-  UserContainer,
-  UserImage,
-  UserIdAndName,
   List,
   StyledMenuList,
   Dummy,
@@ -15,21 +12,18 @@ import { useContext, useState } from "react";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 
-
 // 사이드바 메뉴를 구성 합니다.
-  const Layout = () => {
+const Layout = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
-//   const { name } = context;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [member, setMember] = useState({});
 
-  // 메인에서 sub메뉴의 버튼 누르면 그 화면으로 이동 
+  // 메인에서 sub메뉴의 버튼 누르면 그 화면으로 이동
   const handleAreaNavigate = (path) => {
-    navigate(path)
-    };
+    navigate(path);
+  };
 
-    // 햄버거 토글 위치(열리고 닫히고)
+  // 햄버거 토글 위치(열리고 닫히고)
   const onClickLeft = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -70,84 +64,106 @@ import { useNavigate } from "react-router-dom";
         {/* 햄버거 토글로 열고 닫힘 */}
         <StyledSideMenu
           isOpen={isMenuOpen}
-          onClick={() => setIsMenuOpen(false)}
-        >
-        {/* 햄버거 사이드바 맨 위 환영 인사 */}
-        <div className="welcome">
-            <span style={{ fontWeight: "bold" }}>{member.name}</span>님
-                환영합니다.
-        </div>
+          onClick={() => setIsMenuOpen(false)}>
+          {/* 사이드바 위 내용*/}
+          <div className="welcome">
+            <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+              관리자 관리 내역
+            </span>
+          </div>
           <StyledMenuList>
-            {/* 프로필 이미지 */}
-            <UserContainer>
-              <UserImage
-                src={member.image || "http://via.placeholder.com/160"}
-                alt="User"
-              />
-              {/* 관리자 id와 이름 */}
-              <UserIdAndName>
-                <sapn>{member.name}</sapn>
-                <span>{member.email}</span>
-              </UserIdAndName>
-            </UserContainer>
-
             {/* 사이드바 인에 내용 리스트 */}
             <List>
-            <li>
+              <li>
                 <div className="m-title" onClick={() => onClickMenu(1)}>
-                    전체 회원 관리
+                  전체 회원 관리
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/AllMemberInfo","allMemberList")}>전체 회원 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AdminVisitorStatus","visitMember")}>방문자 현황</li>
-                    <li onClick={() => handleAreaNavigate("/StockRatioByRegion","regionGrap")}>지역별 종목 비율</li>
-                    <li onClick={() => handleAreaNavigate("/SearchKeyword","clickKeyword")}>검색 키워드 높은 순</li>
+                  <li
+                    onClick={() =>
+                      handleAreaNavigate("/AllMemberInfo", "allMemberList")
+                    }>
+                    전체 회원 목록
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleAreaNavigate("/AdminVisitorStatus", "visitMember")
+                    }>
+                    방문자 현황
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleAreaNavigate("/StockRatioByRegion", "regionGrap")
+                    }>
+                    지역별 종목 비율
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleAreaNavigate("/SearchKeyword", "clickKeyword")
+                    }>
+                    검색 키워드 높은 순
+                  </li>
                 </ul>
-            </li>
-            <li>
+              </li>
+              <li>
                 <div className="m-title" onClick={() => onClickMenu(2)}>
-                    전체 결제 내역 관리
+                  전체 결제 내역 관리
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/AllPaymentContent")}>전체 결제 승인 모아보기</li>
-                    <li onClick={() => handleAreaNavigate("/AllPaymentList")}>전체 결제 내역 목록</li>
+                  <li onClick={() => handleAreaNavigate("/AllPaymentList")}>
+                    전체 결제 내역 목록
+                  </li>
                 </ul>
-            </li>
-            <li>
+              </li>
+              <li>
                 <div className="m-title" onClick={() => onClickMenu(3)}>
-                    전체 게시판 관리
+                  전체 카테고리 관리
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/AllBoardContent")}>전체 카테고리게시판 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AdminBoardRegistration")}>전체 카테고리게시판 등록</li>
+                  <li onClick={() => handleAreaNavigate("/AllBoardContent")}>
+                    전체 카테고리게시판 목록
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleAreaNavigate("/AdminBoardRegistration")
+                    }>
+                    전체 카테고리게시판 등록
+                  </li>
                 </ul>
-            </li>
-            <li>
+              </li>
+              <li>
                 <div className="m-title" onClick={() => onClickMenu(4)}>
-                    광고 관리
+                  광고 관리
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/Advertising")}>광고 관리하기</li>
+                  <li onClick={() => handleAreaNavigate("/Advertising")}>
+                    광고 관리하기
+                  </li>
                 </ul>
-            </li>
-            <li>
+              </li>
+              <li>
                 <div className="m-title" onClick={() => onClickMenu(5)}>
-                    1:1 문의하기
+                  1:1 문의하기
                 </div>
                 <ul className="sub-menu">
-                    <li onClick={() => handleAreaNavigate("/AskContent")}>관리자 전용 전체 채팅방 목록</li>
-                    <li onClick={() => handleAreaNavigate("/AdminChat")}>1:1 관리자 채팅 문의</li>
+                  <li onClick={() => handleAreaNavigate("/AskContent")}>
+                    관리자 전용 전체 채팅방 목록
+                  </li>
                 </ul>
-            </li>
-                <div className="logoBox">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/%E1%84%80%E1%85%A1%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-removebg-preview.png?alt=media&token=bebc4ce9-fa8d-4d5a-9880-faec9cfd382e" alt="Logo" width="100px"/>
-                </div>
+              </li>
+              <div className="logoBox">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/%E1%84%80%E1%85%A1%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-removebg-preview.png?alt=media&token=bebc4ce9-fa8d-4d5a-9880-faec9cfd382e"
+                  alt="Logo"
+                  width="100px"
+                />
+              </div>
             </List>
-        </StyledMenuList>
+          </StyledMenuList>
         </StyledSideMenu>
-        </header>
+      </header>
 
-        <main onClick={() => setIsMenuOpen(false)}>
+      <main onClick={() => setIsMenuOpen(false)}>
         <Dummy />
         <Outlet />
       </main>

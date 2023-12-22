@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Map, Marker } from 'react-kakao-maps';
 import axios from 'axios';
 import styled from 'styled-components';
+import MapComponent from '../../component/MapComponent';
 
 
 const Container = styled.div`
@@ -304,6 +305,7 @@ const KakaoMaps = () => {
           문화시설
         </Button>
       </div>
+      <MapComponent />
       <div id="category"></div>
       <div id="map" style={{ width: '100%', height: '500px', margin: '0 auto' }}></div>
     </Container>

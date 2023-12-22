@@ -10,7 +10,6 @@ export const Container = styled.div`
   min-height: 100vh;
   width: 100vw;
   margin: auto;
-  
 
   .mainhead {
     display: flex;
@@ -22,17 +21,17 @@ export const Container = styled.div`
     top: 0;
     left: 0;
 
-    // 환영 인사 css
+    // 관리자 관리 내역
     .welcome {
-      margin-top: 20px;
+      margin-top: 60px;
       display: flex;
       justify-content: center;
       color: #353535;
 
-    /* 햄버거 버튼 css */
-    .hambeger {
-      position: relative;
-    }
+      /* 햄버거 버튼 css */
+      .hambeger {
+        position: relative;
+      }
     }
   }
   .mainbody {
@@ -40,48 +39,27 @@ export const Container = styled.div`
   }
 `;
 
-export const UserContainer = styled.div`
-  display: flex;
-  margin: 40px 20px 20px;
-  align-items: center;
-`;
-/* 프로필 이미지 */
-export const UserImage = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-`;
-/* 관리자 id와 이름 */
-export const UserIdAndName = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  margin: 2px 10px;
-  line-height: 1.5;
-`;
-// 햄버거 토글 안 목록 
+// 햄버거 토글 안 목록
 export const List = styled.ul`
-    margin: 30px;
+  margin: 30px;
+  position: relative;
+  .m-title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 60px;
+    cursor: pointer;
     position: relative;
-    .m-title {
-        font-size: 20px;
-        font-weight: bold;
-        line-height: 60px;
-        cursor: pointer;
-        position: relative;
-    }
-    .sub-menu {
-       line-height: 30px;
-        cursor: pointer;
-        position: relative;
-        /* text-align: center; */
-    }
-    .logoBox {
-        display:flex;
-        justify-content: end;
-    }
+  }
+  .sub-menu {
+    line-height: 45px;
+    cursor: pointer;
+    position: relative;
+    /* text-align: center; */
+  }
+  .logoBox {
+    display: flex;
+    justify-content: end;
+  }
 `;
 // 햄버거 사이드메뉴 움직이는 css
 export const StyledSideMenu = styled.div`

@@ -111,6 +111,20 @@ const AdminAxiosApi =  {
     });             
   },
 
+    // 게시글 삭제
+    boardDelete: async (categoryId) => {
+      const accessToken = Common.getAccessToken();
+      return await axios.delete(
+        KH_DOMAIN +`/category/delete/${categoryId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+  },
+
   // 게시글 페이지네이션 조회
   boardPageList: async (page, size) => {
     const accessToken = Common.getAccessToken();

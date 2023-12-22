@@ -23,9 +23,9 @@ const Container = styled.div`
     align-items: center;
 
     span {
-        font-size: 30px;
-        font-weight: bold;
-        margin: 80px;
+      font-size: 30px;
+      font-weight: bold;
+      margin: 80px;
     }
   }
 `;
@@ -67,7 +67,7 @@ const StyledLabel2 = styled.label`
   font-size: 20px;
 `;
 
-// 종목 칸 
+// 종목 칸
 const StyledInput = styled.input`
   border: 1px solid #ddd;
   width: 85%;
@@ -76,7 +76,7 @@ const StyledInput = styled.input`
   font-size: 16px;
   margin-left: 45px;
 `;
- // 사진, 로고 파일선택 칸
+// 사진, 로고 파일선택 칸
 const StyledInput2 = styled.input`
   font-size: 16px;
 `;
@@ -98,14 +98,14 @@ const UserImage = styled.img`
 
 // 사진 업로드 버튼
 const UploadButton = styled.button`
-  background-color: #DFEDE9;
+  background-color: #dfede9;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #04BF8A;
+    background-color: #04bf8a;
   }
 `;
 
@@ -120,160 +120,159 @@ const ButtonContainer = styled.div`
 // 각각 글쓰기, 취소 버튼
 const SubmitButton = styled.button`
   padding: 10px 15px;
-  background-color: #DFEDE9;
+  background-color: #dfede9;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
 
   &:hover {
-    background-color: #04BF8A;
+    background-color: #04bf8a;
   }
 `;
 
 const AdminBoardRegistration = () => {
-      const [name, setName] = useState(""); // 종목
-      const [img, setImg] = useState(""); // 사진이미지
-      const [logo, setLogo] = useState(""); // 로고
-      const [file, setFile] = useState(null); // 파일1(사진이미지)
-      const [file2, setFile2] = useState(null); // 파일2(로고이미지)
-      const navigate = useNavigate();
-    
-      // 종목명 name에 저장
-      const handleNameChange = (e) => {
-        setName(e.target.value);
-      };
+  const [name, setName] = useState(""); // 종목
+  const [img, setImg] = useState(""); // 사진이미지
+  const [logo, setLogo] = useState(""); // 로고
+  const [file, setFile] = useState(null); // 파일1(사진이미지)
+  const [file2, setFile2] = useState(null); // 파일2(로고이미지)
+  const navigate = useNavigate();
 
-      // 등록하기 버튼 클릭 시 성공여부
-      const handleSubmit = async () => {
-        console.log(name, img, logo);
-        try {
-          const rsp = await AdminAxiosApi.categorySave(
-            name, // 종목
-            img, // 운동 사진
-            logo // 로고 사진
-          );
-          if (rsp.data === true) {
-            alert("카테고리 등록 성공");
-          } else {
-            alert("카테고리 등록 실패");
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
+  // 종목명 name에 저장
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
 
-      // 취소 버튼 누르면 목록으로 감
-      const handleReset = () =>{
-        navigate(-1);
-      };
-    
-      // img 파일 선택
-      const handleFileInputChange = (e) => {
-        setFile(e.target.files[0]);
-      };
-      // logo 파일 선택
-      const handleFileInputChange2 = (e) => {
-        setFile2(e.target.files[0]);
-      };
+  // 등록하기 버튼 클릭 시 성공여부
+  const handleSubmit = async () => {
+    console.log(name, img, logo);
+    try {
+      const rsp = await AdminAxiosApi.categorySave(
+        name, // 종목
+        img, // 운동 사진
+        logo // 로고 사진
+      );
+      if (rsp.data === true) {
+        alert("카테고리 등록 성공");
+        navigate("/AllBoardContent");
+      } else {
+        alert("카테고리 등록 실패");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      // img 업로드
-      const handleUploadClick = async () => {
-        try {
-          const storageRef = storage.ref();
-          const fileRef = storageRef.child(file.name);
-    
-          // 파일을 업로드하고 기다림
-          await fileRef.put(file);
-          console.log("File uploaded successfully!");
-    
-          // 다운로드 URL을 가져오고 기다림
-          const url = await fileRef.getDownloadURL();
-          console.log("img 저장경로 확인 : " + url);
-    
-          // 상태 업데이트
-          setImg(url);
-        } catch (error) {
-          // 에러 처리
-          console.error("Upload failed", error);
-        }
-      };
+  // 취소 버튼 누르면 목록으로 감
+  const handleReset = () => {
+    navigate(-1);
+  };
 
-      // logo 업로드
-      const handleUploadClick2 = async () => {
-        try {
-          const storageRef = storage.ref();
-          const fileRef = storageRef.child(file2.name);
-    
-          // 파일을 업로드하고 기다립니다.
-          await fileRef.put(file2);
-          console.log("File uploaded successfully!");
-    
-          // 다운로드 URL을 가져오고 기다립니다.
-          const url2 = await fileRef.getDownloadURL();
-          console.log("logo 저장경로 확인 : " + url2);
-    
-          // 상태를 업데이트합니다.
-          setLogo(url2);
-        } catch (error) {
-          // 에러를 처리합니다.
-          console.error("Upload failed", error);
-        }
-      };
+  // img 파일 선택
+  const handleFileInputChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  // logo 파일 선택
+  const handleFileInputChange2 = (e) => {
+    setFile2(e.target.files[0]);
+  };
 
+  // img 업로드
+  const handleUploadClick = async () => {
+    try {
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(file.name);
 
-    return (
-      <Container>
-          <SubHeader />
-          <div className="Logo">
-              <FullLogoBth />
-              <span>전체 게시판 등록</span>
-          </div>
-        {/* 게시물 등록 */}
-        <Title>게시물 등록</Title>
-        {/* 게시물 등록 내용 감쌈 */}
-          <FormContainer>
+      // 파일을 업로드하고 기다림
+      await fileRef.put(file);
+      console.log("File uploaded successfully!");
 
+      // 다운로드 URL을 가져오고 기다림
+      const url = await fileRef.getDownloadURL();
+      console.log("img 저장경로 확인 : " + url);
+
+      // 상태 업데이트
+      setImg(url);
+    } catch (error) {
+      // 에러 처리
+      console.error("Upload failed", error);
+    }
+  };
+
+  // logo 업로드
+  const handleUploadClick2 = async () => {
+    try {
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(file2.name);
+
+      // 파일을 업로드하고 기다립니다.
+      await fileRef.put(file2);
+      console.log("File uploaded successfully!");
+
+      // 다운로드 URL을 가져오고 기다립니다.
+      const url2 = await fileRef.getDownloadURL();
+      console.log("logo 저장경로 확인 : " + url2);
+
+      // 상태를 업데이트합니다.
+      setLogo(url2);
+    } catch (error) {
+      // 에러를 처리합니다.
+      console.error("Upload failed", error);
+    }
+  };
+
+  return (
+    <Container>
+      <SubHeader />
+      <div className="Logo">
+        <FullLogoBth />
+        <span>전체 카테고리 등록</span>
+      </div>
+      {/* 게시물 등록 */}
+      <Title>카테고리 등록</Title>
+      {/* 게시물 등록 내용 감쌈 */}
+      <FormContainer>
         {/* 종목 쓰는 란 */}
-          <FieldContainer>
-            <StyledLabel htmlFor="title">종목</StyledLabel>
-            <StyledInput
-              type="text"
-              id="title"
-              name="title"
-              value={name}
-              onChange={handleNameChange}
-            />
-          </FieldContainer>
+        <FieldContainer>
+          <StyledLabel htmlFor="title">종목</StyledLabel>
+          <StyledInput
+            type="text"
+            id="title"
+            name="title"
+            value={name}
+            onChange={handleNameChange}
+          />
+        </FieldContainer>
 
-          {/* 운동 사진 업로드란 */}
-            <FileUploadContainer>
-              <StyledLabel2 htmlFor="title">사진</StyledLabel2>
-              <StyledInput2 type="file" onChange={handleFileInputChange} />
-              <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
-          </FileUploadContainer>
-          {/* 파일 업로드해서 파이어베이스에 올라감 */}
-          {img && <UserImage src={img} alt="uploaded" />}
+        {/* 운동 사진 업로드란 */}
+        <FileUploadContainer>
+          <StyledLabel2 htmlFor="title">사진</StyledLabel2>
+          <StyledInput2 type="file" onChange={handleFileInputChange} />
+          <UploadButton onClick={handleUploadClick}>Upload</UploadButton>
+        </FileUploadContainer>
+        {/* 파일 업로드해서 파이어베이스에 올라감 */}
+        {img && <UserImage src={img} alt="uploaded" />}
 
-          {/* 로고 사진 업로드란 */}
-          <FileUploadContainer>
-              <StyledLabel2 htmlFor="title">로고</StyledLabel2>
-              <StyledInput2 type="file" onChange={handleFileInputChange2} />
-              <UploadButton onClick={handleUploadClick2}>Upload</UploadButton>
-          </FileUploadContainer>
-           {/* 파일 업로드해서 파이어베이스에 올라감 */}
-          {logo && <UserImage src={logo} alt="uploaded" />}
+        {/* 로고 사진 업로드란 */}
+        <FileUploadContainer>
+          <StyledLabel2 htmlFor="title">로고</StyledLabel2>
+          <StyledInput2 type="file" onChange={handleFileInputChange2} />
+          <UploadButton onClick={handleUploadClick2}>Upload</UploadButton>
+        </FileUploadContainer>
+        {/* 파일 업로드해서 파이어베이스에 올라감 */}
+        {logo && <UserImage src={logo} alt="uploaded" />}
 
-          {/* 글쓴거 업로드, 취소 버튼 */}
-          <ButtonContainer>
-            <SubmitButton onClick={handleSubmit}>글쓰기</SubmitButton>
-            <SubmitButton onClick={handleReset}>취소</SubmitButton>
-          </ButtonContainer>
-        </FormContainer>
-           {/* 햄버거 토글 사이드바 */}
-           <Layout/>
-        </Container>
-    )
+        {/* 글쓴거 업로드, 취소 버튼 */}
+        <ButtonContainer>
+          <SubmitButton onClick={handleSubmit}>글쓰기</SubmitButton>
+          <SubmitButton onClick={handleReset}>취소</SubmitButton>
+        </ButtonContainer>
+      </FormContainer>
+      {/* 햄버거 토글 사이드바 */}
+      <Layout />
+    </Container>
+  );
 };
 
 export default AdminBoardRegistration;

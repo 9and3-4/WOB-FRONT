@@ -17,63 +17,71 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
-        span {
-            font-size: 30px;
-            font-weight: bold;
-            margin: 100px;
-        }
+    span {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 100px;
     }
+  }
 `;
 
 const Buttons = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
 `;
 
 const Click = styled.div`
-    background-color: #DFEDE9;
-    border-radius: 20px;
-    margin: 20px;
-    padding: 30px;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content:center;
-    box-shadow: 1px 2px 3px #353535;
-    cursor: pointer;
+  background-color: #dfede9;
+  border-radius: 20px;
+  margin: 20px;
+  padding: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 2px 3px #353535;
+  cursor: pointer;
 
-    &:hover {
-        background-color: #04BF8A;
-    }
-
+  &:hover {
+    background-color: #04bf8a;
+  }
 `;
 
 const AdminMain = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleNavigate = (path) => {
-        navigate(path)
-    };
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
-    return (
-        <Container>
-            <SubHeader />
-            <div className="Logo">
-                <FullLogoBth />
-                <span>관리자 메뉴</span>
-            </div>
-            <Buttons>
-                <Click onClick={() => handleNavigate("/AllMemberInfo")}>전체 회원 관리</Click>
-                <Click onClick={() => handleNavigate("/AllPaymentContent")}>전체 결제 내역 관리</Click>
-                <Click onClick={() => handleNavigate("/AllBoardContent")}>전체 게시글 관리</Click>
-                <Click onClick={() => handleNavigate("/Advertising")}>광고 관리</Click>
-                <Click onClick={() => handleNavigate("/AskContent")}>문의 하기/Q&A</Click>
-                <Click onClick={() => handleNavigate("/")}>홈으로 돌아가기</Click>
-            </Buttons>
-            <Layout />
-        </Container>
-    )
+  return (
+    <Container>
+      <SubHeader />
+      <div className="Logo">
+        <FullLogoBth />
+        <span>관리자 메뉴</span>
+      </div>
+      <Buttons>
+        <Click onClick={() => handleNavigate("/AllMemberInfo")}>
+          전체 회원 관리
+        </Click>
+        <Click onClick={() => handleNavigate("/AllPaymentContent")}>
+          전체 결제 내역 관리
+        </Click>
+        <Click onClick={() => handleNavigate("/AllBoardContent")}>
+          전체 카테고리 관리
+        </Click>
+        <Click onClick={() => handleNavigate("/")}>전체 게시판 관리</Click>
+        <Click onClick={() => handleNavigate("/Advertising")}>광고 관리</Click>
+        <Click onClick={() => handleNavigate("/AskContent")}>
+          문의 하기/Q&A
+        </Click>
+        <Click onClick={() => handleNavigate("/")}>홈으로 돌아가기</Click>
+      </Buttons>
+      <Layout />
+    </Container>
+  );
 };
 
 export default AdminMain;
