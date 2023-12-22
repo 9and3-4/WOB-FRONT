@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PostAxiosApi from "../api/PostAxiosApi";
 import { useParams } from "react-router-dom";
-import KakaoMap from "../component/Map";
+import PostMap from "../component/PostMap";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import Payment from "../component/Payment";
@@ -30,6 +30,7 @@ const PictureCon = styled.div`
 const Image = styled.img`
   width: 100%;
   height: auto;
+  border-radius: 20px;
 `;
 
 const TitleBox = styled.div`
@@ -106,7 +107,7 @@ const PostDetail = ({ categoryImage }) => {
         </PictureCon>
         <TitleBox> {post.title} </TitleBox>
         <TextBox>카테고리 {post.categoryName}</TextBox>
-        <KakaoMap />
+        <PostMap />
         <TextBox>
           장소 {post.local} {post.place}
         </TextBox>
