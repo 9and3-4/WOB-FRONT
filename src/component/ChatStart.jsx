@@ -5,19 +5,21 @@ import Common from "../utils/Common";
 import { useNavigate } from "react-router-dom";
 
 const ChatBtn = styled.button`
-  background-color: var(--MINT); // 버튼 배경 없애기
+  margin: 10px;
+  width: 90px;
+  height: 45px;
+  background-color: var(--MINT);
+  border-radius: 20px;
   border: none;
-  width: 120px;
-  height: 30px;
-  font-size: 20px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px 1px #bbbbbb;
+  font-size: 16px;
+  cursor: pointer;
+
   &:hover {
-    background-color: var(--GREEN);
+    opacity: 0.7;
   }
 `;
 
-const ChatStart = (postId) => {
+const ChatStart = ({ postId, children }) => {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState();
 
@@ -57,7 +59,7 @@ const ChatStart = (postId) => {
   };
   return (
     <>
-      <ChatBtn onClick={handleCreateChatRoom}>결제하기</ChatBtn>
+      <ChatBtn onClick={handleCreateChatRoom}>{children}</ChatBtn>
     </>
   );
 };

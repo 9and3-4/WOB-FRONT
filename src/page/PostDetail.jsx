@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import KakaoMap from "../component/Map";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
+import Payment from "../component/Payment";
+import ChatStart from "../component/ChatStart";
 
 const Container = styled.div`
   max-width: 768px;
@@ -43,17 +45,19 @@ const TextBox = styled.div`
 `;
 
 const ButtonBox = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
 `;
 
 const ContentButton = styled.button`
-  padding: 15px;
+  margin: 10px;
+  width: 90px;
+  height: 45px;
   background-color: var(--MINT);
   border-radius: 20px;
   border: none;
-  margin: 5px;
+  font-size: 16px;
   cursor: pointer;
 
   &:hover {
@@ -114,9 +118,11 @@ const PostDetail = ({ categoryImage }) => {
         <TextBox>예상 비용 {post.fee}원</TextBox>
         <TextBox>일정 소개 {post.introduction}</TextBox>
         <ButtonBox>
-          <ContentButton>문의하기</ContentButton>
-          <ContentButton>결제하기</ContentButton>
-          <ContentButton>일정 추가</ContentButton>
+          {post.type === "normal" && (
+            <ChatStart postId={postId}>문의하기</ChatStart>
+          )}
+          {post.type === "lesson" && <Payment>결제하기</Payment>}
+          <ContentButton>일정추가</ContentButton>
         </ButtonBox>
       </ContentBox>
       <FooterBox>

@@ -4,15 +4,17 @@ import styled from "styled-components";
 import PaymentAxiosApi from "../api/PaymentAxiosApi";
 
 const PaymentBtn = styled.button`
-  background-color: var(--MINT); // 버튼 배경 없애기
+  margin: 10px;
+  width: 90px;
+  height: 45px;
+  background-color: var(--MINT);
+  border-radius: 20px;
   border: none;
-  width: 120px;
-  height: 30px;
-  font-size: 20px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px 1px #bbbbbb;
+  font-size: 16px;
+  cursor: pointer;
+
   &:hover {
-    background-color: var(--GREEN);
+    opacity: 0.7;
   }
 `;
 const Payment = (props) => {
@@ -24,6 +26,7 @@ const Payment = (props) => {
     adId,
     fee,
     postPhoneNum,
+    children,
   } = props;
   const navigate = useNavigate();
 
@@ -86,7 +89,7 @@ const Payment = (props) => {
   };
   return (
     <>
-      <PaymentBtn onClick={onClickPayment}>결제하기</PaymentBtn>
+      <PaymentBtn onClick={onClickPayment}>{children}</PaymentBtn>
     </>
   );
 };

@@ -9,25 +9,24 @@ import { KH_SOCKET_URL } from "../../utils/Common";
 
 const Container = styled.div`
   position: relative;
-  max-height: 750px;
   padding: 20px;
   max-width: 768px;
-  margin: 10px auto;
-  background-color: #dfede9;
+  margin: 40px auto;
+  background-color: var(--MINT);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 `;
 const ChatHeader = styled.div`
-  font-size: 1.3em;
+  font-size: 1.5em;
   color: #333;
   text-align: center;
-  margin-bottom: 20px;
+  margin-left: 40%;
 `;
 
 const MessagesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 650px;
   overflow-y: auto;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -70,6 +69,7 @@ const Input = styled.input`
 
 const SendButton = styled.button`
   padding: 10px 15px;
+  margin-left: 10px;
   border: none;
   width: 100px;
   background-color: #ffffff;
@@ -83,19 +83,7 @@ const SendButton = styled.button`
     background-color: #04bf8a;
   }
 `;
-const CloseButton = styled.button`
-  padding: 10px 15px;
-  border: none;
-  background-color: #f44336;
-  color: white;
-  border-radius: 4px;
-  margin-top: 10px;
-  cursor: pointer;
 
-  &:hover {
-    background-color: #d32f2f;
-  }
-`;
 const HeaderBox = styled.div`
   display: flex;
   position: relative;
@@ -117,29 +105,6 @@ const BackBtn = styled.button`
     width: 80%;
     height: 60%;
   }
-`;
-
-const ApplyBtn = styled.button`
-  position: absolute;
-  right: 10%;
-  top: 10%;
-  width: 50px;
-  height: 50px;
-  background-color: transparent; // 버튼 배경 없애기
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: row;
-
-  img {
-    width: 80%;
-    height: 60%;
-  }
-`;
-
-const MenuText = styled.div`
-  font-size: 28px;
 `;
 
 const Chatting = () => {
@@ -311,15 +276,9 @@ const Chatting = () => {
               alt="뒤로가기버튼"
             />
           </BackBtn>
-          <ApplyBtn onClick={() => navigate(-1)}>
-            <MenuText>신청하기</MenuText>
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/%EC%98%A4%EB%A5%B8%EC%AA%BD%EB%B2%84%ED%8A%BC.png?alt=media&token=bec9f8e7-1188-4e9e-9cc0-b54db35db80f"
-              alt="신청하기버튼"
-            />
-          </ApplyBtn>
+          <ChatHeader>&lt; {roomName} &gt;</ChatHeader>
         </HeaderBox>
-        <ChatHeader>&lt; {roomName} &gt;</ChatHeader>
+
         <MessagesContainer ref={chatContainerRef}>
           {chatList.map((chat, index) => (
             <MessageBox key={index} isSender={chat.sender === sender}>
