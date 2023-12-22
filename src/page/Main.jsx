@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import AdCarousel from "../component/MainAd";
 import CalendarComp from "../component/CalendarComp";
@@ -114,14 +114,37 @@ const Main = () => {
   const { email } = useParams();
   const { addr, temp, sky, pty } = Weather();
   const [isCurrentUser, setIsCurrentUser] = useState(false);
-  const [selectDate, setSelectDate] = useState(null);
   const [showCalendar, setShowCalender] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment());
   const [interest, setInterest] = useState([]);
-  const onDateSelect = (date) => {
-    setSelectedDate(date);
-    console.log("selectedDate", selectedDate);
+  const [calendarDate, setCalendarDate] = useState(selectedDate);
+  const handleDatePickerChange = (date) => {
+    const updatedDate = moment(date); // 새로운 선택된 날짜를 moment 객체로 변환
+    setSelectedDate(updatedDate); // selectedDate 업데이트
+    setCalendarDate(updatedDate); // calendarDate 업데이트
   };
+
+  // const onDateSelect = (date) => {
+  //   setSelectedDate(date);
+  //   console.log("selectedDate", selectedDate);
+  // };
+  const calendarRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        // 캘린더 외부를 클릭하면 캘린더를 닫음
+        setShowCalender(false);
+      }
+    };
+    // document에 클릭 이벤트 추가
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // 컴포넌트가 unmount 될 때 이벤트 제거
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     const userInfo = async () => {
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
@@ -146,9 +169,10 @@ const Main = () => {
   };
 
   // 달력에 있는 날짜 선택
-  const hadleDateSelect = (date) => {
-    setSelectDate(date);
-    fetchPostByDate(date); // 날짜에 해당하는 게시글 가져오기
+  const handleDateSelect = (date) => {
+    // setSelectDate(date);
+    // fetchPostByDate(moment(date)); // 날짜에 해당하는 게시글 가져오기
+    setSelectedDate(moment(date));
     setShowCalender(false);
   };
 
@@ -162,14 +186,14 @@ const Main = () => {
     navigate("/postlist");
   };
 
-  const fetchPostByDate = async (selectDate) => {
-    try {
-      // 선택한 날짜에 해당하는 게시글 가져오는 api 호출 -> 백 코드 생성후 마저 생성 예정.
-      const response = await fetch();
-    } catch (error) {
-      console.error("Error fetching posts: ", error);
-    }
-  };
+  // const fetchPostByDate = async (selectDate) => {
+  //   try {
+  //     // 선택한 날짜에 해당하는 게시글 가져오는 api 호출 -> 백 코드 생성후 마저 생성 예정.
+  //     const response = await fetch();
+  //   } catch (error) {
+  //     console.error("Error fetching posts: ", error);
+  //   }
+  // };
 
   return (
     <>
@@ -198,10 +222,13 @@ const Main = () => {
             onClick={handleIconClick}
           />
           {showCalendar && (
-            <div style={{ position: "relative", zIndex: 1 }}>
+            <div ref={calendarRef} style={{ position: "relative", zIndex: 1 }}>
               <DatePicker
-                selected={selectDate}
-                onChange={hadleDateSelect}
+                selected={selectedDate.toDate()}
+                onChange={(date) => {
+                  handleDatePickerChange(date);
+                }}
+                onSelect={handleDateSelect}
                 inline
               />
             </div>
@@ -209,8 +236,9 @@ const Main = () => {
         </DateBox>
         <CalenderBox>
           <CalendarComp
-            // onDateSelect={(date) => console.log(date)}
-            onDateSelect={onDateSelect}
+            onDateSelect={handleDateSelect}
+            selectedDate={selectedDate}
+            calendarDate={calendarDate}
           />
         </CalenderBox>
         <MediumContainer>

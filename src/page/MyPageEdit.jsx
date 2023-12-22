@@ -11,10 +11,10 @@ import { Link } from "react-router-dom";
 import SelectSports from "../component/interest/SelectSportsClon";
 import SelectArea from "../component/interest/SelectAreaClon";
 import {
-  OptionBoardBody,
-  SelectOptionBoardFooter,
-  SelectOptionBoard,
-  SelectOptionBoardHeader,
+  OptionBoardCom,
+  SelectOptionBoardFooterCom,
+  SelectOptionBoardCom,
+  SelectOptionBoardHeaderComp,
 } from "../component/interest/SelectAreaClon";
 import SelectMBTI from "../component/MBTI/MBTI";
 import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
@@ -32,6 +32,7 @@ const HeaderBox = styled.div`
   margin: 0 auto;
 `;
 const EditBox = styled.div`
+  border: 1px solid black;
   margin-bottom: 15%;
 `;
 const FooterBox = styled.div`
@@ -58,7 +59,8 @@ const UserInfo = styled.div`
 
 const UserNickname = styled.h2`
   margin-left: 20px;
-  font-size: 3em;
+  font-size: 2em;
+  color: #353535;
 `;
 const InterestCon = styled.div`
   display: flex;
@@ -104,13 +106,16 @@ const EditNick = styled.div`
   justify-content: center;
 `;
 const Input = styled.input`
-  width: 80%;
+  width: 100%;
   padding: 8px;
   margin-top: 4px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  transition: height 0.5s ease; // 트랜지션 추가
+  ${({ isOpen }) => isOpen && "height: 600px;"}// isOpen에 따라 높이 변경
 `;
 const Label = styled.label`
+  color: #353535;
   display: block;
   margin: 20px 10px;
   padding: 10px;
@@ -124,7 +129,7 @@ const SubmitButton = styled.button`
   background-color: #dfede9;
   width: 3em;
   margin-left: 1em;
-  color: #000000;
+  color: #353535;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -154,7 +159,9 @@ const EditBtn = styled.div`
 const StyledLink = styled(Link)`
   margin: 0 30px;
 `;
-const Text = styled.div``;
+const Text = styled.div`
+  color: white;
+`;
 
 const MyPageEdit = () => {
   const { email } = useParams();
@@ -218,11 +225,16 @@ const MyPageEdit = () => {
 
   //선택 종목
   const [selectedSports, setSelectedSports] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   //선택종목 실행함수
-  const handleSelected = (selectedList) => {
-    console.log("부모 컴포넌트에서 선택된 스포츠 아이템 : ", selectedList);
+  const handleSelected = (selectedSports) => {
+    console.log("부모 컴포넌트에서 선택된 스포츠 아이템 : ", selectedSports);
+    console.log("부모 컴포넌트에서 선택된 스포츠 아이템 : ", selectedItems);
     //선택 아이템 부모 컴포넌트 상태로 설정
-    setSelectedSports(selectedList);
+    setSelectedSports(selectedSports);
+  };
+  const handleSelectedArea = (selectedItems) => {
+    setSelectedItems(selectedItems);
   };
 
   //회원정보 업데이트 Axios호출 . 회원정보 수정 '수정' 버튼
@@ -232,7 +244,8 @@ const MyPageEdit = () => {
       editNickname,
       url,
       selectedItem,
-      selectedSports
+      selectedSports,
+      selectedItems
     );
     console.log("회원정보 업데이트 rsp 확인 : ", rsp.data);
     if (rsp.status === 200) {
@@ -377,31 +390,40 @@ const MyPageEdit = () => {
             </IMGField>
           </>
         )}
-        <SelectOptionBoardHeader isOpen={isOpen}>
+        <SelectOptionBoardHeaderComp isOpen={isOpen}>
           <Text>닉네임</Text>
-        </SelectOptionBoardHeader>
-        <EditNick>
-          {!editMode ? (
-            <UserNickname>{user.nickname}</UserNickname>
-          ) : (
-            <OptionBoardBody
-              isOpen={isOpen}
-              type="text"
-              name="Nickname"
-              placeholder={user.nickname}
-              value={editNickname}
-              onChange={handleChange}
-            />
-          )}
-          <SelectOptionBoardFooter />
-        </EditNick>
-        <FieldEditTitle>
-          <Label>희망 지역</Label>
-        </FieldEditTitle>
+        </SelectOptionBoardHeaderComp>
+        <SelectOptionBoardCom>
+          <EditNick>
+            {!editMode ? (
+              <SelectOptionBoardFooterCom onClick={handleToggle}>
+                <UserNickname>{user.nickname}</UserNickname>
+              </SelectOptionBoardFooterCom>
+            ) : (
+              <OptionBoardCom isOpen={isOpen}>
+                <Input
+                  // isOpen={isOpen}
+                  type="text"
+                  name="Nickname"
+                  placeholder={user.nickname}
+                  value={editNickname}
+                  onChange={handleChange}
+                />
+                <SelectOptionBoardFooterCom onClick={handleToggle}>
+                  <UserNickname>{user.nickname}</UserNickname>
+                </SelectOptionBoardFooterCom>
+              </OptionBoardCom>
+            )}
+          </EditNick>
+        </SelectOptionBoardCom>
+        <SelectOptionBoardHeaderComp isOpen={isOpen}>
+          <Text>관심 지역</Text>
+        </SelectOptionBoardHeaderComp>
         <FieldEditTitle>
           <UserContainer>
             <InterestCon>
               {!editMode ? (
+                area &&
                 area.map((areaItem, index) => (
                   <>
                     <Selected key={index} value={areaItem}>
@@ -415,7 +437,7 @@ const MyPageEdit = () => {
                   min={minValue}
                   max={maxValue}
                   text={`최소 ${minValue}개 최대 ${maxValue}개 선택해주세요.`}
-                  handleSelected={handleSelected}
+                  handleSelected={handleSelectedArea}
                 />
               )}
             </InterestCon>
@@ -427,6 +449,7 @@ const MyPageEdit = () => {
         <UserContainer>
           <InterestCon>
             {!editMode ? (
+              interest &&
               interest.map((interestItem, index) => (
                 <>
                   <Selected key={index} value={interestItem}>

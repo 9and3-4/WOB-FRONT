@@ -16,18 +16,13 @@ const CenterBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  width: 768px;
 `;
 
-const StyledNextButton = styled(NextButton)`
-  width: 700px;
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 50px;
-`;
-
-export const SelectOptionBoard = styled.div`
-  width: 650px;
-  height: 160px;
+export const SelectOptionBoardCom = styled.div`
+  width: 768px;
+  height: 60px;
+  margin-bottom: 20px;
   background-color: #fff;
   overflow: hidden;
   position: relative;
@@ -35,23 +30,8 @@ export const SelectOptionBoard = styled.div`
   ${({ isOpen }) => isOpen && "height: 600px;"}// isOpen에 따라 높이 변경
 `;
 
-export const SelectOptionBoardHeader = styled.div`
-  font-size: 1.8em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 768px;
-  height: 60px;
-  background-color: #dfede9;
-  border-top-left-radius: 40px;
-  border-top-right-radius: 40px;
-`;
-const OptionBoardHeaderLogo = styled.img`
-  width: 80px;
-  height: auto;
-  margin-left: 10px;
-`;
-export const OptionBoardBody = styled.div`
+export const OptionBoardCom = styled.div`
+  color: #353535;
   transition: height 0.3s ease; // 트랜지션 추가
   box-sizing: border-box;
   overflow: auto;
@@ -59,10 +39,22 @@ export const OptionBoardBody = styled.div`
   ${({ isOpen }) => isOpen && "height: 440px;"} // isOpen에 따라 높이 변경
 `;
 
-export const SelectOptionBoardFooter = styled.div`
+export const SelectOptionBoardHeaderComp = styled.div`
+  font-size: 1.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 768px;
   height: 60px;
   background-color: #04bf8a;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+`;
+export const SelectOptionBoardFooterCom = styled.div`
+  border: 1px solid black;
+  width: 768px;
+  height: 60px;
+  background-color: #dfede9;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -75,12 +67,12 @@ export const SelectOptionBoardFooter = styled.div`
 
 const AreasGird = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
-  padding: 40px;
+  padding: 20px;
 `;
 
-const SelectArea = ({ options, min, max, title, text }) => {
+const SelectArea = ({ options, min, max, title, text, handleSelected }) => {
   const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -92,6 +84,7 @@ const SelectArea = ({ options, min, max, title, text }) => {
   };
 
   const handleSelect = (item) => {
+    console.log("선택된 운동들 : ", ...selectedItems);
     if (selectedItems.includes(item)) {
       setSelectedItems(
         selectedItems.filter((selectedItem) => selectedItem !== item)
@@ -99,55 +92,26 @@ const SelectArea = ({ options, min, max, title, text }) => {
     } else {
       if (selectedItems.length < maxSelection) {
         setSelectedItems([...selectedItems, item]);
+        handleSelected([...selectedItems, item]);
       }
     }
   };
-
-  const isNextButtonActive =
-    selectedItems.length >= minSelection &&
-    selectedItems.length <= maxSelection;
-
-  // const handleNext = (selectedItems) => {
-  //   const itemsWithInput = selectedItems;
-
-  //   if (LoginPageAxiosApi.interestAreas(itemsWithInput)) {
-  //     console.log(itemsWithInput);
-  //     console.log("interestAreas 등록 완료");
-  //     navigate("/");
-  //   }
-  // };
 
   return (
     <CenterBox>
       <TitleAlign>{title}</TitleAlign>
       <TextAlign>{text}</TextAlign>
-      <SelectOptionBoard isOpen={isOpen}>
-        <SelectOptionBoardHeader>
-          <OptionBoardHeaderLogo src="/wob-logo-green.png" />
-        </SelectOptionBoardHeader>
-        <OptionBoardBody isOpen={isOpen}>
-          <AreasGird>
-            {options.map((activity) => (
-              <SelectButton
-                key={activity}
-                onClick={() => handleSelect(activity)}
-                selected={selectedItems.includes(activity)}
-              >
-                {activity}
-              </SelectButton>
-            ))}
-          </AreasGird>
-        </OptionBoardBody>
-        <SelectOptionBoardFooter onClick={handleToggle}>
-          지역선택하기
-        </SelectOptionBoardFooter>
-      </SelectOptionBoard>
-      {/* <StyledNextButton
-        active={isNextButtonActive}
-        onClick={isNextButtonActive ? () => handleNext(selectedItems) : null}
-      >
-        다음
-      </StyledNextButton> */}
+      <AreasGird>
+        {options.map((activity) => (
+          <SelectButton
+            key={activity}
+            onClick={() => handleSelect(activity)}
+            selected={selectedItems.includes(activity)}
+          >
+            {activity}
+          </SelectButton>
+        ))}
+      </AreasGird>
     </CenterBox>
   );
 };

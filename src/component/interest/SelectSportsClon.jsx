@@ -11,7 +11,7 @@ import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
 
 const SportsGird = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
   padding: 40px;
 `;
@@ -53,12 +53,6 @@ const SelectSports = ({ options, min, max, title, text, handleSelected }) => {
             {activity}
           </SelectButton>
         ))}
-        <InputBar
-          placeholder="기타"
-          onChange={(e) => setValue(e.target.value)}
-          disabled={selectedSports.length >= maxSelection}
-          hasValue={value !== ""}
-        />
       </SportsGird>
     </>
   );
