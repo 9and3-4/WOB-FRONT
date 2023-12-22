@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PostAxiosApi from "../api/PostAxiosApi";
 import Modal from "../utils/Modal";
+import { storage } from "../api/firebase";
 
 const Container = styled.div`
   max-width: 768px;
@@ -181,12 +182,7 @@ const StyledSelect = styled.select`
 
 const PostSubmit = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("normal");
-
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
+  const [selectedOption, setSelectedOption] = useState("normal"); // 일반, 레슨 등록 선택
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState([]); // 카테고리 목록
   const [seletedCategory, setSelectedCategory] = useState(""); // 선택된 카테고리 추가
@@ -198,9 +194,28 @@ const PostSubmit = () => {
   const [people, setPeople] = useState("");
   const [detail, setDetail] = useState("");
   // 레슨 일정 등록에 필요한 state 변수들
-  const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
+  const [url, setUrl] = useState(null);
   const [advertisement, setAdvertisement] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
+  const resetForm = () => {
+    setTitle("");
+    setSelectedCategory("");
+    setDate("");
+    setTime("");
+    setLocal("");
+    setPlace("");
+    setCost("");
+    setPeople("");
+    setDetail("");
+    setUrl(null);
+  };
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    resetForm(); // 라디오 버튼 옵션이 변경될 때 폼을 초기화
+  };
 
   // 카테고리 목록 가져오기
   useEffect(() => {
@@ -210,7 +225,6 @@ const PostSubmit = () => {
         const rsp = await PostAxiosApi.categoryList();
         console.log(rsp.data);
         setCategory(rsp.data);
-        console.log(category); // 데이터 확인
       } catch (error) {
         console.error("error : ", error);
       }
@@ -292,6 +306,7 @@ const PostSubmit = () => {
       date: krDateString,
       time: krTimeString,
       type: selectedOption,
+      url,
     });
     console.log("type : ", selectedOption);
     console.log("Response:", rsp.data);
@@ -306,7 +321,7 @@ const PostSubmit = () => {
       cost,
       people,
       detail,
-      image,
+      url,
       selectedOption,
     });
     if (rsp.data) {
@@ -314,6 +329,32 @@ const PostSubmit = () => {
       navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
     } else {
       alert("등록 실패");
+    }
+  };
+
+  const handleUploadClick = async (e) => {
+    try {
+      // 사용자가 선택한 파일 가져오기
+      const selectedFile = e.target.files[0];
+      if (selectedFile) {
+        setFile(selectedFile);
+      } else {
+        console.log("파일 선택 취소");
+      }
+      // firebase storeage의 루트 참조를 생성
+      const storageRef = storage.ref();
+      // 파일을 저장할 경로를 설정
+      const fileRef = storageRef.child(file.name);
+      // 파일을 firebase에 업로드하고 기다림
+      await fileRef.put(file);
+      console.log("file uploaded successfully!!!!!");
+      // 다운로드 url을 가져오고 기다림
+      const url = await fileRef.getDownloadURL();
+      console.log("저장경로 확인 : " + url);
+      // 상태를 업데이트
+      setUrl(url);
+    } catch (error) {
+      console.log("upload failed", error);
     }
   };
 
@@ -443,11 +484,7 @@ const PostSubmit = () => {
             {selectedOption === "lesson" && (
               <>
                 {/* 이미지 업로드 필드 (선택) */}
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+                <Input type="file" name="file" onChange={handleUploadClick} />
                 <br />
                 <AdButton type="button" onClick={() => setModalOpen(true)}>
                   광고 등록 (선택 사항)
