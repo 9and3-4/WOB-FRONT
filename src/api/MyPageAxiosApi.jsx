@@ -28,6 +28,7 @@ const MyPageAxiosApi = {
   userUpdate: async (
     email,
     nickname,
+    introduce,
     image,
     mbti,
     interestSports,
@@ -35,9 +36,10 @@ const MyPageAxiosApi = {
   ) => {
     const accessToken = localStorage.getItem("accessToken");
     console.log(
-      "axios 수정 email,nick,image,mbti, : ",
+      "axios 회원정보 수정 업데이트 하기 : ",
       email,
       nickname,
+      introduce,
       image,
       mbti,
       interestSports,
@@ -46,10 +48,11 @@ const MyPageAxiosApi = {
     const user = {
       email: email,
       nickname: nickname,
+      introduce: introduce,
       image: image,
       mbti: mbti,
       interestSports: interestSports,
-      interestArea,
+      interestArea: interestArea,
     };
     return await axios.put(KH_DOMAIN + `/users/modify`, user, {
       headers: {

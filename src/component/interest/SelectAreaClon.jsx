@@ -20,23 +20,23 @@ const CenterBox = styled.div`
 `;
 
 export const SelectOptionBoardCom = styled.div`
-  width: 768px;
-  height: 60px;
-  margin-bottom: 20px;
+  width: 100%;
   background-color: #fff;
   overflow: hidden;
   position: relative;
   transition: height 0.5s ease; // 트랜지션 추가
-  ${({ isOpen }) => isOpen && "height: 600px;"}// isOpen에 따라 높이 변경
+  ${({ isOpen }) => isOpen && "height: 100%;"}// isOpen에 따라 높이 변경
 `;
 
 export const OptionBoardCom = styled.div`
   color: #353535;
+  display: inline-block;
+  width: 100%;
   transition: height 0.3s ease; // 트랜지션 추가
   box-sizing: border-box;
-  overflow: auto;
-  ${({ isOpen }) => isOpen && "border: 2px solid #dfede9;"}
-  ${({ isOpen }) => isOpen && "height: 440px;"} // isOpen에 따라 높이 변경
+  overflow: hidden;
+  ${({ isOpen }) => isOpen && "border: 2px solid #dfede9;"}/* ${({ isOpen }) =>
+    isOpen && "height: 440px;"} // isOpen에 따라 높이 변경 */
 `;
 
 export const SelectOptionBoardHeaderComp = styled.div`
@@ -51,7 +51,6 @@ export const SelectOptionBoardHeaderComp = styled.div`
   border-top-right-radius: 40px;
 `;
 export const SelectOptionBoardFooterCom = styled.div`
-  border: 1px solid black;
   width: 768px;
   height: 60px;
   background-color: #dfede9;
@@ -61,7 +60,7 @@ export const SelectOptionBoardFooterCom = styled.div`
   align-items: center;
   border-bottom-left-radius: 40px; /* 왼쪽 하단 모서리 둥글게 */
   border-bottom-right-radius: 40px; /* 오른쪽 하단 모서리 둥글게 */
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
 `;
 
