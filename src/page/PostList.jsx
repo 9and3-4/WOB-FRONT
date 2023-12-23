@@ -64,6 +64,7 @@ const PostList = ({ selectedDate }) => {
                 local={post.local}
                 people={post.people}
                 category={post.categoryName}
+                type={post.type}
               />
             </StyledLink>
           ))}

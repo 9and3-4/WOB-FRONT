@@ -30,11 +30,13 @@ const DetailBox = styled.div`
 `;
 
 const Titlebox = styled.div`
-  width: 90%;
+  width: 95%;
   padding-top: 25px;
   padding-left: 20px;
   font-size: 20px;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const DateBox = styled.div`
@@ -74,12 +76,18 @@ const Icon = styled(FontAwesomeIcon)`
   margin-right: 8px; /* 아이콘과 텍스트 사이의 간격을 조절 */
 `;
 
-const PostPreview = ({ title, date, time, local, people, category }) => {
+const PostPreview = ({ title, date, time, local, people, category, type }) => {
+  const isLesson = type === "lesson";
   return (
     <>
       <Container>
-        <DetailBox>
-          <Titlebox>{title}</Titlebox>
+        <DetailBox
+          style={{ backgroundColor: isLesson ? "var(--GREEN)" : "var(--MINT)" }}
+        >
+          <Titlebox>
+            {title}{" "}
+            {isLesson && <span style={{ color: "#555555" }}>Lesson</span>}
+          </Titlebox>
           <DateBox>
             {date} {time}
           </DateBox>
