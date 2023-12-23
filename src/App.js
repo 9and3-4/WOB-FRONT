@@ -82,7 +82,7 @@ function App() {
           <Route path="/AllPaymentList" element={<AllPaymentList />} />
           {/* 문의하기(Q&A) */}
           <Route path="/AskContent" element={<AskContent />} />
-          <Route path="/AskContents" element={<AskContents />} />
+          {/* <Route path="/AskContents" element={<AskContents />} /> */}
           {/* 환경설정 */}
           <Route element={<SettingLayout />}>
             <Route path="/Setting" element={<Setting />} />

@@ -92,6 +92,18 @@ const PostAxiosApi = {
       },
     });
   },
+
+  // postId로 장소만 가져오기
+  postAddressById: async (postId) => {
+    console.log("장소!!!");
+    const accessToken = Common.getAccessToken();
+    return await axios.get(KH_DOMAIN + `/post/postPlaceAddress/${postId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  },
 };
 
 export default PostAxiosApi;
