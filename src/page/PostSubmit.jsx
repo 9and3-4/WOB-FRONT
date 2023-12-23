@@ -154,6 +154,10 @@ const TimeBox = styled.div`
   }
 `;
 
+const AddressBox = styled.div`
+  width: 100%;
+`;
+
 const StyledSelect = styled.select`
   margin: 0 50px;
   width: 100%;
@@ -190,6 +194,7 @@ const PostSubmit = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [local, setLocal] = useState("");
+  const [address, setAddresss] = useState("");
   const [place, setPlace] = useState("");
   const [cost, setCost] = useState("");
   const [people, setPeople] = useState("");
@@ -300,6 +305,7 @@ const PostSubmit = () => {
       title,
       seletedCategory,
       local,
+      address,
       place,
       people,
       cost,
@@ -315,9 +321,10 @@ const PostSubmit = () => {
     console.log({
       title,
       seletedCategory,
-      local,
       date: krDateString,
       time: krTimeString,
+      local,
+      address,
       place,
       cost,
       people,
@@ -333,13 +340,9 @@ const PostSubmit = () => {
     }
   };
 
-  // 주소
+  // 상세 주소
   const handlePlaceChange = (e) => {
     setPlace(e.target.value);
-  };
-
-  const setAddr = (addr) => {
-    setPlace(addr);
   };
 
   const handleUploadClick = async (e) => {
@@ -463,15 +466,15 @@ const PostSubmit = () => {
                 </option>
               ))}
             </StyledSelect>
-
-            <Address setPlace={setPlace} />
-            <Input
-              type="text"
-              value={place}
-              placeholder="상세 주소"
-              onChange={handlePlaceChange}
-            />
-
+            <AddressBox>
+              <Address
+                type="text"
+                value={place}
+                placeholder="상세 주소"
+                onChange={handlePlaceChange}
+                setPlace={setPlace}
+              />
+            </AddressBox>
             <Input
               type="text"
               value={cost}

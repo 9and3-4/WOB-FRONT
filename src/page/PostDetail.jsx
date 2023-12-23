@@ -108,14 +108,11 @@ const PostDetail = ({ categoryImage }) => {
         <TitleBox> {post.title} </TitleBox>
         <TextBox>카테고리 {post.categoryName}</TextBox>
         <PostMap />
-        <TextBox>
-          장소 {post.local} {post.place}
-        </TextBox>
+        <TextBox>장소 {post.place}</TextBox>
         <TextBox>
           일시 {post.date} {post.time}
         </TextBox>
         <TextBox>모집 인원 {post.people}명</TextBox>
-        <TextBox>참여인원</TextBox>
         <TextBox>예상 비용 {post.fee}원</TextBox>
         <TextBox>일정 소개 {post.introduction}</TextBox>
         <ButtonBox>
