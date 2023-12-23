@@ -3,23 +3,22 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  position: relative;
   flex-wrap: wrap;
   flex-direction: column;
   max-width: 768px;
   min-height: 100vh;
   width: 100vw;
   margin: auto;
+  position: absolute;
+  top: 30px;
+  left: 30px;
 
   .mainhead {
-    display: flex;
-    align-items: center;
-    position: fixed;
     height: 54px;
     width: 100%;
-    z-index: 100;
-    top: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    /* z-index: 100; */
 
     // 관리자 관리 내역
     .welcome {
@@ -54,7 +53,6 @@ export const List = styled.ul`
     line-height: 45px;
     cursor: pointer;
     position: relative;
-    /* text-align: center; */
   }
   .logoBox {
     display: flex;
@@ -69,7 +67,7 @@ export const StyledSideMenu = styled.div`
   width: 350px;
   height: calc(100vh - 54px);
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  /* z-index: 1000; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   transform: ${(props) =>

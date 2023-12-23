@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 const Container = styled.div`
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
 `;
 
 const LogoImages = styled.img`

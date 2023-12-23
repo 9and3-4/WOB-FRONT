@@ -1,23 +1,20 @@
-import { styled } from "styled-components";
-import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useState } from "react";
 import Button from "../Button";
-import Modal from "../../utils/Modal";
 
 const TrComp = styled.tr`
-  max-width: 768px;
-  min-width: 300px;
-
   td {
-    outline: 1px solid #04bf8a;
+    outline: 1px solid #dce0df;
+    border-radius: 10px;
     padding: 15px;
     text-align: center;
     width: 50px;
+    vertical-align: middle;
 
     &.center {
       text-align: center;
     }
     &.image {
-      width: 768px;
       .imgBox {
         width: 30%;
         padding-bottom: 30%;
@@ -27,63 +24,41 @@ const TrComp = styled.tr`
         }
       }
     }
-  }
+    &.selectBox {
+      select {
+        outline: none;
+        padding: 6px;
+        &:disabled {
+          opacity: 1;
+        }
 
-  &.selectBox {
-    select {
-      &:disabled {
-        opacity: 1;
-      }
-      outline: none;
-      border: none;
-      padding: 6px;
-      font-weight: 600;
-      option {
+        option {
+        }
       }
     }
   }
 `;
 
 const Tr = ({ data, index }) => {
-  const [categoryContent, setCategoryContent] = useState("active");
-  const [categoryActive, setCategoryActive] = useState(false);
-  const [typeSel, setTypeSel] = useState("sel");
-  const [gatherActive, setGatherActive] = useState(true);
+  const [categoryContent, setCategoryContent] = useState("활동게시글");
+  const [categoryActive, setCategoryActive] = useState(true);
   const [confirmRevise, setConfirmRevise] = useState(false);
+  const [num, setNum] = useState(0); // 인덱스 번호
 
-  //Modal
-  const [openModal, setModalOpen] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalHeader, setModalHeader] = useState("");
-  const [modalType, setModalType] = useState(null);
-  const [modalConfirm, setModalConfirm] = useState(null);
-
-  // 모달 닫기
-  const closeModal = (num) => {
-    setModalOpen(false);
-  };
-  const handleModal = (header, msg, type, num) => {
-    setModalOpen(true);
-    setModalHeader(header);
-    setModalMsg(msg);
-    setModalType(type);
-    setModalConfirm(num);
-  };
-
+  // 버튼 누르면 바뀜(수정 -> 확인)
   const clickRevise = () => {
     setCategoryActive(false);
-    if (categoryContent !== "active") setGatherActive(false);
     setConfirmRevise(true);
+    setConfirmRevise(false); // 수정 버튼을 다시 보이도록 설정
   };
 
-  const ClickOk = () => {
-    handleModal("확인", "수정하시겠습니까?", true, 0);
-  };
+  // 누르면 확인이 나옴
+  const clickOk = () => {};
 
   return (
     <TrComp>
       {/* 숫자 자동증가 */}
-      <td className="center">{index + 1}</td>
+      <td className="center">{index + num}</td>
       <td className="image">
         <span className="imgBox">
           <img src={data.logo} alt="logo" />
@@ -92,7 +67,7 @@ const Tr = ({ data, index }) => {
       <td>{data.name}</td>
       <td className="image">
         <span className="imgBox">
-          <img src={data.image} alt="image" />
+          <img src={data.image} alt="imae" />
         </span>
       </td>
       {/* 셀렉트 들어갈 예정 */}
@@ -100,49 +75,23 @@ const Tr = ({ data, index }) => {
         <select
           name="category"
           disabled={categoryActive}
-          dafaultValue={categoryContent}>
-          <option value="active" hidden>
-            선택
-          </option>
+          defaultValue={categoryContent}>
           <option value="활동게시글">활동게시글</option>
           <option value="비활동게시글">비활동게시글</option>
         </select>
       </td>
       <td>
         {confirmRevise ? (
-          <Button
-            children={"확인"}
-            back="var(--MINT)"
-            fontSize=".8em"
-            width="80px"
-            height="30px"
-            active={true}
-            clickEvt={ClickOk}
-          />
+          <Button label="확인" size="normal" onClick={clickOk} />
         ) : (
-          <Button
-            children={"수정"}
-            back="var(--MINT)"
-            fontSize=".8em"
-            width="80px"
-            height="30px"
-            active={true}
-            clickEvt={clickRevise}
-          />
+          <Button label="수정" size="normal" onClick={clickRevise} />
         )}
       </td>
       <td>
-        <Button
-          children={"삭제"}
-          back="var(--MINT)"
-          fontSize=".8em"
-          width="80px"
-          height="30px"
-          active={true}
-          clickEvt={() => {}}
-        />
+        <Button label="삭제" size="normal" />
       </td>
     </TrComp>
   );
 };
+
 export default Tr;

@@ -34,8 +34,7 @@ const Button = ({ label, onClick, color, size, disabled, backgroundcolor }) => {
       disabled={disabled}
       backgroundcolor={backgroundcolor}
       color={color}
-      size={size}
-    >
+      size={size}>
       {label}
     </StyledButton>
   );
