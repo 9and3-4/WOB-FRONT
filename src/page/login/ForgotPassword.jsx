@@ -3,13 +3,13 @@ import {
   InputBar,
   AuthInputBar,
   GreenButton,
-} from "../component/login/LoginCommon";
+} from "../../component/login/LoginCommon";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { KH_DOMAIN } from "../utils/Common";
+import { KH_DOMAIN } from "../../utils/Common";
 import { useState } from "react";
-import LoginPageAxiosApi from "../api/LoginPageAxiosApi";
-import Modal from "../utils/Modal";
-import Common from "../utils/Common";
+import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
+import Modal from "../../utils/Modal";
+import Common from "../../utils/Common";
 
 const Container = styled.div`
   max-width: 768px;

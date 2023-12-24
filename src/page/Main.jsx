@@ -16,6 +16,17 @@ import PostList from "./PostListClon";
 // import PostList from "./PostList";
 import PostAxiosApi from "../api/PostAxiosApi";
 import MyPageAxiosApi from "../api/MyPageAxiosApi";
+import Modal from "../utils/Modal";
+import SelectMain from "../component/interest/SelectMainInterest";
+import {
+  sportsList,
+  areaList,
+  minNumber,
+  maxNumber,
+  selectText,
+  selectAreaTitle,
+  selectSportsTitle,
+} from "../component/login/select";
 
 const Container = styled.div`
   max-width: 768px;
@@ -60,7 +71,7 @@ const CategoryBox2 = styled.div`
 const WeatherBox = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 25%; // 미디엄 컨테이너 안에 1/4 차지
+  width: 15%; // 미디엄 컨테이너 안에 1/4 차지
   font-size: 17px;
   align-items: center;
   padding-top: 15px;
@@ -116,12 +127,40 @@ const Main = () => {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [showCalendar, setShowCalender] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment());
+  const [area, setArea] = useState([]);
   const [interest, setInterest] = useState([]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const allLeisure = "모든 레져";
+  const allArea = "모든 지역";
+  const [modalHeader, setModalHeader] = useState("");
+  const [modalOptions, setModalOptions] = useState([]);
+  const [modalTitle, setModalTitle] = useState("");
+  const [selectApi, setSelectApi] = useState("");
+
   const [calendarDate, setCalendarDate] = useState(selectedDate);
   const handleDatePickerChange = (date) => {
     const updatedDate = moment(date); // 새로운 선택된 날짜를 moment 객체로 변환
     setSelectedDate(updatedDate); // selectedDate 업데이트
     setCalendarDate(updatedDate); // calendarDate 업데이트
+  };
+
+  // 모달 열기
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  // 모달 닫기
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  // 모달에서 확인 버튼이 클릭될 때 실행할 함수
+  const handleConfirm = () => {
+    // 확인 버튼을 눌렀을 때 수행할 로직 작성
+    console.log("Confirmed!");
+    closeModal(); // 예제에서는 확인 후 모달을 닫는 예시
   };
 
   // const onDateSelect = (date) => {
@@ -149,8 +188,11 @@ const Main = () => {
     const userInfo = async () => {
       const rsp = await MyPageAxiosApi.userGetOne(localStorage.email);
       console.log("메인 이메일 받기 : ", localStorage.email);
-      console.log("useEffect interest : ", rsp.data.interestSports);
+      console.log("useEffect Sports : ", rsp.data.interestSports);
+      console.log("useEffect areas : ", rsp.data.interestArea);
       if (rsp.status === 200) {
+        // setInterest(rsp.data.interestSports);
+        setArea(rsp.data.interestArea);
         setInterest(rsp.data.interestSports);
       }
     };
@@ -161,7 +203,7 @@ const Main = () => {
     if (loginUserEmail === email) {
       setIsCurrentUser(true);
     }
-  }, [email]);
+  }, [email, modalOpen]);
 
   // 아이콘 클릭했을 때의 동작 (달력 나타남)
   const handleIconClick = () => {
@@ -186,6 +228,27 @@ const Main = () => {
     navigate("/postlist");
   };
 
+  const handleCategoryButtonClick = (label) => {
+    const isAllLeisure = label === allLeisure;
+
+    const dynamicHeader = isAllLeisure ? allLeisure : allArea;
+    const modalOptions = isAllLeisure ? sportsList : areaList;
+    const modalTitle = isAllLeisure ? selectSportsTitle : selectAreaTitle;
+
+    // Set the appropriate API based on the condition
+    const api = isAllLeisure ? "sports" : "areas";
+    setSelectApi(api);
+
+    // console.log("dynamicHeader", dynamicHeader);
+    // console.log("modalOptions", modalOptions);
+    // console.log("modalTitle", modalTitle);
+
+    setModalHeader(dynamicHeader);
+    setModalOptions(modalOptions);
+    setModalTitle(modalTitle);
+    openModal();
+  };
+
   // const fetchPostByDate = async (selectDate) => {
   //   try {
   //     // 선택한 날짜에 해당하는 게시글 가져오는 api 호출 -> 백 코드 생성후 마저 생성 예정.
@@ -200,12 +263,23 @@ const Main = () => {
       <Container>
         <AdCarousel />
         <CategoryBox>
-          <Button label="모든 레져" size="category" />
+          {/* <Button label="모든 레져" size="category" />
           {interest.map((interestItem, index) => (
             <Button key={index} label={interestItem}>
               {interestItem}
             </Button>
-          ))}
+          ))} */}
+          <Button
+            label={allLeisure}
+            size="category"
+            onClick={() => handleCategoryButtonClick(allLeisure)}
+          />
+          {interest &&
+            interest.map((interestItem, index) => (
+              <Button key={index} label={interestItem}>
+                {interestItem}
+              </Button>
+            ))}
         </CategoryBox>
         <DateBox style={{ position: "relative", zIndex: 1 }}>
           {selectedDate.format("YYYY년 MM월 DD일")}
@@ -243,10 +317,21 @@ const Main = () => {
         </CalenderBox>
         <MediumContainer>
           <CategoryBox2>
-            <Button label="모든 지역" size="category" />
+            {/* <Button label="모든 지역" size="category" />
             <Button label="강남구" size="category" />
             <Button label="관악구" size="category" />
-            <Button label="서초구" size="category" />
+            <Button label="서초구" size="category" /> */}
+            <Button
+              label={allArea}
+              size="category"
+              onClick={() => handleCategoryButtonClick(allArea)}
+            />
+            {area &&
+              area.map((areastItem, index) => (
+                <Button key={index} label={areastItem}>
+                  {areastItem}
+                </Button>
+              ))}
           </CategoryBox2>
           <WeatherBox>
             {addr} {temp} {sky === "알 수 없음" ? pty : sky}
@@ -260,6 +345,24 @@ const Main = () => {
         <PostBox>
           <PostList selectedDate={selectedDate} />
         </PostBox>
+        <Modal
+          open={modalOpen}
+          confirm={handleConfirm}
+          header={modalHeader}
+          type={false}
+          close={closeModal}
+          children={
+            <SelectMain
+              api={selectApi}
+              closeModal={closeModal}
+              options={modalOptions}
+              min={minNumber}
+              max={maxNumber}
+              title={modalTitle}
+              text={selectText}
+            />
+          }
+        />
       </Container>
     </>
   );

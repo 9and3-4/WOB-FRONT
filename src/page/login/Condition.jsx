@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
-import Modal from "../utils/Modal";
+import Modal from "../../utils/Modal";
 
 // const BackColor = styled.div`
 //   background-color: #dfede9;
@@ -31,10 +31,6 @@ const List = styled.ul`
 `;
 
 const ListEl = styled.li`
-  margin: 35px 0;
-`;
-
-const CenterListEl = styled.li`
   margin: 35px 0;
 `;
 

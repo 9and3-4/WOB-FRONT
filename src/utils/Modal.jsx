@@ -24,7 +24,7 @@ const ModalStyle = styled.div`
 
   section {
     width: 90%;
-    max-width: 450px;
+    max-width: 700px;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: #fff;
@@ -48,7 +48,6 @@ const ModalStyle = styled.div`
         background-color: transparent;
         border: none;
         cursor: pointer;
-
       }
     }
     main {

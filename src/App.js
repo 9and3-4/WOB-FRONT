@@ -19,7 +19,7 @@ import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
 import StockRatioByRegion from "./page/admin/StockRatioByRegion";
 import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
-import InterestEnter from "./page/interestEnter";
+import InterestEnter from "./page/login/interestEnter";
 import PostList from "./page/PostList";
 import PostPreview from "./component/PostPreview";
 import Setting from "./page/Setting/Setting";
@@ -39,6 +39,8 @@ import Payment from "./component/Payment";
 import PostDetail from "./page/PostDetail";
 import FreeChat from "./page/Chatting/FreeChat";
 import ChatCreate from "./page/Chatting/ChatCreate";
+import Condition from "./page/login/Condition";
+import ForgotPassword from "./page/login/ForgotPassword";
 
 function App() {
   return (
@@ -46,10 +48,12 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/login" element={<TestLoginPage />} />
-          <Route path="/interestenter" element={<InterestEnter />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-pw" element={<ForgotPassword />} />
+          <Route path="/interestenter" element={<InterestEnter />} />
+          <Route path="/condition" element={<Condition />} />
+          <Route path="/login" element={<TestLoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />
