@@ -185,6 +185,21 @@ const StyledSelect = styled.select`
   }
 `;
 
+const ModalBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+`;
+
+const Labelbox = styled.div`
+  padding: 10px;
+
+  label {
+    padding: 15px;
+  }
+`;
+
 const PostSubmit = () => {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("normal"); // 일반, 레슨 등록 선택
@@ -202,8 +217,14 @@ const PostSubmit = () => {
   // 레슨 일정 등록에 필요한 state 변수들
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
-  const [advertisement, setAdvertisement] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [advertisement, setAdvertisement] = useState({
+    image: "",
+    period: "",
+    fee: "",
+    userName: "",
+    phoneNumber: "",
+  });
 
   const resetForm = () => {
     setTitle("");
@@ -379,6 +400,26 @@ const PostSubmit = () => {
     // Ad 데이터 전송하는 axios
   };
 
+  // 모달 내 입력 필드 값이 변경될 때 호출되는 이벤트
+  const inputModal = (e) => {
+    const { name, value, type } = e.target;
+
+    // 파일 업로드인 경우
+    if (type === "file") {
+      const file = e.target.files[0];
+      setAdvertisement((preData) => ({
+        ...preData,
+        [name]: file,
+      }));
+    } else {
+      // 일반 입력 필드인 경우
+      setAdvertisement((preData) => ({
+        ...preData,
+        [name]: value,
+      }));
+    }
+  };
+
   return (
     <>
       <SubHeader />
@@ -517,9 +558,68 @@ const PostSubmit = () => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="알림"
+          header="광고 등록"
         >
-          {/* 내용 작성 부분 */}
+          {/* 내용 작성 부분 - 이미지, 기간, 금액, 이름, 전화번호*/}
+          <ModalBox>
+            <Labelbox>
+              <label htmlFor="image">이미지</label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={inputModal}
+              />
+            </Labelbox>
+            <Labelbox>
+              <label htmlFor="period">게시 기간</label>
+              <select
+                id="period"
+                name="period"
+                value={advertisement.period}
+                onChange={inputModal}
+              >
+                <option value="">게시 기간 선택</option>
+                <option value="1일">1일</option>
+                <option value="7일">7일</option>
+                <option value="30일">30일</option>
+              </select>
+            </Labelbox>
+            <Labelbox>
+              <label htmlFor="fee"> 광고 금액</label>
+              <select
+                id="fee"
+                name="fee"
+                value={advertisement.fee}
+                onChange={inputModal}
+              >
+                <option value="">광고 금액 선택</option>
+                <option value="50000">5만원(1일)</option>
+                <option value="200000">20만원(7일)</option>
+                <option value="300000">30만원(30일)</option>
+              </select>
+            </Labelbox>
+            <Labelbox>
+              <label htmlFor="userName">사용자 이름</label>
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                value={advertisement.userName}
+                onChange={inputModal}
+              />
+            </Labelbox>
+            <Labelbox>
+              <label htmlFor="phoneNumber">전화번호</label>
+              <input
+                type="text"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={advertisement.phoneNumber}
+                onChange={inputModal}
+              />
+            </Labelbox>
+          </ModalBox>
         </Modal>
       </Container>
     </>
