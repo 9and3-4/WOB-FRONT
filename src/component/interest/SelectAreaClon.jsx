@@ -35,12 +35,14 @@ export const OptionBoardCom = styled.div`
   transition: height 0.3s ease; // 트랜지션 추가
   box-sizing: border-box;
   overflow: hidden;
-  ${({ isOpen }) => isOpen && "border: 2px solid #dfede9;"}/* ${({ isOpen }) =>
-    isOpen && "height: 440px;"} // isOpen에 따라 높이 변경 */
+  /* ${({ isOpen }) => isOpen && "border: 2px solid #dfede9;"}/* ${({
+  isOpen,
+}) => isOpen && "height: 440px;"} // isOpen에 따라 높이 변경 */ */
 `;
 
 export const SelectOptionBoardHeaderComp = styled.div`
   font-size: 1.8em;
+  margin-top: 1em;
   display: flex;
   justify-content: center;
   align-items: center;

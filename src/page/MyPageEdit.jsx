@@ -55,7 +55,10 @@ const UserInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-bottom: 10px; */
+`;
+const UserInfoCon = styled.div`
+  flex-direction: column;
+  border-top: none;
 `;
 
 const UserInformation = styled.h2`
@@ -126,16 +129,6 @@ const InputIntroduce = styled.input`
   font-size: 1.4em;
   border: 1px solid #f7f7f7;
   transition: height 0.5s ease; // 트랜지션 추가
-`;
-const Label = styled.label`
-  color: #353535;
-  display: block;
-  /* margin: 20px 10px; */
-  padding: 10px;
-  width: 100%;
-  background-color: #dfede9;
-  font-weight: bold;
-  font-size: 1.5em;
 `;
 const SubmitButton = styled.button`
   padding: 5px;
@@ -386,40 +379,45 @@ const MyPageEdit = () => {
           </StyledLink>
         </EditLogoCon>
       </HeaderBox>
-
       <EditBox>
         <SelectOptionBoardHeaderComp isOpen={isOpen}>
           <Text>프로필 사진</Text>
         </SelectOptionBoardHeaderComp>
-        <UserInfo>
-          <Text>
-            <UserInformation>
-              <UserImage
-                src={url || "http://via.placeholder.com/160"}
-                alt="User"
-              />
-            </UserInformation>
-          </Text>
-        </UserInfo>
-        <SelectOptionBoardCom>
-          {!editMode ? (
-            <>
-              <SelectOptionBoardFooterCom
-                onClick={handleToggle}
-              ></SelectOptionBoardFooterCom>
-            </>
-          ) : (
-            <>
-              <IMGField>
-                <input type="file" name="file" onChange={handleUploadChange} />
-                {/* <SendSubmitButton>전송</SendSubmitButton> */}
-              </IMGField>
-              <SelectOptionBoardFooterCom
-                onClick={handleToggle}
-              ></SelectOptionBoardFooterCom>
-            </>
-          )}
-        </SelectOptionBoardCom>
+        <UserInfoCon>
+          <UserInfo>
+            <Text>
+              <UserInformation>
+                <UserImage
+                  src={url || "http://via.placeholder.com/160"}
+                  alt="User"
+                />
+              </UserInformation>
+            </Text>
+          </UserInfo>
+          <SelectOptionBoardCom>
+            {!editMode ? (
+              <>
+                <SelectOptionBoardFooterCom
+                  onClick={handleToggle}
+                ></SelectOptionBoardFooterCom>
+              </>
+            ) : (
+              <>
+                <IMGField>
+                  <input
+                    type="file"
+                    name="file"
+                    onChange={handleUploadChange}
+                  />
+                  {/* <SendSubmitButton>전송</SendSubmitButton> */}
+                </IMGField>
+                <SelectOptionBoardFooterCom
+                  onClick={handleToggle}
+                ></SelectOptionBoardFooterCom>
+              </>
+            )}
+          </SelectOptionBoardCom>
+        </UserInfoCon>
         <EX>
           <SelectOptionBoardHeaderComp isOpen={isOpen}>
             <Text>닉네임</Text>

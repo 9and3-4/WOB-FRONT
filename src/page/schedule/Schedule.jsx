@@ -8,7 +8,6 @@ const BoardContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  border: 1px solid red;
 `;
 const Boards = styled.div`
   display: flex;
@@ -72,12 +71,6 @@ const Schedule = () => {
               <PostList selectedDate={selectedDate} />
             </BoardJoin>
           </Boards>
-          <BoardMineCon isOpen={isOpen}>
-            <BoardMine onClick={handleBoardMineClick}>
-              내가 쓴 글 보기 부분
-            </BoardMine>
-            <PostList selectedDate={selectedDate} />
-          </BoardMineCon>
         </BoardContainer>
       </div>
     </>
