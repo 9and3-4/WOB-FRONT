@@ -334,7 +334,7 @@ const PostSubmit = () => {
       date: krDateString,
       time: krTimeString,
       type: selectedOption,
-      url,
+      url: url,
     });
     console.log("type : ", selectedOption);
     console.log("Response:", rsp.data);
@@ -350,7 +350,7 @@ const PostSubmit = () => {
       cost,
       people,
       detail,
-      url,
+      url: url,
       selectedOption,
     });
     if (rsp.data) {
@@ -366,29 +366,35 @@ const PostSubmit = () => {
     setPlace(e.target.value);
   };
 
-  const handleUploadClick = async (e) => {
+  // 이미지 업로드
+  const handleFileInputChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+
+      // 파일 업로드 처리
+      handleUpload(selectedFile);
+    } else {
+      console.log("파일 선택 취소");
+    }
+  };
+
+  const handleUpload = async (file) => {
     try {
-      // 사용자가 선택한 파일 가져오기
-      const selectedFile = e.target.files[0];
-      if (selectedFile) {
-        setFile(selectedFile);
-      } else {
-        console.log("파일 선택 취소");
-      }
-      // firebase storeage의 루트 참조를 생성
       const storageRef = storage.ref();
-      // 파일을 저장할 경로를 설정
       const fileRef = storageRef.child(file.name);
-      // 파일을 firebase에 업로드하고 기다림
+
+      // 파일 업로드하고 기다림
       await fileRef.put(file);
-      console.log("file uploaded successfully!!!!!");
-      // 다운로드 url을 가져오고 기다림
+      console.log("!!!파일 업로드 성공!!!");
+      // 다운로드 url을 가져옴
       const url = await fileRef.getDownloadURL();
       console.log("저장경로 확인 : " + url);
+
       // 상태를 업데이트
       setUrl(url);
     } catch (error) {
-      console.log("upload failed", error);
+      console.error("업데이트 실패", error);
     }
   };
 
@@ -539,7 +545,11 @@ const PostSubmit = () => {
             {selectedOption === "lesson" && (
               <>
                 {/* 이미지 업로드 필드 (선택) */}
-                <Input type="file" name="file" onChange={handleUploadClick} />
+                <Input
+                  type="file"
+                  name="file"
+                  onChange={handleFileInputChange}
+                />
                 <br />
                 <AdButton type="button" onClick={() => setModalOpen(true)}>
                   광고 등록 (선택 사항)

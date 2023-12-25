@@ -103,7 +103,11 @@ const PostDetail = ({ categoryImage }) => {
       <ContentBox>
         <Header />
         <PictureCon>
-          <Image src={post.categoryImage} alt="카테고리 이미지" />
+          {/* <Image src={post.categoryImage} alt="카테고리 이미지" /> */}
+          <Image
+            src={post.type === "lesson" ? post.image : post.categoryImage}
+            alt="이미지"
+          />
         </PictureCon>
         <TitleBox> {post.title} </TitleBox>
         <TextBox>카테고리 {post.categoryName}</TextBox>
