@@ -110,7 +110,8 @@ const PostDetail = ({ categoryImage }) => {
           />
         </PictureCon>
         <TitleBox> {post.title} </TitleBox>
-        <TextBox>카테고리 {post.categoryName}</TextBox>
+        <TextBox>종목 {post.categoryName}</TextBox>
+        <TextBox>유형 {post.type}</TextBox>
         <PostMap />
         <TextBox>장소 {post.place}</TextBox>
         <TextBox>
