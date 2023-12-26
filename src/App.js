@@ -47,6 +47,7 @@ import FreeChat from "./page/Chatting/FreeChat";
 import ChatCreate from "./page/Chatting/ChatCreate";
 import Condition from "./page/login/Condition";
 import ForgotPassword from "./page/login/ForgotPassword";
+import AdSubmit from "./page/AdSubmit";
 
 function App() {
   const isLoggedIn = Common.getAccessToken() !== null;
@@ -68,6 +69,7 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
+            <Route path="/postlist/adsubmit" element={<AdSubmit />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>

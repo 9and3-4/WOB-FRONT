@@ -186,9 +186,6 @@ const StyledSelect = styled.select`
 `;
 
 const ModalBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   margin: 15px;
 `;
 
@@ -196,45 +193,12 @@ const SectionTitle = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: var(--GREEN); // 원하는 색상으로 변경
+  color: var(--GREEN);
 `;
 
-const AdBox = styled.div`
-  border: 1px solid var(--GREEN);
-  width: 95%;
-  margin-bottom: 15px;
-`;
-
-const UserBox = styled.div`
-  border: 1px solid var(--GREEN);
-  width: 95%;
-`;
-const Labelbox = styled.div`
-  padding: 10px;
-
-  label {
-    padding: 15px;
-  }
-`;
-
-const PaymentBox = styled.div`
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;
-
-const PaymentButton = styled.button`
-  width: 120px;
-  height: 40px;
-  background-color: var(--MINT);
-  border-radius: 13px;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.7;
-  }
+const LectureBox = styled.div`
+  margin: 10px;
+  padding-bottom: 5px;
 `;
 
 const PostSubmit = () => {
@@ -255,13 +219,8 @@ const PostSubmit = () => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [advertisement, setAdvertisement] = useState({
-    image: "",
-    period: "",
-    fee: "",
-    userName: "",
-    phoneNumber: "",
-  });
+  const [user, setUser] = useState("");
+  const [phoneNumber, setPhoneNumer] = useState("");
 
   const resetForm = () => {
     setTitle("");
@@ -390,9 +349,26 @@ const PostSubmit = () => {
       url: url,
       selectedOption,
     });
-    if (rsp.data) {
+
+    // 강사 정보 서버 전달
+    const teacherInfoRsp = await PostAxiosApi.userInfoSubmit({
+      user,
+      phoneNumber,
+    });
+
+    console.log({
+      user,
+      phoneNumber,
+    });
+    if (rsp.data && teacherInfoRsp.data) {
       alert("등록 요청 완료");
-      navigate("/postlist"); // 등록 성공시 게시글 목록 페이지로 이동.
+
+      // lesson 등록시 광고 등록 여부를 확인하는 모달창 띄움
+      if (selectedOption === "lesson") {
+        setModalOpen(true);
+      } else {
+        navigate("/postlist");
+      }
     } else {
       alert("등록 실패");
     }
@@ -437,30 +413,12 @@ const PostSubmit = () => {
 
   const closeModal = () => {
     setModalOpen(false);
+    navigate("/postlist");
   };
 
   const confirmModal = () => {
-    // Ad 데이터 전송하는 axios
-  };
-
-  // 모달 내 입력 필드 값이 변경될 때 호출되는 이벤트
-  const inputModal = (e) => {
-    const { name, value, type } = e.target;
-
-    // 파일 업로드인 경우
-    if (type === "file") {
-      const file = e.target.files[0];
-      setAdvertisement((preData) => ({
-        ...preData,
-        [name]: file,
-      }));
-    } else {
-      // 일반 입력 필드인 경우
-      setAdvertisement((preData) => ({
-        ...preData,
-        [name]: value,
-      }));
-    }
+    // 광고 등록 페이지로 이동
+    navigate("adsubmit");
   };
 
   return (
@@ -581,17 +539,26 @@ const PostSubmit = () => {
 
             {selectedOption === "lesson" && (
               <>
+                <LectureBox>강의 정보 입력란</LectureBox>
+
+                <Input
+                  type="text"
+                  value={user}
+                  placeholder="강사명"
+                  onChange={(e) => setUser(e.target.value)}
+                />
+                <Input
+                  type="text"
+                  value={phoneNumber}
+                  placeholder="전화번호"
+                  onChange={(e) => setPhoneNumer(e.target.value)}
+                />
                 {/* 이미지 업로드 필드 (선택) */}
                 <Input
                   type="file"
                   name="file"
                   onChange={handleFileInputChange}
                 />
-                <br />
-                <AdButton type="button" onClick={() => setModalOpen(true)}>
-                  광고 등록 (선택 사항)
-                </AdButton>
-                <br />
               </>
             )}
             <ButtonBox>
@@ -605,76 +572,10 @@ const PostSubmit = () => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="광고 등록"
+          header="안내"
         >
-          {/* 내용 작성 부분 - 이미지, 기간, 금액, 이름, 전화번호*/}
           <ModalBox>
-            <SectionTitle>광고 정보 기재</SectionTitle>
-            <AdBox>
-              <Labelbox>
-                <label htmlFor="image">이미지</label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={inputModal}
-                />
-              </Labelbox>
-              <Labelbox>
-                <label htmlFor="period">게시 기간</label>
-                <select
-                  id="period"
-                  name="period"
-                  value={advertisement.period}
-                  onChange={inputModal}
-                >
-                  <option value="">게시 기간 선택</option>
-                  <option value="1일">1일</option>
-                  <option value="7일">7일</option>
-                  <option value="30일">30일</option>
-                </select>
-              </Labelbox>
-              <Labelbox>
-                <label htmlFor="fee"> 광고 금액</label>
-                <select
-                  id="fee"
-                  name="fee"
-                  value={advertisement.fee}
-                  onChange={inputModal}
-                >
-                  <option value="">광고 금액 선택</option>
-                  <option value="50000">5만원(1일)</option>
-                  <option value="200000">20만원(7일)</option>
-                  <option value="300000">30만원(30일)</option>
-                </select>
-              </Labelbox>
-            </AdBox>
-            <SectionTitle>사용자 정보 기재</SectionTitle>
-            <UserBox>
-              <Labelbox>
-                <label htmlFor="userName">사용자 이름</label>
-                <input
-                  type="text"
-                  id="userName"
-                  name="userName"
-                  value={advertisement.userName}
-                  onChange={inputModal}
-                />
-              </Labelbox>
-              <Labelbox>
-                <label htmlFor="phoneNumber">전화 번호</label>
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={advertisement.phoneNumber}
-                  onChange={inputModal}
-                />
-              </Labelbox>
-            </UserBox>
-            <PaymentBox>
-              <PaymentButton>결제하기</PaymentButton>
-            </PaymentBox>
+            <SectionTitle>광고 등록도 함께 진행 하시겠습니까?</SectionTitle>
           </ModalBox>
         </Modal>
       </Container>
