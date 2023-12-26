@@ -6,6 +6,7 @@ const Container = styled.div`
   border-radius: 8px;
   width: 768px;
   margin: 0px auto;
+  margin-bottom: 100px;
 `;
 const Title = styled.p`
   font-size: 1.2em;

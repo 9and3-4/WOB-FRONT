@@ -207,5 +207,17 @@ const SettingAxiosApi = {
   //     },
   //   });
   // },
+  // 결제내역 페이지네이션 조회
+  paymentPageList: async (email, page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/pay/detail/page?email=${email}&page=${page}&size=${size}`
+    );
+  },
+  // 결제내역 페이지 수 조회
+  paymentPage: async (email, page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/pay/detail/count?email=${email}&page=${page}&size=${size}`
+    );
+  },
 };
 export default SettingAxiosApi;
