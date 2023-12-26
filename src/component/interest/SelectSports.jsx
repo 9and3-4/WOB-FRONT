@@ -6,8 +6,10 @@ import {
   SelectButton,
   InputBar,
   NextButton,
+  PrevNavigateBox,
 } from "./InterestCommon";
 import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
+import { useNavigate } from "react-router-dom";
 
 const SportsGird = styled.div`
   display: grid;
@@ -54,6 +56,9 @@ const SelectSports = ({ options, min, max, title, text, onComplete }) => {
     }
   };
 
+  const handlePass = () => {
+    onComplete();
+  };
   return (
     <>
       <TitleAlign>{title}</TitleAlign>
@@ -79,6 +84,7 @@ const SelectSports = ({ options, min, max, title, text, onComplete }) => {
         >
           다음
         </NextButton>
+        <PrevNavigateBox onClick={handlePass}>건너뛰기</PrevNavigateBox>
       </SportsGird>
     </>
   );

@@ -1,8 +1,10 @@
 import axios from "axios";
 import Common from "../utils/Common";
 
+const customAxios = axios.create();
+
 // Axios 요청 인터셉터
-axios.interceptors.request.use(
+customAxios.interceptors.request.use(
   async (config) => {
     const accessToken = Common.getAccessToken();
 
@@ -25,23 +27,26 @@ axios.interceptors.request.use(
 );
 
 // Axios 응답 인터셉터
-axios.interceptors.response.use(
+customAxios.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
     // 응답이 401 Unauthorized일 때
-    console.log("error", error);
-    console.log("error.response", error.response);
+    // console.log("error", error);
+    // console.log("error.response", error.response);
     if (error.response && error.response.status === 401) {
       // 리프레시 토큰을 사용하여 액세스 토큰 갱신
       const refreshedAccessToken = await Common.handleUnauthorized();
-      // console.log("refreshedAccessToken : ", refreshedAccessToken);
+      // console.log(
+      //   "refreshedAccessToken : ",
+      //   refreshedAccessToken
+      // );
       // Common.setAccessToken(refreshedAccessToken);
 
       // 갱신이 성공했다면 다시 원래의 요청을 시도
       if (refreshedAccessToken) {
-        return axios(error.config);
+        return customAxios(error.config);
       }
     }
 
@@ -50,4 +55,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default axios;
+export default customAxios;

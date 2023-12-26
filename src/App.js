@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import Common from "./utils/Common";
 import Schedule from "./page/schedule/Schedule";
 import CalendarComp from "./component/CalendarComp";
 import GlobalStyle from "./globalStyle";
@@ -43,6 +49,8 @@ import Condition from "./page/login/Condition";
 import ForgotPassword from "./page/login/ForgotPassword";
 
 function App() {
+  const isLoggedIn = Common.getAccessToken() !== null;
+  console.log("isLoggedIn : ", isLoggedIn);
   return (
     <>
       <GlobalStyle />

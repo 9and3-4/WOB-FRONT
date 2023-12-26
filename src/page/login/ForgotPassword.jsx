@@ -70,6 +70,15 @@ const SmallGreenButton = styled.button`
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
+const PrevNavigateBox = styled.div`
+  margin-top: 20px;
+  text-decoration: underline;
+  opacity: 0.5;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const ForgotPassword = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -153,6 +162,10 @@ const ForgotPassword = () => {
     }
   };
 
+  const handlePrevButtonClick = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
       <AlignBox>
@@ -203,6 +216,9 @@ const ForgotPassword = () => {
             비밀번호 변경하기
           </BlackButton>
         </LoginBox>
+        <PrevNavigateBox onClick={handlePrevButtonClick}>
+          이전으로
+        </PrevNavigateBox>
       </AlignBox>
     </Container>
   );

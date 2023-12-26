@@ -53,4 +53,22 @@ const NextButton = styled.button`
     outline: none;
   }
 `;
-export { TitleAlign, TextAlign, SelectButton, InputBar, NextButton };
+
+const PrevNavigateBox = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  text-decoration: underline;
+  opacity: 0.5;
+  grid-column: span 2;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+export {
+  TitleAlign,
+  TextAlign,
+  SelectButton,
+  InputBar,
+  NextButton,
+  PrevNavigateBox,
+};

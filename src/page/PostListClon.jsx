@@ -18,7 +18,8 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const PostList = ({ selectedDate, postId }) => {
+const PostList = ({ data }) => {
+  const { selectedDate, area, interest } = data;
   const [postList, setPostList] = useState([]);
   const navigate = useNavigate();
   const [selectPost, setSelectPost] = useState(null);
@@ -37,14 +38,33 @@ const PostList = ({ selectedDate, postId }) => {
                 moment(post.date).isSame(selectedDate, "day")
               )
             : allPosts;
-          setPostList(filteredPosts);
+          console.log("filteredPosts : ", filteredPosts);
+
+          // 선택된 area와 interest에 따라 필터링
+          const areaFilteredPosts = area.length
+            ? filteredPosts.filter((post) => area.includes(post.local))
+            : filteredPosts;
+
+          console.log("areaFilteredPosts : ", areaFilteredPosts);
+
+          const interestFilteredPosts = interest.length
+            ? areaFilteredPosts.filter((post) =>
+                interest.includes(post.categoryName)
+              )
+            : areaFilteredPosts;
+
+          console.log("interestFilteredPosts : ", interestFilteredPosts);
+          console.log(interest);
+
+          setPostList(interestFilteredPosts);
+          // setPostList(filteredPosts);
         }
       } catch (error) {
         console.error("Error fetching post list:", error);
       }
     };
     fetchPostList();
-  }, [selectedDate]);
+  }, [selectedDate, area, interest]);
 
   return (
     <>

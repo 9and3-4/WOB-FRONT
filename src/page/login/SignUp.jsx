@@ -77,6 +77,15 @@ const SmallGreenButton = styled.button`
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
+const PrevNavigateBox = styled.div`
+  margin-top: 20px;
+  text-decoration: underline;
+  opacity: 0.5;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const SignUp = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -205,6 +214,10 @@ const SignUp = () => {
     setModalOpen(false);
   };
 
+  const handlePrevButtonClick = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
       <AlignBox>
@@ -276,6 +289,9 @@ const SignUp = () => {
             <OauthLogo src="/kakao-log.png" />
           </Link>
         </LoginBox>
+        <PrevNavigateBox onClick={handlePrevButtonClick}>
+          이전으로
+        </PrevNavigateBox>
       </AlignBox>
       <Modal open={modalOpen} close={closeModal} header="알림">
         {modalText}

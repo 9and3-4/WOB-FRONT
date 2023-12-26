@@ -9,7 +9,7 @@ import Modal from "../../utils/Modal";
 const Container = styled.div`
   max-width: 768px;
   min-width: 300px;
-  margin: 0 auto;
+  margin: 100px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,6 +43,7 @@ const CustomButton = styled.button`
   font-size: 1rem;
   border: 2px solid #04bf8a;
   border-radius: 0.35rem;
+  margin-right: 20px;
   cursor: pointer;
 
   &:hover {
@@ -106,7 +107,6 @@ const Condition = () => {
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
-  const [term4Checked, setTerm4Checked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModelText] = useState("중복된 아이디 입니다.");
   const navigate = useNavigate();
@@ -125,13 +125,16 @@ const Condition = () => {
     }
   };
 
+  const handlePrevButtonClick = () => {
+    navigate(-1);
+  };
+
   const handleAllCheckedChange = () => {
     const newCheckedState = !allChecked;
     setAllChecked(newCheckedState);
     setTerm1Checked(newCheckedState);
     setTerm2Checked(newCheckedState);
     setTerm3Checked(newCheckedState);
-    setTerm4Checked(newCheckedState);
   };
 
   const handleTerm1CheckedChange = () => {
@@ -146,11 +149,6 @@ const Condition = () => {
 
   const handleTerm3CheckedChange = () => {
     setTerm3Checked(!term3Checked);
-    setAllChecked(areAllChecked());
-  };
-
-  const handleTerm4CheckedChange = () => {
-    setTerm4Checked(!term4Checked);
     setAllChecked(areAllChecked());
   };
 
@@ -684,9 +682,8 @@ const Condition = () => {
             </Term>
           </ListEl>
           <ListEl>
-            <CustomButton onClick={handleNextButtonClick}>
-              다음으로
-            </CustomButton>
+            <CustomButton onClick={handlePrevButtonClick}>이전</CustomButton>
+            <CustomButton onClick={handleNextButtonClick}>다음</CustomButton>
           </ListEl>
         </List>
         <Modal open={modalOpen} close={closeModal} header="오류">

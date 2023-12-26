@@ -6,6 +6,7 @@ import {
   SelectButton,
   InputBar,
   NextButton,
+  PrevNavigateBox,
 } from "./InterestCommon";
 import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
 import { useNavigate } from "react-router-dom";
@@ -101,6 +102,9 @@ const SelectArea = ({ options, min, max, title, text }) => {
       }
     }
   };
+  const handlePass = () => {
+    navigate("/");
+  };
 
   const isNextButtonActive =
     selectedItems.length >= minSelection &&
@@ -155,6 +159,7 @@ const SelectArea = ({ options, min, max, title, text }) => {
       >
         다음
       </StyledNextButton>
+      <PrevNavigateBox onClick={handlePass}>건너뛰기</PrevNavigateBox>
     </CenterBox>
   );
 };

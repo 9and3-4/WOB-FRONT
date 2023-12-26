@@ -343,7 +343,8 @@ const Main = () => {
           <ListButton onClick={handleListIconClick} />
         </BottomContainer>
         <PostBox>
-          <PostList selectedDate={selectedDate} />
+          {/* <PostList selectedDate={(selectedDate, area, interest)} /> */}
+          <PostList data={{ selectedDate, area, interest }} />
         </PostBox>
         <Modal
           open={modalOpen}
