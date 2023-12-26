@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { KH_DOMAIN } from "../../utils/Common";
 import Common from "../../utils/Common";
 import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
+import Modal from "../../utils/Modal";
 
 const Container = styled.div`
   max-width: 768px;
@@ -64,13 +65,21 @@ const OauthLogo = styled.img`
   background-color: white;
   padding: 5px;
   border-radius: 50%;
+  &:hover {
+    outline: 2px solid #04bf8a;
+  }
 `;
+
+const Checkbox = styled.input``;
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModelText] = useState("");
+  const [modalHeader, setModalHeader] = useState("");
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");
@@ -96,6 +105,22 @@ const SignIn = () => {
     setRememberMe(!rememberMe);
   };
 
+  // const handleNextButtonClick = () => {
+  //   if (!areAllChecked()) {
+  //     setModalOpen(true);
+  //     setModelText("필수 약관에 동의해야 합니다.");
+  //   } else {
+  //     navigate("/signup", {
+  //       state: term3Checked,
+  //     });
+  //     console.log("Condition term3Checked : ", term3Checked);
+  //   }
+  // };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   // Your logic to send API request when the button is clicked
   const handleSignInClick = async () => {
     if (!isSignInDisabled) {
@@ -108,12 +133,12 @@ const SignIn = () => {
         if (response.status === 200) {
           const accessToken = response.headers.get("authorization");
           const refreshToken = response.headers.get("authorization-refresh");
-          console.log("accessToken return = ", accessToken);
-          console.log("refreshToken return = ", refreshToken);
+          // console.log("accessToken return = ", accessToken);
+          // console.log("refreshToken return = ", refreshToken);
           Common.setEmail(email);
           Common.setAccessToken(accessToken);
           Common.setRefreshToken(refreshToken);
-          console.log("login email : ", Common.getEmail());
+          // console.log("login email : ", Common.getEmail());
           navigate("/");
 
           if (rememberMe) {
@@ -125,11 +150,14 @@ const SignIn = () => {
             localStorage.removeItem("rememberedPassword");
             localStorage.removeItem("rememberMe");
           }
-        } else {
-          console.error("Login failed. Status code: ", response.status);
         }
       } catch (error) {
-        console.error("Error during login:", error);
+        // console.error("Error during login:", error);
+        setModalOpen(true);
+        setModalHeader(error.message || "에러 발생");
+        setModelText("로그인에 실패하였습니다.");
+      } finally {
+        // setModalOpen(false);
       }
     }
   };
@@ -157,7 +185,7 @@ const SignIn = () => {
             />
           </AlignBox>
           <RememberMe>
-            <input
+            <Checkbox
               type="checkbox"
               checked={rememberMe}
               onChange={handleRememberMeChange}
@@ -184,6 +212,9 @@ const SignIn = () => {
           </Link>
         </LoginBox>
       </AlignBox>
+      <Modal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
+        {modalText}
+      </Modal>
     </Container>
   );
 };

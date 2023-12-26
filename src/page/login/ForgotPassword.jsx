@@ -68,6 +68,9 @@ const SmallGreenButton = styled.button`
   padding: 10px;
   width: 70px;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PrevNavigateBox = styled.div`
@@ -84,12 +87,16 @@ const ForgotPassword = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [modalOpen, setModalOpen] = useState(false); // 모달 오픈
+  const [modalText, setModelText] = useState(""); // 모달에 넣을 내용
+  const [modalHeader, setModalHeader] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [codeVerified, setCodeVerified] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
   const selectedAgreement = state ?? false; // ConditionModal에서 undefined와 null값을 받았을경우 default값으로 false로 설정
-  console.log("Signup selectedAgreement", selectedAgreement);
+  const successModifyPassword = "비밀번호 변경 성공";
+  // console.log("Signup selectedAgreement", selectedAgreement);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -112,12 +119,18 @@ const ForgotPassword = () => {
       const result = await LoginPageAxiosApi.mailConfirm({
         email: email,
       });
-      console.log(result.status);
+      // console.log(result.status);
       if (result.status === 200) {
         setEmailVerified(true);
+        setModalHeader("인증번호 발송");
+        setModelText(email);
+        setModalOpen(true);
       }
     } catch (error) {
-      console.error("Error during nickname check:", error);
+      // console.error("Error during nickname check:", error);
+      setModalHeader("인증번호 발송실패");
+      setModelText("이메일을 정확히 입력해주세요.");
+      setModalOpen(true);
     }
   };
 
@@ -127,26 +140,38 @@ const ForgotPassword = () => {
         email: email,
         code: code,
       });
-      console.log(result.status);
+      // console.log(result.status);
       if (result.status === 200) {
         setCodeVerified(true);
+        setModalHeader("이메일 인증 성공");
+        setModelText(`유효한 인증번호 입니다. "${code}" `);
+        setModalOpen(true);
       }
     } catch (error) {
-      console.error("Error during nickname check:", error);
+      // console.error("Error during nickname check:", error);
+      setModalHeader("이메일 인증 실패");
+      setModelText("인증코드를 다시 인증해주세요.");
+      setModalOpen(true);
     }
   };
 
   const handleChangePasswordClick = () => {
     if (emailVerified && codeVerified && password === passwordCheck) {
       // 이메일과 코드가 확인되었을 때 처리할 로직
-      console.log(
-        "이메일과 인증번호가 유효합니다. 비밀번호 변경을 시작합니다."
-      );
+      // console.log(
+      //   "이메일과 인증번호가 유효합니다. 비밀번호 변경을 시작합니다."
+      // );
       handleChangePassword();
     } else if (emailVerified && codeVerified && password !== passwordCheck) {
-      console.log("비밀번호와 비밀번호 확인이 불일치합니다.");
+      // console.log("비밀번호와 비밀번호 확인이 불일치합니다.");
+      setModalHeader("비밀번호 일치 확인");
+      setModelText("비밀번호와 비밀번호 확인이 불일치합니다.");
+      setModalOpen(true);
     } else {
-      console.log("이메일과 인증번호가 유효하지않습니다. 비밀번호 변경 실패");
+      // console.log("이메일과 인증번호가 유효하지않습니다. 비밀번호 변경 실패");
+      setModalHeader("회원가입 실패");
+      setModelText("이메일과 인증번호가 유효하지않습니다.");
+      setModalOpen(true);
     }
   };
 
@@ -156,8 +181,16 @@ const ForgotPassword = () => {
       password: password,
     });
     if (response.status === 200) {
-      console.log("forgot-pw 리턴 값: ", response);
-      console.log("signin으로 돌아갑니다.");
+      setModalHeader(successModifyPassword);
+      setModelText("비밀번호가 변경되었습니다.");
+      setModalOpen(true);
+      // navigate("/signin");
+    }
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    if (modalHeader === successModifyPassword) {
       navigate("/signin");
     }
   };
@@ -198,13 +231,13 @@ const ForgotPassword = () => {
             </RowAlignBox>
             <InputBar
               type="password"
-              placeholder="Password"
+              placeholder="Reset Password"
               value={password}
               onChange={handlePasswordChange}
             />
             <InputBar
               type="password"
-              placeholder="Password Check"
+              placeholder="Reset Password Check"
               value={passwordCheck}
               onChange={handlePasswordCheckChange}
             />
@@ -220,6 +253,9 @@ const ForgotPassword = () => {
           이전으로
         </PrevNavigateBox>
       </AlignBox>
+      <Modal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
+        {modalText}
+      </Modal>
     </Container>
   );
 };

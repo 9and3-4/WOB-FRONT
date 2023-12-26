@@ -121,7 +121,7 @@ const Condition = () => {
       navigate("/signup", {
         state: term3Checked,
       });
-      console.log("Condition term3Checked : ", term3Checked);
+      // console.log("Condition term3Checked : ", term3Checked);
     }
   };
 

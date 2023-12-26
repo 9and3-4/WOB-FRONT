@@ -5,6 +5,9 @@ const InputBar = styled.input`
   border-radius: 30px;
   padding: 15px;
   width: 250px;
+  &:focus {
+    outline: 2px solid #04bf8a;
+  }
 `;
 const AuthInputBar = styled.input`
   margin: 5px;
@@ -12,6 +15,9 @@ const AuthInputBar = styled.input`
   border-radius: 30px;
   padding: 15px;
   width: 160px;
+  &:focus {
+    outline: 2px solid #04bf8a;
+  }
 `;
 
 const GreenButton = styled.button`

@@ -50,8 +50,6 @@ import ForgotPassword from "./page/login/ForgotPassword";
 import AdSubmit from "./page/AdSubmit";
 
 function App() {
-  const isLoggedIn = Common.getAccessToken() !== null;
-  console.log("isLoggedIn : ", isLoggedIn);
   return (
     <>
       <GlobalStyle />

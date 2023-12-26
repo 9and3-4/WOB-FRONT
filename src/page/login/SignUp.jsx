@@ -57,6 +57,9 @@ const OauthLogo = styled.img`
   background-color: white;
   padding: 5px;
   border-radius: 50%;
+  &:hover {
+    outline: 2px solid #04bf8a;
+  }
 `;
 
 const BlackButton = styled(GreenButton)`
@@ -75,6 +78,9 @@ const SmallGreenButton = styled.button`
   padding: 10px;
   width: 70px;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PrevNavigateBox = styled.div`
@@ -93,13 +99,15 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [modalOpen, setModalOpen] = useState(false); // 모달 오픈
-  const [modalText, setModelText] = useState("정말 로그아웃 하시겠습니까?"); // 모달에 넣을 내용
+  const [modalText, setModelText] = useState(""); // 모달에 넣을 내용
+  const [modalHeader, setModalHeader] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [codeVerified, setCodeVerified] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
   const selectedAgreement = state ?? false; // ConditionModal에서 undefined와 null값을 받았을경우 default값으로 false로 설정
-  console.log("Signup selectedAgreement", selectedAgreement);
+  // console.log("Signup selectedAgreement", selectedAgreement);
+  const successSignUp = "회원가입 성공";
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -126,14 +134,18 @@ const SignUp = () => {
       const result = await LoginPageAxiosApi.userNickNameCheck({
         nickname: nickName,
       });
-      console.log("결과는? ", result.data);
+      // console.log("결과는? ", result.data);
       const message = result.data
         ? "사용 불가능한 닉네임입니다."
         : "사용 가능한 닉네임입니다.";
+      setModalHeader("닉네임 중복 확인");
       setModelText(message);
       setModalOpen(true);
     } catch (error) {
-      console.error("Error during nickname check:", error);
+      // console.error("Error during nickname check:", error);
+      setModalOpen(true);
+      setModalHeader(error.message || "에러 발생");
+      setModelText("에러 발생");
     }
   };
 
@@ -142,12 +154,18 @@ const SignUp = () => {
       const result = await LoginPageAxiosApi.mailConfirm({
         email: email,
       });
-      console.log(result.status);
+      // console.log(result.status);
       if (result.status === 200) {
         setEmailVerified(true);
+        setModalHeader("인증번호 발송");
+        setModelText(email);
+        setModalOpen(true);
       }
     } catch (error) {
-      console.error("Error during nickname check:", error);
+      // console.error("Error during nickname check:", error);
+      setModalHeader("인증번호 발송실패");
+      setModelText("이메일을 정확히 입력해주세요.");
+      setModalOpen(true);
     }
   };
 
@@ -157,24 +175,37 @@ const SignUp = () => {
         email: email,
         code: code,
       });
-      console.log(result.status);
+      // console.log(result.status);
       if (result.status === 200) {
         setCodeVerified(true);
+        setModalHeader("이메일 인증 성공");
+        setModelText(`유효한 인증번호 입니다. "${code}" `);
+        setModalOpen(true);
       }
     } catch (error) {
-      console.error("Error during nickname check:", error);
+      // console.error("Error during nickname check:", error);
+      setModalHeader("이메일 인증 실패");
+      setModelText("인증코드를 다시 인증해주세요.");
+      setModalOpen(true);
     }
   };
 
   const handleSignUpClick = () => {
     if (emailVerified && codeVerified && password === passwordCheck) {
       // 이메일과 코드가 확인되었을 때 처리할 로직
-      console.log("이메일과 인증번호가 유효합니다. 회원가입을 시작합니다.");
+      // setModalHeader("회원가입 성공");
+      // setModelText("이메일과 인증번호가 유효합니다.");
+      // setModalOpen(true);
       handleSignUp();
     } else if (emailVerified && codeVerified && password !== passwordCheck) {
-      console.log("비밀번호와 비밀번호 확인이 불일치합니다.");
+      setModalHeader("비밀번호 일치 확인");
+      setModelText("비밀번호와 비밀번호 확인이 불일치합니다.");
+      setModalOpen(true);
     } else {
-      console.log("이메일과 인증번호가 유효하지않습니다. 회원가입 실패");
+      // console.log("이메일과 인증번호가 유효하지않습니다. 회원가입 실패");
+      setModalHeader("회원가입 실패");
+      setModelText("이메일과 인증번호가 유효하지않습니다.");
+      setModalOpen(true);
     }
   };
 
@@ -186,8 +217,11 @@ const SignUp = () => {
       selectedAgreement: selectedAgreement,
     });
     if (response.status === 200) {
-      console.log("sign-up 리턴 값: ", response);
-      handleLogin();
+      // console.log("sign-up 리턴 값: ", response);
+      setModalHeader(successSignUp);
+      setModelText("환영합니다.");
+      setModalOpen(true);
+      // handleLogin();
     }
   };
 
@@ -199,12 +233,12 @@ const SignUp = () => {
     if (response.status === 200) {
       const accessToken = response.headers.get("authorization");
       const refreshToken = response.headers.get("authorization-refresh");
-      console.log("accessToken return = ", accessToken);
-      console.log("refreshToken return = ", refreshToken);
+      // console.log("accessToken return = ", accessToken);
+      // console.log("refreshToken return = ", refreshToken);
       Common.setEmail(email);
       Common.setAccessToken(accessToken);
       Common.setRefreshToken(refreshToken);
-      console.log("login email : ", Common.getEmail());
+      // console.log("login email : ", Common.getEmail());
       navigate("/interestenter");
     }
   };
@@ -212,6 +246,9 @@ const SignUp = () => {
   // Modal 닫기 눌렀을 때, ModalOpen(false)
   const closeModal = () => {
     setModalOpen(false);
+    if (modalHeader === successSignUp) {
+      handleLogin();
+    }
   };
 
   const handlePrevButtonClick = () => {
@@ -293,7 +330,7 @@ const SignUp = () => {
           이전으로
         </PrevNavigateBox>
       </AlignBox>
-      <Modal open={modalOpen} close={closeModal} header="알림">
+      <Modal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
         {modalText}
       </Modal>
     </Container>
