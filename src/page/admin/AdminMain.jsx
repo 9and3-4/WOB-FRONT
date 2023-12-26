@@ -2,16 +2,13 @@
 import React from "react";
 import styled from "styled-components";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
-import SubHeader from "../../layout/SubHeader";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../component/admin/Layout";
 
 const Container = styled.div`
-  max-width: 768px;
-  min-width: 300px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  padding-top: 100px;
 
   .Logo {
     display: flex;
@@ -26,9 +23,7 @@ const Container = styled.div`
 `;
 
 const Buttons = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 10px;
+  margin: 30px 10px;
 `;
 
 const Click = styled.div`
@@ -57,7 +52,6 @@ const AdminMain = () => {
 
   return (
     <Container>
-      <SubHeader />
       <div className="Logo">
         <FullLogoBth />
         <span>관리자 메뉴</span>

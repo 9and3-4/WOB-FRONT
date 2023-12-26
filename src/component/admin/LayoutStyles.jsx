@@ -2,11 +2,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  max-width: 768px;
-  min-height: 100vh;
   width: 100vw;
   margin: auto;
   position: absolute;

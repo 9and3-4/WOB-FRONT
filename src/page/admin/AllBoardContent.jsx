@@ -89,7 +89,6 @@ const AllBoardContent = () => {
   // 맵 돌릴 리스트
   const [boardList, setBoardList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [num, setNum] = useState(0); // 인덱스 번호
@@ -148,41 +147,6 @@ const AllBoardContent = () => {
       </PaginationContainer>
     );
   };
-  // 게시글 활성화 또는 비활성화 요청 보내기
-  const categoryListState = async (selectedId, state) => {
-    await AdminAxiosApi.categoryListState(selectedId, state);
-    console.log("state, seletedId : " + state, selectedId);
-
-    // 상태 업데이트 후 선택한 게시글 초기화 또는 다른 업데이트 로직 추가
-    setSelectedId(null);
-    setIsModalOpen(false);
-  };
-
-  // 게시판 목록 useEffect
-  useEffect(() => {
-    const accessToken = Common.getAccessToken();
-    const getBoardList = async () => {
-      try {
-        const rsp = await AdminAxiosApi.boardList();
-        console.log("데이터 정보 : ", rsp);
-        setBoardList(rsp.data);
-      } catch (e) {
-        if (e.response.status === 401) {
-          console.log("결과가 잘 찍히지 않아요");
-          await Common.handleUnauthorized();
-          const newToken = Common.getAccessToken();
-          if (newToken !== accessToken) {
-            const rsp = await AdminAxiosApi.boardList();
-            console.log(rsp.data);
-            setBoardList(rsp.data);
-          }
-        } else {
-          console.log("401 에러 이외의 에러");
-        }
-      }
-    };
-    getBoardList();
-  }, []);
 
   return (
     <BoardContainer>
@@ -208,7 +172,12 @@ const AllBoardContent = () => {
             {/* map으로 반복할 요소 */}
             {boardList &&
               boardList.map((data, index) => (
-                <Tr key={data.categoryId} data={data} index={index + num} />
+                <Tr
+                  key={data.id}
+                  data={data}
+                  index={index + num}
+                  active={data.active}
+                />
               ))}
           </tbody>
         </table>

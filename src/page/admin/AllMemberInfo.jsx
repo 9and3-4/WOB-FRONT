@@ -284,7 +284,7 @@ const AllMemberInfo = () => {
     setIsModalOpen(false);
   };
 
-  // 게시판 목록 useEffect(회원내용으로 바꾸기)
+  // 게시판 목록 useEffect
   useEffect(() => {
     const accessToken = Common.getAccessToken();
     const getUserGet = async () => {
