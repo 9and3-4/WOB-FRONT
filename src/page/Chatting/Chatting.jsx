@@ -20,7 +20,7 @@ const ChatHeader = styled.div`
   font-size: 1.5em;
   color: #333;
   text-align: center;
-  margin-left: 40%;
+  margin-left: 35%;
 `;
 
 const MessagesContainer = styled.div`
@@ -122,7 +122,7 @@ const Chatting = () => {
   };
 
   const onEnterKey = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && inputMsg) {
       e.preventDefault(); // 이거 뭐징?
       onClickMsgSend();
     }

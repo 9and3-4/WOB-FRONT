@@ -88,6 +88,14 @@ const CircleFixedButton = styled.button`
   }
 `;
 
+const ChatLegnthZero = styled.div`
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+`;
 const FreeChat = () => {
   const [chatRooms, setChatRooms] = useState([]);
   const navigate = useNavigate();
@@ -121,6 +129,11 @@ const FreeChat = () => {
     <>
       <SettingHeader title="자유채팅방" />
       <Container>
+        {chatRooms.length === 0 && (
+          <ChatLegnthZero>
+            <p>현재 진행 중인 채팅방이 없습니다.</p>
+          </ChatLegnthZero>
+        )}
         <ChatUl>
           {chatRooms.map((room) => (
             <ChatRoom
