@@ -1,6 +1,6 @@
-// 카테고리 목록
+// 회원 목록
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import Modal from "../../utils/Modal";
@@ -8,12 +8,11 @@ import Modal from "../../utils/Modal";
 const TrComp = styled.tr`
   td {
     outline: 1px solid #dce0df;
-    border-radius: 10px;
     padding: 15px;
     text-align: center;
     width: 50px;
     vertical-align: middle;
-    background-color: ${(props) => (props.$active ? "#fdffcb" : "#bbb")};
+    background-color: ${(props) => (props.$active ? "white" : "#c4c1c1")};
 
     &.center {
       text-align: center;
@@ -33,7 +32,6 @@ const TrComp = styled.tr`
 `;
 
 const Tr2 = ({ data, index, setIsChange }) => {
-  const [userGet, setUserGet] = useState([]);
   const [userContent, setUserContent] = useState("");
   const [userActive, setUserActive] = useState(true);
   const [confirmRevise, setConfirmRevise] = useState(false);
@@ -57,10 +55,10 @@ const Tr2 = ({ data, index, setIsChange }) => {
     console.log("rsp : ", rsp.data);
     if (rsp.data) {
       alert("해당 회원정보가 수정되었습니다.");
-      setModalOpen(false);
-      setIsChange(true);
-      setConfirmRevise(false);
-      setUserActive(true);
+      setModalOpen(false); // 모달 여는 것
+      setIsChange(true); //
+      setConfirmRevise(false); //
+      setUserActive(true); //
     } else {
       alert("해당 회원정보가 수정되지 않았습니다.");
     }
@@ -124,8 +122,8 @@ const Tr2 = ({ data, index, setIsChange }) => {
           disabled={userActive}
           value={userContent}
           onChange={handleSelectChange}>
-          <option value="active">활동게시글</option>
-          <option value="inactive">비활동게시글</option>
+          <option value="active">활동계정</option>
+          <option value="inactive">휴먼계정</option>
         </select>
       </td>
       <td>

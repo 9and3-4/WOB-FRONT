@@ -112,6 +112,7 @@ const AllMemberInfo = () => {
   useEffect(() => {
     getTotalPage();
   }, []);
+
   useEffect(() => {
     console.log("isChange? : " + isChange);
     if (isChange) {
