@@ -241,6 +241,9 @@ const PostDetail = ({ categoryImage }) => {
           {post.type === "normal" && (
             <ChatStart postId={postId}>채팅방입장</ChatStart>
           )}
+          {post.type === "lesson" && (
+            <ChatStart postId={postId}>채팅방입장</ChatStart>
+          )}
           {post.type === "lesson" && post.fee >= 100 ? (
             <PaymentBtn onClick={() => onModalOpen()}>결제하기</PaymentBtn>
           ) : (

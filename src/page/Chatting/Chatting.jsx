@@ -174,17 +174,19 @@ const Chatting = () => {
     }
   };
 
-  // 정해진 시간이 흐른 뒤 채팅방 종료
+  // // 정해진 시간이 흐른 뒤 채팅방 종료
   // useEffect(() => {
+  //   const afterDate = new Date("2023-12-27T15:58:00"); // 내가 지정한 날짜와 시간
+  //   const currentDate = new Date(); // 현재 날짜와 시간
   //   const timeoutId = setTimeout(() => {
   //     if (ws.current) {
   //       ws.current.close();
-  //       navigate("/");// 이 부분 수정해야 함
+  //       navigate("/"); // 이 부분 수정해야 함
   //       console.log("정상 종료");
   //     } else {
   //       console.log("소켓 없음");
   //     }
-  //   }, 10000);
+  //   }, afterDate - currentDate);
   //   return () => clearTimeout(timeoutId);
   // }, []);
 
