@@ -112,19 +112,22 @@ const ModalText2 = styled.input`
   font-size: 24px;
   width: 60%;
 `;
+const PayBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const PostDetail = ({ categoryImage }) => {
   const { postId } = useParams(); //postId를 url에서 받아옴
   const [post, setPost] = useState("");
-  const [postNum, setPostNum] = useState("");
   const [teaName, setTeaName] = useState("");
   const [teaPhone, setTeaPhone] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhoneNum, setUserPhoneNum] = useState("");
   const [isUserName, setIsUserName] = useState(false);
   const [isUserPhoneNum, SetIsUserPhoneNum] = useState(false);
+  const [paymentId, setPaymentId] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [isPayment, setIsPayment] = useState(false);
 
   const onModalOpen = () => {
     setModalOpen(true);
@@ -184,7 +187,7 @@ const PostDetail = ({ categoryImage }) => {
   }, [postId]);
   // if (!post) return <></>;
 
-  //일정추가하기
+  // 일정추가하기
   const handleAddSchedule = async () => {
     try {
       const email = localStorage.getItem("email"); // 사용자 이메일 가져오기
@@ -204,6 +207,12 @@ const PostDetail = ({ categoryImage }) => {
       // 에러 처리 로직 추가
       console.error("내일정 추가 에러:", error);
     }
+  };
+
+  // paymentId 값 받아오기 === 결제 성공
+  const handlePaymentComplete = (paymentResult) => {
+    setPaymentId(paymentResult);
+    console.log("결제가 완료되었습니다. 결과:", paymentResult);
   };
 
   return (
@@ -230,13 +239,13 @@ const PostDetail = ({ categoryImage }) => {
         <TextBox>일정 소개 {post.introduction}</TextBox>
         <ButtonBox>
           {post.type === "normal" && (
-            <ChatStart postId={postId}>문의하기</ChatStart>
+            <ChatStart postId={postId}>채팅방입장</ChatStart>
           )}
-          {post.type === "lesson" && (
+          {post.type === "lesson" && post.fee >= 100 ? (
             <PaymentBtn onClick={() => onModalOpen()}>결제하기</PaymentBtn>
+          ) : (
+            <ContentButton onClick={handleAddSchedule}>일정추가</ContentButton>
           )}
-
-          <ContentButton onClick={handleAddSchedule}>일정추가</ContentButton>
         </ButtonBox>
       </ContentBox>
       <FooterBox>
@@ -245,8 +254,6 @@ const PostDetail = ({ categoryImage }) => {
       <Modal
         open={modalOpen}
         close={closeModal}
-        confirm={confirmModal}
-        type={true}
         header="주문자 정보를 입력해주세요 !!"
       >
         <ModalContainer>
@@ -263,19 +270,24 @@ const PostDetail = ({ categoryImage }) => {
             ></ModalText2>
           </ModalSubContainer>
           {isUserName && isUserPhoneNum ? (
-            <Payment
-              setDisabled={false}
-              userName={userName}
-              userPhone={userPhoneNum}
-              postTitle={post.title}
-              postUserName={teaName}
-              fee={post.fee}
-              postPhoneNum={teaPhone}
-            >
-              결제하기
-            </Payment>
+            <PayBox>
+              <Payment
+                setDisabled={false}
+                userName={userName}
+                userPhone={userPhoneNum}
+                postTitle={post.title}
+                postUserName={teaName}
+                fee={post.fee}
+                postPhoneNum={teaPhone}
+                onPaymentComplete={handlePaymentComplete}
+              >
+                결제하기
+              </Payment>
+            </PayBox>
           ) : (
-            <Payment setDisabled={true}>결제하기</Payment>
+            <PayBox>
+              <Payment setDisabled={true}>결제하기</Payment>
+            </PayBox>
           )}
         </ModalContainer>
       </Modal>

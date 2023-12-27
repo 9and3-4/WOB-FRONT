@@ -61,7 +61,6 @@ const Payment = (props) => {
       buyer_name,
       buyer_tel,
       buyer_email,
-      amount,
       name,
     } = response;
 
@@ -79,6 +78,7 @@ const Payment = (props) => {
       );
       if (rsp.data) {
         console.log("rsp2.data.paymentId", rsp.data.id);
+        props.onPaymentComplete(rsp.data.id);
         alert("결제가 완료되었습니다.");
         navigate(`/CompletePayment/${rsp.data.id}`);
       } else {
