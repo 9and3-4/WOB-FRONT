@@ -7,31 +7,21 @@ const MyPageAxiosApi = {
   userGet: async () => {
     return await customAxios.get(KH_DOMAIN + `/users/list`);
   },
-  // userGet: async () => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   return await axios.get(KH_DOMAIN + `/users/list`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + accessToken,
-  //     },
-  //   });
-  // },
 
   // Member Get One - 회원정보 상세 조회
   userGetOne: async (email) => {
     console.log("회원정보 사용자 이메일 :", email);
     return await customAxios.get(KH_DOMAIN + `/users/detail/${email}`);
   },
-  // userGetOne: async (email) => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   console.log("회원정보 사용자 이메일 :", email);
-  //   return await axios.get(KH_DOMAIN + `/users/detail/${email}`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + accessToken,
-  //     },
-  //   });
-  // },
+
+  //내일정추가
+  join: async (email, postId) => {
+    console.log("엑시오스 이메일과 포스트아이디:", email, postId);
+    return await customAxios.post(KH_DOMAIN + `/schedule/join`, {
+      email: email,
+      postId: postId,
+    });
+  },
 
   //회원 정보 수정
   userUpdate: async (
