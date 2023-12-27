@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import CalendarComp from "../../component/CalendarComp";
-import PostList from "../PostListClon";
 import { useNavigate } from "react-router-dom";
+import JoinPost from "./JoinPost";
 
 const BoardContainer = styled.div`
   display: flex;
@@ -73,7 +73,7 @@ const Schedule = () => {
             </>
             <BoardJoin>
               {/* 선택된 날짜에 따라  */}
-              <PostList selectedDate={selectedDate} />
+              <JoinPost selectedDate={selectedDate} />
             </BoardJoin>
           </Boards>
         </BoardContainer>

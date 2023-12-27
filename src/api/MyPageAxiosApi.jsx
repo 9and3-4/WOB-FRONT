@@ -18,9 +18,15 @@ const MyPageAxiosApi = {
   join: async (email, postId) => {
     console.log("엑시오스 이메일과 포스트아이디:", email, postId);
     return await customAxios.post(KH_DOMAIN + `/schedule/join`, {
-      email: email,
+      userEmail: email,
       postId: postId,
     });
+  },
+
+  // 사용자가 추가한 일정들을 불러오는 API
+  joinList: async (userEmail) => {
+    console.log("엑시오스 이메일 뜸? :", userEmail);
+    return await customAxios.get(KH_DOMAIN + `/post/user/${userEmail}`);
   },
 
   //회원 정보 수정
