@@ -192,22 +192,6 @@ const PaymentDatails = () => {
     );
   };
 
-  // useEffect(() => {
-  //   const getPaymentId = async () => {
-  //     const rsp = await PaymentAxiosApi.payGetByEmail(
-  //       localStorage.getItem("email")
-  //     );
-  //     console.log("해당 회원의 결제 내역 : " + rsp.data[0]);
-  //     if (rsp.data) {
-  //       setPay(rsp.data);
-  //       console.log("setPay : ", pay);
-  //     } else {
-  //       console.log("rsp.data == 0");
-  //     }
-  //   };
-  //   getPaymentId();
-  // }, []);
-
   if (!pay) return <></>;
   return (
     <>
@@ -262,7 +246,13 @@ const PaymentDatails = () => {
                   </BottomTextBox>
                 </SubBottomBox>
                 <SubBottomBox className="subBox4">
-                  <HomeBtn onClick={() => navigate("/")}>취소요청</HomeBtn>
+                  <HomeBtn
+                    onClick={() =>
+                      alert("관리자 (dobby22023@naver.com) 에게 문의해주세요.")
+                    }
+                  >
+                    취소요청
+                  </HomeBtn>
                 </SubBottomBox>
               </BottomBox>
             </SubContainer>

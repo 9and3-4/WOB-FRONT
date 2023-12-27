@@ -55,7 +55,10 @@ const SettingAxiosApi = {
     const contents = {
       email: email,
     };
-    return await customAxios.get(KH_DOMAIN + "/users/modify", contents);
+    return await customAxios.get(
+      KH_DOMAIN + `/users/detail/${email}`,
+      contents
+    );
   },
   // socialType: async (email) => {
   //   const token = Common.getAccessToken();

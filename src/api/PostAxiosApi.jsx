@@ -84,6 +84,11 @@ const PostAxiosApi = {
       KH_DOMAIN + `/post/postPlaceAddress/${postId}`
     );
   },
+
+  // 회원의 이름, 전화번호 가져오기
+  getPostUserInfo: async (email) => {
+    return await customAxios.get(KH_DOMAIN + `/getTeacherInfo/${email}`);
+  },
 };
 
 export default PostAxiosApi;

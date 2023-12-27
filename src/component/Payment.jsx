@@ -27,6 +27,7 @@ const Payment = (props) => {
     fee,
     postPhoneNum,
     children,
+    setDisabled,
   } = props;
   const navigate = useNavigate();
 
@@ -71,7 +72,7 @@ const Payment = (props) => {
         buyer_name,
         buyer_tel,
         buyer_email,
-        amount,
+        fee,
         name,
         postUserName,
         postPhoneNum
@@ -89,7 +90,9 @@ const Payment = (props) => {
   };
   return (
     <>
-      <PaymentBtn onClick={onClickPayment}>{children}</PaymentBtn>
+      <PaymentBtn disabled={setDisabled} onClick={onClickPayment}>
+        {children}
+      </PaymentBtn>
     </>
   );
 };
