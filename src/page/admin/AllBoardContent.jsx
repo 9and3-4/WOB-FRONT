@@ -91,7 +91,7 @@ const AllBoardContent = () => {
   const [boardList, setBoardList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
-  const [num, setNum] = useState(0); // 인덱스 번호
+  const [num, setNum] = useState(1); // 인덱스 번호
   const navigate = useNavigate();
 
   // 수정, 등록 시 경로 이동
