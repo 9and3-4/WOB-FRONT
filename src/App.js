@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import Common from "./utils/Common";
 import Schedule from "./page/schedule/Schedule";
+import MyPost from "./page/schedule/MyPost";
+import JoinPost from "./page/schedule/JoinPost";
 import CalendarComp from "./component/CalendarComp";
 import GlobalStyle from "./globalStyle";
 import Main from "./page/Main";
@@ -21,6 +23,9 @@ import AllMemberInfo from "./page/admin/AllMemberInfo";
 import AskContent from "./page/admin/AskContent";
 import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
+import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
+import StockRatioByRegion from "./page/admin/StockRatioByRegion";
+import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
 import InterestEnter from "./page/login/interestEnter";
 import PostList from "./page/PostList";
@@ -63,8 +68,10 @@ function App() {
             <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
+            <Route path="/MyPost" element={<MyPost />} />
+            <Route path="/JoinPost" element={<JoinPost />} />
             <Route path="/postpreview" element={<PostPreview />} />
-            <Route path="/adsubmit/:postId" element={<AdSubmit />} />
+            <Route path="/postlist/adsubmit" element={<AdSubmit />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
@@ -100,6 +107,15 @@ function App() {
             />
             {/* 전체 회원 관리 */}
             <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
+            <Route
+              path="/AdminVisitorStatus"
+              element={<AdminVisitorStatus />}
+            />
+            <Route
+              path="/StockRatioByRegion"
+              element={<StockRatioByRegion />}
+            />
+            <Route path="/SearchKeyword" element={<SearchKeyword />} />
             {/* 전체 결제 내역 관리 */}
             <Route path="/AllPaymentList" element={<AllPaymentList />} />
             {/* 문의하기(Q&A) */}
