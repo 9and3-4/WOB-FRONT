@@ -21,9 +21,6 @@ import AllMemberInfo from "./page/admin/AllMemberInfo";
 import AskContent from "./page/admin/AskContent";
 import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
-import AdminVisitorStatus from "./page/admin/AdminVisitorStatus";
-import StockRatioByRegion from "./page/admin/StockRatioByRegion";
-import SearchKeyword from "./page/admin/SearchKeyword";
 import AllPaymentList from "./page/admin/AllPaymentList";
 import InterestEnter from "./page/login/interestEnter";
 import PostList from "./page/PostList";
@@ -103,15 +100,6 @@ function App() {
             />
             {/* 전체 회원 관리 */}
             <Route path="/AllMemberInfo" element={<AllMemberInfo />} />
-            <Route
-              path="/AdminVisitorStatus"
-              element={<AdminVisitorStatus />}
-            />
-            <Route
-              path="/StockRatioByRegion"
-              element={<StockRatioByRegion />}
-            />
-            <Route path="/SearchKeyword" element={<SearchKeyword />} />
             {/* 전체 결제 내역 관리 */}
             <Route path="/AllPaymentList" element={<AllPaymentList />} />
             {/* 문의하기(Q&A) */}

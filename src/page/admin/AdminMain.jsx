@@ -66,7 +66,6 @@ const AdminMain = () => {
         <Click onClick={() => handleNavigate("/AllBoardContent")}>
           전체 카테고리 관리
         </Click>
-        <Click onClick={() => handleNavigate("/")}>전체 게시판 관리</Click>
         <Click onClick={() => handleNavigate("/Advertising")}>광고 관리</Click>
         <Click onClick={() => handleNavigate("/AskContent")}>
           문의 하기/Q&A

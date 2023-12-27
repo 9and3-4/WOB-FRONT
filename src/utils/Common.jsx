@@ -21,6 +21,36 @@ export const formatDate = (dateString) => {
 };
 
 const Common = {
+  KAKAOKEY: "2dda918f299fb6e8325412499bf9a08a",
+  // 지도 주소 -> 위도 경도로 바꿈
+  getAddrCoordination: async (addr) => {
+    try {
+      const response = await axios.get(
+        `https://dapi.kakao.com/v2/local/search/address.json?query=${addr}`,
+        {
+          headers: {
+            Authorization: `KakaoAK ${Common.KAKAOKEY}`,
+          },
+        }
+      );
+
+      const result = response.data;
+      if (result.documents.length > 0) {
+        const firstResult = result.documents[0];
+        console.log(firstResult);
+        console.log(firstResult.address);
+        console.log(firstResult.address.y);
+        console.log(firstResult.address.x);
+        const { x, y } = firstResult.address;
+        return { latitude: y, longitude: x };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return null;
+    }
+  },
   getAccessToken: () => {
     return localStorage.getItem("accessToken");
   },

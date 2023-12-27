@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
-import { useParams } from "react-router-dom";
-import PostAxiosApi from "../../api/PostAxiosApi";
+import PostList from "../PostList";
 
 const MapContainer = styled.div`
-  width: 80%;
-  height: 50vh;
+  width: 70%;
+  height: 60vh;
+  margin: 0 auto;
 `;
 
 const AppContainer = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 `;
 
 const SearchContainer = styled.div`
@@ -83,7 +80,6 @@ const KakaoMap = () => {
   const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소
 
   const [sportsData, setSportsData] = useState("");
-  const { postId } = useParams();
 
   // 현재 위치 가져오기
   useEffect(() => {
@@ -129,88 +125,22 @@ const KakaoMap = () => {
     console.log(resp);
   };
 
-  const handleAppointLoad = async () => {
-    try {
-      console.log("주소 postId: ", postId);
-      // 디비에서 주소 목록을 가져오는 비동기 함수 호출
-      const rsp = await PostAxiosApi.postAddressById(postId);
-      console.log(rsp.data);
-      console.log("주소주라구!! " + postId);
-      if (rsp.status === 200) {
-        const { place } = rsp.data; // 주소 정보에서 place 추출
-        console.log("place: ", place);
-
-        // 여기까지는 실행됨.
-
-        // 주소를 지도에 표기
-        if (place) {
-          // 주소-좌표 변환 객체 생성
-          const geocoder = new window.kakao.maps.services.Geocoder();
-
-          // 주소로 좌표를 검색
-          geocoder.addressSearch(place, function (result, status) {
-            // 정상적으로 검색이 완료됐으면
-            if (status === window.kakao.maps.services.Status.OK) {
-              const coords = new window.kakao.maps.LatLng(
-                result[0].y,
-                result[0].x
-              );
-              console.log("주소 변환: " + coords); // 주소 변환도 ok!!
-
-              // 결과값으로 받은 위치를 마커로 표시
-              const marker = new window.kakao.maps.Marker({
-                map: map,
-                position: coords,
-              });
-              console.log("Marker:", marker);
-              console.log("map, coords 나와랏! ", map, coords);
-              // 인포윈도우로 장소에 대한 설명을 표시
-              const infowindow = new window.kakao.maps.InfoWindow({
-                content: `<div style="width:150px;text-align:center;padding:6px 0;">${place}</div>`,
-              });
-              infowindow.open(map, marker);
-
-              // 지도의 중심을 결과값으로 받은 위치로 이동
-              if (map) {
-                // map이 null이 아닌 경우에만 호출
-                map.setCenter(coords);
-                console.log(map); // 안에 객체 제대로 확인 ok!!
-              }
-            } else {
-              console.error("주소를 찾을 수 없습니다:", place);
-            }
-          });
-        } else {
-          console.error("주소 정보가 없습니다.");
-        }
-      }
-    } catch (error) {
-      console.error("주소 목록을 가져오는 중에 오류가 발생했습니다:", error);
-    }
-  };
-
   useEffect(() => {
-    if (map) {
-      handleAppointLoad(map);
-    }
-  }, [map]);
+    if (!sportsData) return;
+    markers.forEach((marker) => marker.setMap(null));
 
-  // useEffect(() => {
-  //   if (!sportsData) return;
-  //   markers.forEach((marker) => marker.setMap(null));
-
-  //   const newMarkers = sportsData.map((place) => {
-  //     const placeMarker = new window.kakao.maps.Marker({
-  //       position: new window.kakao.maps.LatLng(place.latitude, place.longitude), // 마커 위치
-  //     });
-  //     placeMarker.setMap(map); // 지도에 마커 표시
-  //     window.kakao.maps.event.addListener(placeMarker, "click", () => {
-  //       setSelectedPlace(place);
-  //     });
-  //     return placeMarker;
-  //   });
-  //   setMarkers(newMarkers);
-  // }, [sportsData]);
+    const newMarkers = sportsData.map((place) => {
+      const placeMarker = new window.kakao.maps.Marker({
+        position: new window.kakao.maps.LatLng(place.latitude, place.longitude), // 마커 위치
+      });
+      placeMarker.setMap(map); // 지도에 마커 표시
+      window.kakao.maps.event.addListener(placeMarker, "click", () => {
+        setSelectedPlace(place);
+      });
+      return placeMarker;
+    });
+    setMarkers(newMarkers);
+  }, [sportsData]);
 
   return (
     <AppContainer>
@@ -234,14 +164,21 @@ const KakaoMap = () => {
       {selectedPlace && (
         <InfoWindowContainer>
           <InfoWindowContent>
-            <strong>{selectedPlace.name}</strong>
+            <strong>{selectedPlace.title}</strong>
             <br />
-            주소: {selectedPlace.address}
+            장소: {selectedPlace.place}
             <br />
-            전화번호: {selectedPlace.phone}
+            일시: {selectedPlace.date},{selectedPlace.time}
+            <br />
+            모집인원: {selectedPlace.people}
+            <br />
+            예상비용: {selectedPlace.fee}
+            <br />
+            일정소개: {selectedPlace.introduction}
           </InfoWindowContent>
         </InfoWindowContainer>
       )}
+      <PostList />
     </AppContainer>
   );
 };
