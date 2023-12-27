@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import Layout from "../../component/admin/Layout";
-import Tr3 from "../../component/admin/TableElement";
+import Tr3 from "../../component/admin/AdElement";
 
 // 전체 큰 틀css
 const BoardContainer = styled.div`
@@ -157,7 +157,6 @@ const Advertising = () => {
           <thead>
             <tr>
               <th>번호</th>
-              <th>광고제목</th>
               <th>광고종목</th>
               <th>이미지</th>
               <th>비용</th>

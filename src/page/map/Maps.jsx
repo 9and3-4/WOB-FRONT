@@ -4,7 +4,7 @@ import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { useNavigate } from "react-router-dom";
 
 const MapContainer = styled.div`
-  width: 70%;
+  width: 40%;
   height: 45vh;
   margin: 0 auto;
 `;
@@ -19,9 +19,9 @@ const AppContainer = styled.div`
 
 const SearchContainer = styled.div`
   position: relative;
-  width: 60%;
+  width: 40%;
   top: 20px;
-  left: 200px;
+  left: 30%;
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
@@ -38,9 +38,9 @@ const InputWrapper = styled.div`
 
 const InfoWindowContainer = styled.div`
   position: relative;
-  width: 60%;
+  width: 40%;
   top: 25px;
-  left: 200px;
+  left: 30%;
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
@@ -110,7 +110,7 @@ const KakaoMap = () => {
     const container = mapRef.current; // 지도를 담을 영역의 DOM 레퍼런스
     const options = {
       center: new window.kakao.maps.LatLng(location.lat, location.long),
-      level: 4,
+      level: 5,
     };
 
     const kakaoMap = new window.kakao.maps.Map(container, options);

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import Layout from "../../component/admin/Layout";
-import Tr2 from "../../component/admin/TableElement";
+import Tr2 from "../../component/admin/UserElement";
 
 // 전체 큰 틀css
 const BoardContainer = styled.div`
@@ -157,8 +157,12 @@ const AllMemberInfo = () => {
           <thead>
             <tr>
               <th>번호</th>
+              <th>이름</th>
               <th>이메일</th>
               <th>닉네임</th>
+              <th>탈퇴이유</th>
+              <th>약관동의 선택</th>
+              <th>전화번호</th>
               <th>분류선택</th>
               <th>수정</th>
               <th>삭제</th>

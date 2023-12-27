@@ -1,5 +1,6 @@
+// 종목 목록
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import Modal from "../../utils/Modal";
@@ -46,7 +47,6 @@ const Tr = ({ data, index }) => {
   const [categoryActive, setCategoryActive] = useState(true);
   const [confirmRevise, setConfirmRevise] = useState(false);
   const [num, setNum] = useState(0); // 인덱스 번호
-  const [isTrue, setIsTrue] = useState(true);
 
   // 모달 관련 변수
   const [isOpen, setIsOpen] = useState(true);
