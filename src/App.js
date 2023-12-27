@@ -64,7 +64,7 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
             <Route path="/postpreview" element={<PostPreview />} />
-            <Route path="/postlist/adsubmit" element={<AdSubmit />} />
+            <Route path="/adsubmit/:postId" element={<AdSubmit />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>

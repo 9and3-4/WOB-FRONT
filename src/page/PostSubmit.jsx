@@ -224,6 +224,8 @@ const PostSubmit = () => {
   const [phoneNumber, setPhoneNumer] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+  const [postId, setPostId] = useState("");
+
   const resetForm = () => {
     setTitle("");
     setSelectedCategory("");
@@ -336,6 +338,7 @@ const PostSubmit = () => {
       lat,
       lng,
     });
+    setPostId(rsp.data.id);
     console.log("type : ", selectedOption);
     console.log("Response:", rsp.data);
 
@@ -422,7 +425,7 @@ const PostSubmit = () => {
 
   const confirmModal = () => {
     // 광고 등록 페이지로 이동
-    navigate("adsubmit");
+    navigate(`/adsubmit/${postId}`);
   };
 
   useEffect(() => {
@@ -474,7 +477,8 @@ const PostSubmit = () => {
             />
             <StyledSelect
               value={seletedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}>
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
               <option value="" disabled>
                 종목 선택
               </option>
@@ -514,7 +518,8 @@ const PostSubmit = () => {
 
             <StyledSelect
               value={local}
-              onChange={(e) => setLocal(e.target.value)}>
+              onChange={(e) => setLocal(e.target.value)}
+            >
               <option value="" disabled>
                 지역구
               </option>
@@ -555,7 +560,7 @@ const PostSubmit = () => {
 
             {selectedOption === "lesson" && (
               <>
-                <LectureBox>강의 정보 입력란</LectureBox>
+                <LectureBox>강사 정보 입력란</LectureBox>
 
                 <Input
                   type="text"
@@ -566,7 +571,7 @@ const PostSubmit = () => {
                 <Input
                   type="text"
                   value={phoneNumber}
-                  placeholder="전화번호"
+                  placeholder="전화번호('-'포함해서 기재)"
                   onChange={(e) => setPhoneNumer(e.target.value)}
                 />
                 {/* 이미지 업로드 필드 (선택) */}
@@ -588,7 +593,8 @@ const PostSubmit = () => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="안내">
+          header="안내"
+        >
           <ModalBox>
             <SectionTitle>광고 등록도 함께 진행 하시겠습니까?</SectionTitle>
           </ModalBox>

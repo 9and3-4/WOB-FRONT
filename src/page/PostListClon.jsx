@@ -74,12 +74,14 @@ const PostList = ({ data }) => {
             // PostPreview 컴포넌트를 호출하면서 필요한 데이터를 전달
             <StyledLink to={`/postDetail/${post.id}`} key={post.id}>
               <PostPreview
+                key={post.id}
                 title={post.title}
                 date={post.date}
                 time={post.time}
-                place={post.place}
+                local={post.local}
                 people={post.people}
                 category={post.categoryName}
+                type={post.type}
               />
             </StyledLink>
           ))}
