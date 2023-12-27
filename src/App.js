@@ -68,7 +68,7 @@ function App() {
             <Route path="/MyPost" element={<MyPost />} />
             <Route path="/JoinPost" element={<JoinPost />} />
             <Route path="/postpreview" element={<PostPreview />} />
-            <Route path="/postlist/adsubmit" element={<AdSubmit />} />
+            <Route path="/adsubmit/:postId" element={<AdSubmit />} />
             {/* 선영 지도 */}
             <Route path="/KakaoMap" element={<KakaoMaps />} />
           </Route>
