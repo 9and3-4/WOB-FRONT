@@ -83,25 +83,7 @@ const Layout = () => {
                     onClick={() =>
                       handleAreaNavigate("/AllMemberInfo", "allMemberList")
                     }>
-                    전체 회원 목록
-                  </li>
-                  <li
-                    onClick={() =>
-                      handleAreaNavigate("/AdminVisitorStatus", "visitMember")
-                    }>
-                    방문자 현황
-                  </li>
-                  <li
-                    onClick={() =>
-                      handleAreaNavigate("/StockRatioByRegion", "regionGrap")
-                    }>
-                    지역별 종목 비율
-                  </li>
-                  <li
-                    onClick={() =>
-                      handleAreaNavigate("/SearchKeyword", "clickKeyword")
-                    }>
-                    검색 키워드 높은 순
+                    전체 회원 목록보기
                   </li>
                 </ul>
               </li>
@@ -111,23 +93,23 @@ const Layout = () => {
                 </div>
                 <ul className="sub-menu">
                   <li onClick={() => handleAreaNavigate("/AllPaymentList")}>
-                    전체 결제 내역 목록
+                    전체 결제 내역 목록보기
                   </li>
                 </ul>
               </li>
               <li>
                 <div className="m-title" onClick={() => onClickMenu(3)}>
-                  전체 카테고리 관리
+                  전체 종목 관리
                 </div>
                 <ul className="sub-menu">
                   <li onClick={() => handleAreaNavigate("/AllBoardContent")}>
-                    전체 카테고리게시판 목록
+                    전체 종목 목록보기
                   </li>
                   <li
                     onClick={() =>
                       handleAreaNavigate("/AdminBoardRegistration")
                     }>
-                    전체 카테고리게시판 등록
+                    전체 종목 등록하기
                   </li>
                 </ul>
               </li>
@@ -137,7 +119,7 @@ const Layout = () => {
                 </div>
                 <ul className="sub-menu">
                   <li onClick={() => handleAreaNavigate("/Advertising")}>
-                    광고 관리하기
+                    광고 목록보기
                   </li>
                 </ul>
               </li>
@@ -147,7 +129,7 @@ const Layout = () => {
                 </div>
                 <ul className="sub-menu">
                   <li onClick={() => handleAreaNavigate("/AskContent")}>
-                    관리자 전용 전체 채팅방 목록
+                    관리자 1:1 문의 채팅 목록보기
                   </li>
                 </ul>
               </li>

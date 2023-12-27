@@ -22,6 +22,8 @@ const PostAxiosApi = {
       userEmail: userEmail,
       type: props.type,
       image: props.file,
+      latitude: props.lat,
+      longitude: props.lng,
     };
     console.log(
       "일정 등록 : ",
@@ -36,7 +38,9 @@ const PostAxiosApi = {
       post.time,
       post.email,
       post.type,
-      post.file
+      post.file,
+      post.latitude,
+      post.longitude
     );
     return await customAxios.post(KH_DOMAIN + "/post/new", post);
   },

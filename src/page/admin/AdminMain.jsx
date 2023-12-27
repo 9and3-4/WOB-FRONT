@@ -11,13 +11,10 @@ const Container = styled.div`
   padding-top: 100px;
 
   .Logo {
-    display: flex;
-    align-items: center;
-
+    text-align: center;
     span {
-      font-size: 30px;
+      font-size: 40px;
       font-weight: bold;
-      margin: 100px;
     }
   }
 `;

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import Common from "../../utils/Common";
 import FullLogoBth from "../../component/admin/FullLogoBtn";
 import Layout from "../../component/admin/Layout";
 import Tr from "../../component/admin/TableElement";
@@ -59,11 +58,13 @@ const Buttons = styled.div`
   }
 `;
 
+// 페이지 네이션 큰 틀
 const PaginationContainer = styled.div`
   text-align: center;
   margin-top: 20px;
 `;
 
+// 페이지 네이션 버튼
 const PageButton = styled.button`
   border: 1px solid #ddd;
   padding: 5px;
@@ -88,7 +89,6 @@ const PageButton = styled.button`
 const AllBoardContent = () => {
   // 맵 돌릴 리스트
   const [boardList, setBoardList] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [num, setNum] = useState(0); // 인덱스 번호

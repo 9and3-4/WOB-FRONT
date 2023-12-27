@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Button from "../Button";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
-import Common from "../../utils/Common";
-import { KH_DOMAIN } from "../../utils/Common";
+import Modal from "../../utils/Modal";
 
 const TrComp = styled.tr`
   td {
@@ -43,12 +42,50 @@ const TrComp = styled.tr`
 `;
 
 const Tr = ({ data, index }) => {
-  const [boardList, setBoardList] = useState([]);
-  const [categoryContent, setCategoryContent] = useState(data.id);
+  const [categoryContent, setCategoryContent] = useState("");
   const [categoryActive, setCategoryActive] = useState(true);
   const [confirmRevise, setConfirmRevise] = useState(false);
   const [num, setNum] = useState(0); // 인덱스 번호
   const [isTrue, setIsTrue] = useState(true);
+
+  // 모달 관련 변수
+  const [isOpen, setIsOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModalText] = useState(false);
+
+  // 닫는 모달
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  // 수정 모달창
+  const confirmModal = async () => {
+    console.log("Data in Tr component:", data);
+    console.log("수정 데이터 : ", data.categoryId, categoryContent);
+    const rsp = await AdminAxiosApi.categoryListState(
+      data.categoryId,
+      categoryContent
+    );
+    console.log("rsp : ", rsp.data);
+    if (rsp.data) {
+      alert("해당 종목이 수정되었습니다.");
+      setModalOpen(false);
+    } else {
+      alert("해당 종목이 수정되지 않았습니다.");
+    }
+  };
+
+  // 삭제 모달
+  const deleteModal = async () => {
+    const rsp = await AdminAxiosApi.boardDelete(data.categoryId);
+    console.log(data.categoryId);
+    if (rsp.status === 200) {
+      alert("해당 종목이 삭제 되었습니다.");
+      setModalOpen(false);
+    } else {
+      alert("해당 종목이 삭제되지 않았습니다.");
+    }
+  };
 
   // 버튼 누르면 바뀜(수정 -> 확인)
   const clickRevise = () => {
@@ -57,33 +94,22 @@ const Tr = ({ data, index }) => {
   };
 
   // 게시글 활성화 또는 비활성화 요청 보내기
-  const clickOn = () => {};
-
-  // 리렌더링 용
-  const reRender = () => {
-    setIsTrue((prev) => !prev);
+  const handleSelectChange = (e) => {
+    setCategoryContent(e.target.value);
+    console.log(categoryContent);
+  };
+  // 확인에서 수정된 값 들어감
+  const clickOn = async () => {
+    setIsOpen(true);
+    setModalText("상태를 변경하시겠습니까?");
+    setModalOpen(true);
   };
 
   // 카테고리 삭제
   const clickDelete = () => {
-    const boardDelete = async () => {
-      try {
-        const rsp = await AdminAxiosApi.boardDelete();
-        console.log(data.id);
-        if (rsp.status === 200) {
-          alert("카테고리가 삭제 되었습니다.");
-          reRender();
-        }
-      } catch (e) {
-        console.log("카테고리 삭제에 실패했습니다.");
-      }
-    };
-    boardDelete();
-  };
-
-  const onRemove = (id) => {
-    const clickDelete = boardList.filter((id) => data.id !== id);
-    setBoardList(clickDelete);
+    setIsOpen(false);
+    setModalText("목록을 삭제하시겠습니까?");
+    setModalOpen(true);
   };
 
   return (
@@ -106,9 +132,10 @@ const Tr = ({ data, index }) => {
         <select
           name="category"
           disabled={categoryActive}
-          value={categoryContent}>
-          <option value="활동게시글">활동게시글</option>
-          <option value="비활동게시글">비활동게시글</option>
+          value={categoryContent}
+          onChange={handleSelectChange}>
+          <option value="active">활동게시글</option>
+          <option value="inactive">비활동게시글</option>
         </select>
       </td>
       <td>
@@ -132,6 +159,25 @@ const Tr = ({ data, index }) => {
           onClick={clickDelete}
         />
       </td>
+      {isOpen ? (
+        <Modal // 수정 모달
+          open={modalOpen}
+          close={closeModal}
+          confirm={confirmModal}
+          type={true}
+          header="안내">
+          {modalText}
+        </Modal>
+      ) : (
+        <Modal // 삭제 모달
+          open={modalOpen}
+          close={closeModal}
+          confirm={deleteModal}
+          type={true}
+          header="안내">
+          {modalText}
+        </Modal>
+      )}
     </TrComp>
   );
 };

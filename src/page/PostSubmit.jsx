@@ -8,6 +8,7 @@ import PostAxiosApi from "../api/PostAxiosApi";
 import Modal from "../utils/Modal";
 import { storage } from "../api/firebase";
 import Address from "../component/Address";
+import Common from "../utils/Common";
 
 const Container = styled.div`
   max-width: 768px;
@@ -221,7 +222,8 @@ const PostSubmit = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState("");
   const [phoneNumber, setPhoneNumer] = useState("");
-
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
   const resetForm = () => {
     setTitle("");
     setSelectedCategory("");
@@ -331,6 +333,8 @@ const PostSubmit = () => {
       time: krTimeString,
       type: selectedOption,
       url: url,
+      lat,
+      lng,
     });
     console.log("type : ", selectedOption);
     console.log("Response:", rsp.data);
@@ -421,6 +425,20 @@ const PostSubmit = () => {
     navigate("adsubmit");
   };
 
+  useEffect(() => {
+    const addTrans = async () => {
+      if (place) {
+        const { latitude, longitude } = await Common.getAddrCoordination(place);
+        console.log("위도 : ", latitude);
+        console.log("경도 : ", longitude);
+
+        setLat(latitude);
+        setLng(longitude);
+      }
+    };
+    addTrans();
+  }, [place]);
+
   return (
     <>
       <SubHeader />
@@ -456,8 +474,7 @@ const PostSubmit = () => {
             />
             <StyledSelect
               value={seletedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
+              onChange={(e) => setSelectedCategory(e.target.value)}>
               <option value="" disabled>
                 종목 선택
               </option>
@@ -497,8 +514,7 @@ const PostSubmit = () => {
 
             <StyledSelect
               value={local}
-              onChange={(e) => setLocal(e.target.value)}
-            >
+              onChange={(e) => setLocal(e.target.value)}>
               <option value="" disabled>
                 지역구
               </option>
@@ -572,8 +588,7 @@ const PostSubmit = () => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="안내"
-        >
+          header="안내">
           <ModalBox>
             <SectionTitle>광고 등록도 함께 진행 하시겠습니까?</SectionTitle>
           </ModalBox>

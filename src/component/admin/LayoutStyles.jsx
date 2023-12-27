@@ -38,14 +38,14 @@ export const List = styled.ul`
   margin: 30px;
   position: relative;
   .m-title {
-    font-size: 20px;
+    font-size: 23px;
     font-weight: bold;
     line-height: 60px;
     cursor: pointer;
     position: relative;
   }
   .sub-menu {
-    line-height: 45px;
+    line-height: 65px;
     cursor: pointer;
     position: relative;
   }

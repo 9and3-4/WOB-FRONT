@@ -1,30 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
-import PostList from "../PostList";
+import { useNavigate } from "react-router-dom";
 
 const MapContainer = styled.div`
   width: 70%;
-  height: 60vh;
+  height: 45vh;
   margin: 0 auto;
 `;
 
 const AppContainer = styled.div`
   text-align: center;
+  p {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
 `;
 
 const SearchContainer = styled.div`
-  position: fixed;
-  top: 60px;
-  right: 20px;
+  position: relative;
+  width: 60%;
+  top: 20px;
+  left: 200px;
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  display: flex; /* 수평 정렬을 위해 flex 사용 */
-  align-items: center; /* 수직 중앙 정렬 */
+  display: flex;
 `;
 
 const InputWrapper = styled.div`
@@ -34,17 +37,16 @@ const InputWrapper = styled.div`
 `;
 
 const InfoWindowContainer = styled.div`
-  position: fixed;
-  top: 140px;
-  right: 20px;
+  position: relative;
+  width: 60%;
+  top: 25px;
+  left: 200px;
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  width: 260px;
-  justify-content: center;
+  line-height: 25px;
 `;
 
 const Input = styled.input`
@@ -72,14 +74,14 @@ const InfoWindowContent = styled.div`
 `;
 
 const KakaoMap = () => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState({ lat: 0, long: 0 }); // 위도, 경도
   const mapRef = useRef(null); // 지도를 담을 영역의 DOM 레퍼런스
   const [searchQuery, setSearchQuery] = useState("");
   const [map, setMap] = useState(null); // 지도 객체
   const [markers, setMarkers] = useState([]); // 마커 배열
   const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소
-
-  const [sportsData, setSportsData] = useState("");
+  const [sportsData, setSportsData] = useState(""); // 각 종목데이터 불러오기
 
   // 현재 위치 가져오기
   useEffect(() => {
@@ -98,10 +100,12 @@ const KakaoMap = () => {
     });
   };
 
+  // 에러일 때
   const onError = (error) => {
     console.log(error);
   };
 
+  // 지도 가져오기(초기값)
   useEffect(() => {
     const container = mapRef.current; // 지도를 담을 영역의 DOM 레퍼런스
     const options = {
@@ -113,11 +117,13 @@ const KakaoMap = () => {
     setMap(kakaoMap);
   }, [location]);
 
+  // 검색 상자
   const handleSearchInputChange = (event) => {
-    console.log("검색내용 : ", searchQuery);
+    console.log("검색 : ", searchQuery);
     setSearchQuery(event.target.value);
   };
 
+  // 검색 확인 버튼 누를 시 내용 조회
   const handleSearchButtonClick = async () => {
     console.log("검색 : ", searchQuery);
     const resp = await AdminAxiosApi.mapSearch(searchQuery);
@@ -125,6 +131,7 @@ const KakaoMap = () => {
     console.log(resp);
   };
 
+  // 지도에 마커 표시하기
   useEffect(() => {
     if (!sportsData) return;
     markers.forEach((marker) => marker.setMap(null));
@@ -142,8 +149,14 @@ const KakaoMap = () => {
     setMarkers(newMarkers);
   }, [sportsData]);
 
+  // 지도에 뜨는 내용 나오는 거 누르면 자세히보기로 이동
+  const onClickBtn = (id) => {
+    navigate(`/postDetail/${id}`);
+  };
+
   return (
     <AppContainer>
+      <p>🏋🏻‍♀️내 주변 종목 찾기🏋🏻‍♀️</p>
       <MapContainer ref={mapRef}></MapContainer>
       <SearchContainer>
         <InputWrapper>
@@ -175,10 +188,13 @@ const KakaoMap = () => {
             예상비용: {selectedPlace.fee}
             <br />
             일정소개: {selectedPlace.introduction}
+            <br />
+            <button onClick={() => onClickBtn(selectedPlace.id)}>
+              상세내용보기
+            </button>
           </InfoWindowContent>
         </InfoWindowContainer>
       )}
-      <PostList />
     </AppContainer>
   );
 };
