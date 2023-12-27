@@ -68,10 +68,10 @@ const Tr3 = ({ data, index }) => {
     );
     console.log("rsp : ", rsp.data);
     if (rsp.data) {
-      alert("해당 종목이 수정되었습니다.");
+      alert("해당 광고가 수정되었습니다.");
       setModalOpen(false);
     } else {
-      alert("해당 종목이 수정되지 않았습니다.");
+      alert("해당 광고가 수정되지 않았습니다.");
     }
   };
 
@@ -80,10 +80,10 @@ const Tr3 = ({ data, index }) => {
     const rsp = await AdminAxiosApi.boardDelete(data.categoryId);
     console.log(data.categoryId);
     if (rsp.status === 200) {
-      alert("해당 종목이 삭제 되었습니다.");
+      alert("해당 광고가 삭제 되었습니다.");
       setModalOpen(false);
     } else {
-      alert("해당 종목이 삭제되지 않았습니다.");
+      alert("해당 광고가 삭제되지 않았습니다.");
     }
   };
 
@@ -105,10 +105,10 @@ const Tr3 = ({ data, index }) => {
     setModalOpen(true);
   };
 
-  // 카테고리 삭제
+  // 광고 삭제
   const clickDelete = () => {
     setIsOpen(false);
-    setModalText("목록을 삭제하시겠습니까?");
+    setModalText("광고를 삭제하시겠습니까?");
     setModalOpen(true);
   };
 

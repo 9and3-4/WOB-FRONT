@@ -164,8 +164,8 @@ const AllMemberInfo = () => {
               <th>약관동의 선택</th>
               <th>전화번호</th>
               <th>분류선택</th>
-              <th>수정</th>
-              <th>삭제</th>
+              <th>회원상태</th>
+              <th>회원삭제</th>
             </tr>
           </thead>
           <tbody>

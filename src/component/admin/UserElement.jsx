@@ -30,8 +30,8 @@ const TrComp = styled.tr`
 `;
 
 const Tr2 = ({ data, index }) => {
-  const [categoryContent, setCategoryContent] = useState("");
-  const [categoryActive, setCategoryActive] = useState(true);
+  const [userContent, setUserContent] = useState("");
+  const [userActive, setUserActive] = useState(true);
   const [confirmRevise, setConfirmRevise] = useState(false);
   const [num, setNum] = useState(0); // 인덱스 번호
 
@@ -48,42 +48,39 @@ const Tr2 = ({ data, index }) => {
   // 수정 모달창
   const confirmModal = async () => {
     console.log("Data in Tr component:", data);
-    console.log("수정 데이터 : ", data.categoryId, categoryContent);
-    const rsp = await AdminAxiosApi.categoryListState(
-      data.categoryId,
-      categoryContent
-    );
+    console.log("수정 데이터 : ", data.email, userContent);
+    const rsp = await AdminAxiosApi.userListState(data.email, userContent);
     console.log("rsp : ", rsp.data);
     if (rsp.data) {
-      alert("해당 종목이 수정되었습니다.");
+      alert("해당 회원정보가 수정되었습니다.");
       setModalOpen(false);
     } else {
-      alert("해당 종목이 수정되지 않았습니다.");
+      alert("해당 회원정보가 수정되지 않았습니다.");
     }
   };
 
   // 삭제
   const deleteModal = async () => {
-    const rsp = await AdminAxiosApi.boardDelete(data.categoryId);
+    const rsp = await AdminAxiosApi.userDelete(data.categoryId);
     console.log(data.categoryId);
     if (rsp.status === 200) {
-      alert("해당 종목이 삭제 되었습니다.");
+      alert("해당 회원정보가 삭제 되었습니다.");
       setModalOpen(false);
     } else {
-      alert("해당 종목이 삭제되지 않았습니다.");
+      alert("해당 회원정보가 삭제되지 않았습니다.");
     }
   };
 
   // 버튼 누르면 바뀜(수정 -> 확인)
   const clickRevise = () => {
-    setCategoryActive(false);
+    setUserActive(false);
     setConfirmRevise(true);
   };
 
   // 게시글 활성화 또는 비활성화 요청 보내기
   const handleSelectChange = (e) => {
-    setCategoryContent(e.target.value);
-    console.log(categoryContent);
+    setUserContent(e.target.value);
+    console.log(userContent);
   };
   // 확인에서 수정된 값 들어감
   const clickOn = async () => {
@@ -95,7 +92,7 @@ const Tr2 = ({ data, index }) => {
   // 회원 삭제 모달
   const clickDelete = () => {
     setIsOpen(false);
-    setModalText("목록을 삭제하시겠습니까?");
+    setModalText("회원을 삭제하시겠습니까?");
     setModalOpen(true);
   };
 
@@ -113,8 +110,8 @@ const Tr2 = ({ data, index }) => {
       <td className="selectBox">
         <select
           name="category"
-          disabled={categoryActive}
-          value={categoryContent}
+          disabled={userActive}
+          value={userContent}
           onChange={handleSelectChange}>
           <option value="active">활동게시글</option>
           <option value="inactive">비활동게시글</option>

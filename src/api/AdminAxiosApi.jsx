@@ -18,6 +18,12 @@ const AdminAxiosApi = {
     return await customAxios.get(KH_DOMAIN + `/users/list`);
   },
 
+  // 회원 삭제
+  userDelete: async (email) => {
+    return await customAxios.delete(KH_DOMAIN + `/users/delete/${email}`);
+  },
+  // 광고 삭제
+
   // 회원 페이지네이션 조회
   userPageList: async (page, size) => {
     return await customAxios.get(

@@ -8,7 +8,7 @@ import {
   Dummy,
 } from "../admin/LayoutStyles";
 import { UserContext } from "../../context/UserStore";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +17,8 @@ const Layout = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // 지도 밖에 누르면 사이드바 꺼짐
+  const [showCalendar, setShowCalender] = useState(false);
 
   // 메인에서 sub메뉴의 버튼 누르면 그 화면으로 이동
   const handleAreaNavigate = (path) => {
@@ -49,6 +51,23 @@ const Layout = () => {
       default:
     }
   };
+
+  const calendarRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        // 캘린더 외부를 클릭하면 캘린더를 닫음
+        setShowCalender(false);
+      }
+    };
+    // document에 클릭 이벤트 추가
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // 컴포넌트가 unmount 될 때 이벤트 제거
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Container>
