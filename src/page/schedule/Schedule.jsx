@@ -68,7 +68,7 @@ const Schedule = () => {
             <>
               <DateCon>
                 <Date>{selectedDate.format("YYYY년 MM월 DD일")}</Date>
-                <MyPost onClick={handleMyPostClick}>내가 쓴 글 ▶</MyPost>
+                <MyPost onClick={handleMyPostClick}>MY POST ▶</MyPost>
               </DateCon>
             </>
             <BoardJoin>

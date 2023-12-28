@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 24px;
+  padding: 5px;
 `;
 
 const SliderContainer = styled.div`
@@ -28,7 +28,7 @@ const WeekContainer = styled.div`
 
 const DayItem = styled.div`
   flex: 1;
-  max-width: 62px;
+  max-width: 65px;
   height: 62px;
   border: 2px solid #ccc;
   border-radius: 8px;
