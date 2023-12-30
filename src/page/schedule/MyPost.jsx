@@ -39,24 +39,17 @@ const MyPost = ({ postId, selectedDate }) => {
           // 전체 게시글 받아온 후 필터링
           const allPosts = rsp.data;
           // 선택 날짜에 따라 필터링
-          const filteredPosts = selectedDate
-            ? allPosts.filter((post) =>
-                moment(post.date).isSame(selectedDate, "day")
-              )
-            : allPosts;
-          console.log("filteredPosts : ", filteredPosts);
-
-          // const userPosts = allPosts.filter(
-          //   (post) => post.userEmail === localStorage.email
-          // );
-          setPostList(filteredPosts);
+          const userPosts = allPosts.filter(
+            (post) => post.userEmail === localStorage.email
+          );
+          setPostList(userPosts);
         }
       } catch (error) {
         console.error("에러가 뜬다:", error);
       }
     };
     fetchPostList();
-  }, [selectedDate]);
+  }, []);
 
   return (
     <>
