@@ -15,10 +15,10 @@ const BoardContainer = styled.div`
 const Boards = styled.div`
   display: flex;
   flex-direction: column;
-  color: #999999;
   margin-bottom: 12px;
 `;
 const Date = styled.p`
+  color: #a6a6a6;
   display: flex;
   align-items: center;
   justify-content: center;
