@@ -1,86 +1,56 @@
 import styled from "styled-components";
 import SettingHeader from "../../layout/SettingHeader";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import PaymentAxiosApi from "../../api/PaymentAxiosApi";
 import SettingAxiosApi from "../../api/SettingAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
   border-radius: 8px;
   width: 768px;
+  min-height: 800px;
   margin: 0px auto;
   background-color: var(--MINT);
   margin-bottom: 100px;
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 const SubContainer = styled.div`
   width: 100%;
-  height: 100%;
+  padding: 50px 0 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &.sub1 {
-    height: 200px;
-  }
-  &.sub2 {
-    height: 700px;
-  }
 `;
 
-const TopTextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .topP1 {
-    font-size: 38px;
-    margin-bottom: 30px;
-  }
-  .topP2 {
-    margin-bottom: -40px;
-    color: gray;
-  }
-`;
 const BottomBox = styled.div`
   width: 75%;
-  height: 95%;
   box-shadow: 1px 1px 5px 0.5px #d8d8d8;
   background-color: white;
 `;
 
 const SubBottomBox = styled.div`
-  width: 100%;
-  min-height: 60px;
   border: 1px solid #d8d8d8;
-
-  &.subBox1 {
-    height: 100px;
-  }
-  &.subBox2 {
-    height: 300px;
-  }
-  &.subBox3 {
-    height: 200px;
-  }
-  &.subBox4 {
-    height: 65px;
-  }
 `;
 
 const BottomTextBox = styled.div`
   width: 100%;
   height: 100%;
-  padding: 30px;
+  padding: 5%;
   display: flex;
   align-items: center;
+  font-size: 18px;
 
   .bottomDiv1 {
     flex-direction: column;
   }
   .bottomDiv2 {
-    margin-bottom: 9%;
-    margin-top: 9%;
+    margin-bottom: 8%;
+    margin-top: 8%;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+      flex-direction: column;
+    }
   }
 
   div {
@@ -91,10 +61,18 @@ const BottomTextBox = styled.div`
     width: 150px;
     color: gray;
   }
+
+  .bottomP2 {
+    @media only screen and (max-width: 768px) {
+      margin-top: 10%;
+    }
+  }
 `;
 const HomeBtn = styled.button`
   width: 100%;
-  height: 100%;
+  height: 50px;
+  font-size: 16px;
+
   background-color: transparent; // 버튼 배경 없애기
   border: none;
   &:hover {
@@ -104,14 +82,14 @@ const HomeBtn = styled.button`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 40px;
+  /* margin-bottom: 20px; */
 `;
 
 const PageButton = styled.button`
   border: 1px solid #ddd;
   padding: 5px;
   width: 28px;
-  margin: 0 5px;
+  margin: 15px 5px;
   background-color: #f0f0f0;
   cursor: pointer;
   border-radius: 50%;
@@ -128,7 +106,6 @@ const PageButton = styled.button`
 `;
 
 const PaymentDatails = () => {
-  const navigate = useNavigate();
   const [pay, setPay] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
@@ -203,9 +180,11 @@ const PaymentDatails = () => {
               <BottomBox>
                 <SubBottomBox className="subBox1">
                   <BottomTextBox>
-                    <div>
-                      <p className="bottomP1">주문번호</p>
-                      <p className="bottomP2">{payment.orderNum}</p>
+                    <div className="bottomDiv1">
+                      <div className="bottomDiv2">
+                        <p className="bottomP1">주문번호</p>
+                        <p className="bottomP2">{payment.orderNum}</p>
+                      </div>
                     </div>
                   </BottomTextBox>
                 </SubBottomBox>

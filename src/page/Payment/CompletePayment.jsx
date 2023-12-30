@@ -72,6 +72,7 @@ const BottomTextBox = styled.div`
   padding: 30px;
   display: flex;
   align-items: center;
+  font-size: 18px;
 
   .bottomDiv1 {
     flex-direction: column;
