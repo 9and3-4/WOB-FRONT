@@ -21,7 +21,7 @@ const PostAxiosApi = {
       time: props.time,
       userEmail: userEmail,
       type: props.type,
-      image: props.file,
+      image: props.url,
       latitude: props.lat,
       longitude: props.lng,
     };
@@ -38,10 +38,11 @@ const PostAxiosApi = {
       post.time,
       post.email,
       post.type,
-      post.file,
+      post.url,
       post.latitude,
       post.longitude
     );
+    console.log("post 형태 확인: ", typeof post);
     return await customAxios.post(KH_DOMAIN + "/post/new", post);
   },
 
