@@ -5,24 +5,77 @@ import PaymentAxiosApi from "../../api/PaymentAxiosApi";
 
 const Container = styled.div`
   /* padding: 24px; */
+  border-radius: 8px;
   width: 768px;
   min-height: 900px;
   margin: 0px auto;
   background-color: var(--MINT);
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
-
 const SubContainer = styled.div`
   width: 100%;
-  height: 100%;
+  padding: 50px 0 50px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
 
-  &.sub1 {
-    height: 200px;
+const BottomBox = styled.div`
+  width: 75%;
+  box-shadow: 1px 1px 5px 0.5px #d8d8d8;
+  background-color: white;
+`;
+
+const SubBottomBox = styled.div`
+  border: 1px solid #d8d8d8;
+`;
+
+const BottomTextBox = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 5%;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+
+  .bottomDiv1 {
+    flex-direction: column;
   }
-  &.sub2 {
-    height: 700px;
+  .bottomDiv2 {
+    margin-bottom: 8%;
+    margin-top: 8%;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+  }
+  .bottomP1 {
+    width: 150px;
+    color: gray;
+  }
+
+  .bottomP2 {
+    @media only screen and (max-width: 768px) {
+      margin-top: 10%;
+    }
+  }
+`;
+const HomeBtn = styled.button`
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+
+  background-color: transparent; // 버튼 배경 없애기
+  border: none;
+  &:hover {
+    background-color: var(--GREEN);
   }
 `;
 
@@ -40,66 +93,7 @@ const TopTextBox = styled.div`
     color: gray;
   }
 `;
-const BottomBox = styled.div`
-  width: 75%;
-  height: 95%;
-  box-shadow: 1px 1px 5px 0.5px #d8d8d8;
-  background-color: white;
-`;
 
-const SubBottomBox = styled.div`
-  width: 100%;
-  min-height: 60px;
-  border: 1px solid #d8d8d8;
-
-  &.subBox1 {
-    height: 100px;
-  }
-  &.subBox2 {
-    height: 300px;
-  }
-  &.subBox3 {
-    height: 200px;
-  }
-  &.subBox4 {
-    height: 65px;
-  }
-`;
-
-const BottomTextBox = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-
-  .bottomDiv1 {
-    flex-direction: column;
-  }
-  .bottomDiv2 {
-    margin-bottom: 9%;
-    margin-top: 9%;
-  }
-
-  div {
-    display: flex;
-    flex-direction: row;
-  }
-  .bottomP1 {
-    width: 150px;
-    color: gray;
-  }
-`;
-const HomeBtn = styled.button`
-  width: 100%;
-  height: 100%;
-  background-color: transparent; // 버튼 배경 없애기
-  border: none;
-  &:hover {
-    background-color: var(--GREEN);
-  }
-`;
 // 주문 완료 페이지
 const CompletePayment = () => {
   const navigate = useNavigate();
@@ -138,9 +132,11 @@ const CompletePayment = () => {
           <BottomBox>
             <SubBottomBox className="subBox1">
               <BottomTextBox>
-                <div>
-                  <p className="bottomP1">주문번호</p>
-                  <p className="bottomP2">{pay.orderNum}</p>
+                <div className="bottomDiv1">
+                  <div className="bottomDiv2">
+                    <p className="bottomP1">주문번호</p>
+                    <p className="bottomP2">{pay.orderNum}</p>
+                  </div>
                 </div>
               </BottomTextBox>
             </SubBottomBox>
