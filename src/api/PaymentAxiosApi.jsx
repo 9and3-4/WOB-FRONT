@@ -13,8 +13,7 @@ const PaymentAxiosApi = {
     fee,
     postTitle,
     postUserName,
-    postPhoneNum,
-    adId
+    postPhoneNum
   ) => {
     const payment = {
       userEmail: userEmail,
@@ -25,9 +24,16 @@ const PaymentAxiosApi = {
       postTitle: postTitle,
       postUserName: postUserName,
       postPhoneNum: postPhoneNum,
-      adId,
     };
     return await customAxios.post(KH_DOMAIN + "/pay/add", payment);
+  },
+  // 결제 내역 저장
+  payAddAdId: async (adId, paymentId) => {
+    const payment = {
+      adId: adId,
+      id: paymentId,
+    };
+    return await customAxios.post(KH_DOMAIN + "/pay/add/addAdId", payment);
   },
   // payAdd: async (
   //   merchant_uid,

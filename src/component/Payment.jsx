@@ -23,7 +23,6 @@ const Payment = (props) => {
     userPhone,
     postTitle,
     postUserName,
-    adId,
     fee,
     postPhoneNum,
     children,
@@ -66,6 +65,8 @@ const Payment = (props) => {
 
     if (success) {
       // 결제 내역 저장해서 paymentId 값 받아오기
+
+      // post 결제일 때 api
       const rsp = await PaymentAxiosApi.payAdd(
         merchant_uid,
         buyer_name,
@@ -74,12 +75,12 @@ const Payment = (props) => {
         fee,
         name,
         postUserName,
-        postPhoneNum,
-        adId
+        postPhoneNum
       );
+
       if (rsp.data) {
         console.log("rsp2.data.paymentId", rsp.data.id);
-        props.onPaymentComplete(rsp.data.id);
+        props.onPaymentComplete(rsp.data.id); // id 빼고 전부 보낼까?
         alert("결제가 완료되었습니다.");
         navigate(`/CompletePayment/${rsp.data.id}`);
       } else {

@@ -5,8 +5,6 @@ import customAxios from "./Interceptors";
 const AdAxiosApi = {
   // 광고 등록
   adSubmit: async (postId, props) => {
-    const userEmail = localStorage.getItem("email");
-
     const ad = {
       postId: postId,
       image: props.url,
