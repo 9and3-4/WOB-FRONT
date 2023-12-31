@@ -25,7 +25,7 @@ const ChatHeader = styled.div`
   font-size: 1.5em;
   color: #333;
   text-align: center;
-  margin-left: 35%;
+  margin-left: 30%;
 `;
 
 const MessagesContainer = styled.div`

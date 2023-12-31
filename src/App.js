@@ -46,6 +46,7 @@ import ChatCreate from "./page/Chatting/ChatCreate";
 import Condition from "./page/login/Condition";
 import ForgotPassword from "./page/login/ForgotPassword";
 import AdSubmit from "./page/AdSubmit";
+import Loading from "./component/Loading";
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
           />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/postdetail/:postId" element={<PostDetail />} />
+          <Route path="/Loading" element={<Loading />} />
         </Routes>
       </Router>
     </>
