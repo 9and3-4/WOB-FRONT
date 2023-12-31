@@ -56,6 +56,14 @@ const Setting = () => {
           <span className="text">계정관리</span>
           <span className="pointer">&gt;</span>
         </SettingBtn>
+        <SettingBtn onClick={() => navigate("/")}>
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/list-items.png?alt=media&token=53de6fde-d323-4dc5-9877-c6b6adc6970c"
+            alt="내가 작성한 글"
+          />
+          <span className="text">내가 작성한 글</span>
+          <span className="pointer">&gt;</span>
+        </SettingBtn>
         <SettingBtn onClick={() => navigate("/Questions")}>
           <img
             src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/question.png?alt=media&token=90479a46-00a2-4e88-b367-c22a1acd6c10"
