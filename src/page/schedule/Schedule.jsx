@@ -12,6 +12,15 @@ const BoardContainer = styled.div`
   width: 100%;
   flex-direction: column;
 `;
+
+const JoinCon = styled.div`
+  color: #353535;
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  padding: 20px;
+`;
+
 const Boards = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +71,7 @@ const Schedule = () => {
       <div>
         <BoardContainer>
           <Boards>
+            <JoinCon>Buddy Schedule</JoinCon>
             <>
               <CalendarComp onDateSelect={onDateSelect} />
             </>
