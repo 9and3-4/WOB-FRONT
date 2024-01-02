@@ -209,7 +209,7 @@ const Advertising = () => {
                   key={data.id} // 고유한 키 생성
                   data={data}
                   index={index + num}
-                  active={data.active === "승인 미완료"}
+                  active={data.active === "active"}
                   setIsChange={setIsChange}
                 />
               ))}

@@ -12,7 +12,7 @@ const TrComp = styled.tr`
     text-align: center;
     width: 50px;
     vertical-align: middle;
-    background-color: ${(props) => (props.$active ? "#c4c1c1" : "white")};
+    background-color: ${(props) => (props.$active ? "white" : "#c4c1c1")};
 
     &.center {
       text-align: center;
@@ -113,7 +113,7 @@ const Tr3 = ({ data, index, setIsChange }) => {
   };
 
   return (
-    <TrComp $active={data.active === "inactive"}>
+    <TrComp $active={data.active === "active"}>
       {/* 숫자 자동증가 */}
       <td className="center">{index + num}</td>
       <td>{data.categoryName}</td>
