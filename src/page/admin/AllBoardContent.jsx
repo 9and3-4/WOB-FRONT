@@ -14,6 +14,7 @@ const BoardContainer = styled.div`
   padding-top: 100px;
 
   .logo {
+    text-align: center;
     cursor: pointer;
   }
 
