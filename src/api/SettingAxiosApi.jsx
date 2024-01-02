@@ -80,10 +80,6 @@ const SettingAxiosApi = {
   //   });
   // },
 
-  // 게시글 채팅방 목록 보기 (postId 있음)
-  chatList: async () => {
-    return await customAxios.get(KH_DOMAIN + "/chat/list");
-  },
   // chatList: async () => {
   //   const accessToken = Common.getAccessToken();
   //   return await axios.get(KH_DOMAIN + "/chat/list", {
@@ -228,6 +224,38 @@ const SettingAxiosApi = {
     return await customAxios.get(
       KH_DOMAIN + `/pay/detail/count?email=${email}&page=${page}&size=${size}`
     );
+  },
+
+  // 게시글 채팅방 목록 보기 (postId 있음)
+  roomList: async () => {
+    return await customAxios.get(KH_DOMAIN + "/chat/list");
+  },
+
+  // 채팅 내역 삭제
+  chatDelete: async (id) => {
+    return await customAxios.delete(KH_DOMAIN + `/chat/delChat/${id}`);
+  },
+
+  // 채팅방 삭제
+  roomDelete: async (roomId) => {
+    return await customAxios.delete(KH_DOMAIN + `/chat/delRoom/${roomId}`);
+  },
+
+  // 채팅 내역 활성화 / 비활성화
+  stateChat: async (id, active) => {
+    const data = {
+      id: id,
+      active: active,
+    };
+    return await customAxios.delete(KH_DOMAIN + `/chat/stateChat`, data);
+  },
+  // 채팅방 활성화 / 비활성화
+  stateRoom: async (roomId, active) => {
+    const data = {
+      roomId: roomId,
+      active: active,
+    };
+    return await customAxios.delete(KH_DOMAIN + `/chat/stateRoom`, data);
   },
 };
 export default SettingAxiosApi;
