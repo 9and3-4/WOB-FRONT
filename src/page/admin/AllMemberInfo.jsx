@@ -8,7 +8,7 @@ import Layout from "../../component/admin/Layout";
 import Tr2 from "../../component/admin/UserElement";
 
 // 전체 큰 틀css
-const BoardContainer = styled.div`
+const UserContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 100px;
@@ -76,11 +76,13 @@ const Buttons = styled.div`
   }
 `;
 
+// 페이지 네이션 큰 틀
 const PaginationContainer = styled.div`
   text-align: center;
   margin-top: 20px;
 `;
 
+// 페이지 네이션 버튼
 const PageButton = styled.button`
   border: 1px solid #ddd;
   padding: 5px;
@@ -116,6 +118,7 @@ const AllMemberInfo = () => {
     navigate(path);
   };
 
+  // 회원 페이지 수 정하기
   const getTotalPage = async () => {
     try {
       const res = await AdminAxiosApi.userPageCount(0, 5);
@@ -139,6 +142,7 @@ const AllMemberInfo = () => {
     }
   }, [isChange]);
 
+  // 다음 페이지네이션 시 몇개씩 넘길 것인지
   const fetchUserGet = async () => {
     try {
       const res = await AdminAxiosApi.userPageList(currentPage, 5);
@@ -177,7 +181,7 @@ const AllMemberInfo = () => {
   };
 
   return (
-    <BoardContainer>
+    <UserContainer>
       <div className="Logo" onClick={() => handleClick("/AdminMain")}>
         <FullLogoBth />
       </div>
@@ -219,7 +223,7 @@ const AllMemberInfo = () => {
       </Buttons>
       {/* 햄버거 토글 사이드바 */}
       <Layout />
-    </BoardContainer>
+    </UserContainer>
   );
 };
 
