@@ -57,7 +57,7 @@ const Tr3 = ({ data, index, setIsChange }) => {
 
   // 수정 모달창
   const confirmModal = async () => {
-    console.log("Data in Tr component:", data);
+    console.log("Data in Tr3 component:", data);
     console.log("수정 데이터 : ", data.id, adContent);
     const rsp = await AdminAxiosApi.adListState(data.id, adContent);
     console.log("rsp : ", rsp.data);
@@ -74,8 +74,10 @@ const Tr3 = ({ data, index, setIsChange }) => {
 
   // 삭제 모달
   const deleteModal = async () => {
+    console.log("Data in Tr3 component:", data);
+    console.log("삭제 데이터 : ", data.id);
     const rsp = await AdminAxiosApi.adDelete(data.id);
-    console.log(data.id);
+    console.log("rsp : ", rsp.data);
     if (rsp.status === 200) {
       alert("해당 광고가 삭제 되었습니다.");
       setModalOpen(false);
