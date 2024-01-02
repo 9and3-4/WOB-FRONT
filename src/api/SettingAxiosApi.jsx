@@ -231,6 +231,11 @@ const SettingAxiosApi = {
     return await customAxios.get(KH_DOMAIN + "/chat/list");
   },
 
+  // 채팅 내역 전체 조회
+  chatList: async () => {
+    return await customAxios.get(KH_DOMAIN + "/chat/chatList");
+  },
+
   // 채팅 내역 삭제
   chatDelete: async (id) => {
     return await customAxios.delete(KH_DOMAIN + `/chat/delChat/${id}`);
@@ -247,7 +252,7 @@ const SettingAxiosApi = {
       id: id,
       active: active,
     };
-    return await customAxios.delete(KH_DOMAIN + `/chat/stateChat`, data);
+    return await customAxios.put(KH_DOMAIN + `/chat/stateChat`, data);
   },
   // 채팅방 활성화 / 비활성화
   stateRoom: async (roomId, active) => {

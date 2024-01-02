@@ -140,7 +140,7 @@ const AdminAxiosApi = {
     return await customAxios.get(KH_DOMAIN + `/pay/all`);
   },
 
-  // 결제 활성화 바활성화 처리(get)
+  // 결제 활성화 비활성화 처리(get)
   paymentInfoGet: async () => {
     return await customAxios.get(KH_DOMAIN + `/pay/listactive`);
   },
