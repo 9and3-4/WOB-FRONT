@@ -62,6 +62,18 @@ const PostAxiosApi = {
     return await customAxios.get(KH_DOMAIN + "/post/list");
   },
 
+  // 게시글 페이지네이션
+  postPageList: async (page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/post/list/page?page=${page}&size=${size}`
+    );
+  },
+
+  // 종목 페이지 수
+  postPageCount: async (page, size) => {
+    return await customAxios.get(KH_DOMAIN + `/post/count`);
+  },
+
   // 카테고리 목록 활성화만 조회
   categoryList: async () => {
     return await customAxios.get(KH_DOMAIN + "/category/listactive");
