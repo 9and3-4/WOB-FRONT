@@ -86,16 +86,21 @@ const Withdrawal = () => {
   };
   // Modal 확인 눌렀을 때,
   const confirmModal = async () => {
-    // 탈퇴하는 axios 구현
+    // 탈퇴 이유 저장
     const rsp = await SettingAxiosApi.withdrawal(
       localStorage.getItem("email"),
       radio
     );
+    // active를 inactive로 변경
+    const rsp2 = await SettingAxiosApi.withdrawalInactive(
+      localStorage.getItem("email")
+    );
+
     console.log("탈퇴사유확인 : " + rsp.data);
-    if (rsp.data === true) {
+    if (rsp.data && rsp2.data) {
       setModalOpen(false);
       alert("탈퇴되었습니다.");
-      navigate("/login");
+      navigate("/signin");
     } else {
       alert("탈퇴가 정상적으로 처리되지 않았습니다.");
     }
@@ -204,7 +209,7 @@ const Withdrawal = () => {
         <SubContainer>
           <div className="btn">
             <Button
-              size={"large"}
+              size={"normal"}
               backgroundcolor={"red"}
               color={"white"}
               label={"탈퇴하기"}

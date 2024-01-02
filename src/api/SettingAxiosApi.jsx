@@ -36,6 +36,13 @@ const SettingAxiosApi = {
     };
     return await customAxios.put(KH_DOMAIN + "/users/modify", contents);
   },
+  // 회원 활성화 비활성화
+  withdrawalInactive: async (email) => {
+    const data = {
+      email: email,
+    };
+    return await customAxios.put(KH_DOMAIN + `/setting/state`, data);
+  },
   // withdrawal: async (email, withdrawal) => {
   //   const token = Common.getAccessToken();
   //   const contents = {
