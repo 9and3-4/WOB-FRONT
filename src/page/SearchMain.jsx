@@ -162,7 +162,7 @@ const PaginationInfo = styled.div`
 const ITEMS_PER_PAGE = 5;
 
 const SearchMain = () => {
-  localStorage.clear();
+  // localStorage.clear();
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
@@ -237,7 +237,7 @@ const SearchMain = () => {
       const trimmedSearches = uniqueSearches.slice(0, maxRecentSearches);
 
       localStorage.setItem("recentSearches", JSON.stringify(trimmedSearches));
-      console.log(recentSearches);
+      setRecentSearches(trimmedSearches);
     } catch (error) {
       console.error("검색 중 오류 발생:", error);
     }

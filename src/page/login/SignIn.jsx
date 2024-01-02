@@ -11,6 +11,7 @@ import { KH_DOMAIN } from "../../utils/Common";
 import Common from "../../utils/Common";
 import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
 import LoginModal from "../../utils/LoginModal";
+import PolicyModal from "./SignUpPolicy";
 
 const Container = styled.div`
   max-width: 768px;
@@ -88,6 +89,7 @@ const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModelText] = useState("");
   const [modalHeader, setModalHeader] = useState("");
+  const [policyModalOpen, setPolicyModalOpen] = useState(false); // State for PolicyModal
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");
@@ -106,7 +108,8 @@ const SignIn = () => {
   };
 
   const handleSignUpClick = () => {
-    navigate("/condition");
+    // navigate("/condition"); // modal 나오게
+    setPolicyModalOpen(true); // Open PolicyModal
   };
 
   const handleRememberMeChange = () => {
@@ -115,6 +118,7 @@ const SignIn = () => {
 
   const closeModal = () => {
     setModalOpen(false);
+    setPolicyModalOpen(false); // Close PolicyModal
   };
 
   // Your logic to send API request when the button is clicked
@@ -219,6 +223,7 @@ const SignIn = () => {
       <LoginModal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
         {modalText}
       </LoginModal>
+      <PolicyModal open={policyModalOpen} close={closeModal} />
     </Container>
   );
 };
