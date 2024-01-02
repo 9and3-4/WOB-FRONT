@@ -52,8 +52,29 @@ const GreetingText = styled.span`
   color: #555555;
 `;
 
+const SearchBar = styled.input`
+  display: ${(props) => (props.visible ? "inline-block" : "none")};
+  position: absolute;
+  top: 7%;
+  width: 200px;
+  height: 30px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+`;
+
 const Header = () => {
   const [user, setUser] = useState(null);
+  const [isSearchVisible, setSearchVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터 키가 눌렸을 때 검색 실행
+      navigate("/searchMain", { state: { searchQuery } });
+    }
+  };
 
   const logoImage =
     "https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/logosmall.png?alt=media&token=5f1756d7-08ab-4930-a834-1c2d82e2c34d";
@@ -65,7 +86,7 @@ const Header = () => {
   };
 
   const goToSearchPage = () => {
-    navigate("searchMain");
+    setSearchVisible(!isSearchVisible);
   };
 
   useEffect(() => {
@@ -94,6 +115,13 @@ const Header = () => {
               <GreetingText>로그인 해주세요</GreetingText>
             )}
             <SearchIcon icon={faSearch} onClick={goToSearchPage} />
+            <SearchBar
+              visible={isSearchVisible}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Search..."
+            />
           </RightBox>
         </HeaderBox>
       </Container>

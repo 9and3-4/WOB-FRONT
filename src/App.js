@@ -48,6 +48,7 @@ import ForgotPassword from "./page/login/ForgotPassword";
 import AdSubmit from "./page/AdSubmit";
 import Loading from "./component/Loading";
 import AllChatContent from "./page/admin/AllChatContent";
+import SearchMain from "./page/SearchMain";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path="/interestenter" element={<InterestEnter />} />
           <Route path="/condition" element={<Condition />} />
           <Route path="/login" element={<TestLoginPage />} />
+          <Route path="/searchmain" element={<SearchMain />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />

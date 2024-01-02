@@ -10,24 +10,32 @@ import { useState, useEffect } from "react";
 import { KH_DOMAIN } from "../../utils/Common";
 import Common from "../../utils/Common";
 import LoginPageAxiosApi from "../../api/LoginPageAxiosApi";
-import Modal from "../../utils/Modal";
+import LoginModal from "../../utils/LoginModal";
 
 const Container = styled.div`
   max-width: 768px;
   min-width: 300px;
+  /* width: 30em; */
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  /* background-color: #eee; */
+  @media only screen and (max-width: 768px) {
+    width: 30em;
+  }
 `;
 
 const LoginBox = styled.div`
   background-color: #dfede9;
-  width: 320px;
+  width: 30em;
   padding: 20px;
   border-radius: 30px;
   text-align: center; /* Center the content */
+  @media only screen and (max-width: 768px) {
+    width: 26em;
+  }
 `;
 
 const AlignBox = styled.div`
@@ -52,7 +60,7 @@ const RowAlignBox = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  width: 300px;
   &:hover {
     cursor: pointer;
     background-color: #dfede9;
@@ -60,8 +68,8 @@ const Logo = styled.img`
   }
 `;
 const OauthLogo = styled.img`
-  width: 40px;
-  margin: 10px 20px;
+  width: 60px;
+  margin: 10px 30px;
   background-color: white;
   padding: 5px;
   border-radius: 50%;
@@ -104,18 +112,6 @@ const SignIn = () => {
   const handleRememberMeChange = () => {
     setRememberMe(!rememberMe);
   };
-
-  // const handleNextButtonClick = () => {
-  //   if (!areAllChecked()) {
-  //     setModalOpen(true);
-  //     setModelText("필수 약관에 동의해야 합니다.");
-  //   } else {
-  //     navigate("/signup", {
-  //       state: term3Checked,
-  //     });
-  //     console.log("Condition term3Checked : ", term3Checked);
-  //   }
-  // };
 
   const closeModal = () => {
     setModalOpen(false);
@@ -162,12 +158,18 @@ const SignIn = () => {
     }
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === "Enter") {
+      handleSignInClick();
+    }
+  };
+
   const isSignInDisabled = !email || !password;
   return (
     <Container>
       <AlignBox>
         <Logo
-          src="/wob-logo.png"
+          src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/wob-logo.png?alt=media&token=ee78e613-1205-4e3d-8a9f-da0c898af49b"
           alt="main logo"
           onClick={() => navigate("/")}
         />
@@ -177,11 +179,13 @@ const SignIn = () => {
               placeholder="이메일 주소"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={handleEnterKey}
             />
             <InputBar
               placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleEnterKey}
             />
           </AlignBox>
           <RememberMe>
@@ -201,20 +205,20 @@ const SignIn = () => {
             </BlackButton>
             <BlackButton onClick={handleSignUpClick}>회원가입</BlackButton>
           </RowAlignBox>
-          <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>
-            <OauthLogo src="/google-log.png" />
+          {/* <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>
+            <OauthLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/google-log.png?alt=media&token=a417ad1a-6da7-4f81-b28f-0226d8f0096c" />
           </Link>
           <Link to={`${KH_DOMAIN}/oauth2/authorization/naver`}>
-            <OauthLogo src="/naver-log.png" />
+            <OauthLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/naver-log.png?alt=media&token=afba4a4c-d10d-4727-9855-0d68729a5562" />
           </Link>
           <Link to={`${KH_DOMAIN}/oauth2/authorization/kakao`}>
-            <OauthLogo src="/kakao-log.png" />
-          </Link>
+            <OauthLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/kakao-log.png?alt=media&token=aefe60b6-c0e5-41dd-b2c3-43ed4249873a" />
+          </Link> */}
         </LoginBox>
       </AlignBox>
-      <Modal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
+      <LoginModal open={modalOpen} close={closeModal} header={`${modalHeader}`}>
         {modalText}
-      </Modal>
+      </LoginModal>
     </Container>
   );
 };
