@@ -3,19 +3,13 @@ import styled from "styled-components";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import { useNavigate } from "react-router-dom";
 
-const MapContainer = styled.div`
-  width: 65%;
-  height: 45vh;
-  margin: 0 auto;
-`;
-
 const AppContainer = styled.div`
   text-align: center;
   h1 {
     font-size: 25px;
     color: #353535;
     margin-bottom: 5px;
-    span {
+    strong {
       font-size: 30px;
     }
   }
@@ -28,6 +22,38 @@ const AppContainer = styled.div`
         color: #04bf8a;
       }
     }
+  }
+  @media screen and (min-width: 375px) {
+    text-align: center;
+    h1 {
+      font-size: 15px;
+      color: #353535;
+      margin-bottom: 10px;
+      strong {
+        font-size: 15px;
+      }
+    }
+    p {
+      font-size: 30px;
+      margin-bottom: 10px;
+      span {
+        color: #028c65;
+        .names {
+          color: #04bf8a;
+        }
+      }
+    }
+  }
+`;
+
+const MapContainer = styled.div`
+  width: 65%;
+  height: 45vh;
+  margin: 0 auto;
+  @media screen and (min-width: 375px) {
+    width: 85%;
+    height: 50vh;
+    margin: 0 auto;
   }
 `;
 
@@ -42,6 +68,10 @@ const SearchContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
+  @media screen and (min-width: 375px) {
+    width: 80%;
+    left: 10%;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -61,6 +91,11 @@ const InfoWindowContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   line-height: 25px;
+  @media screen and (min-width: 375px) {
+    width: 80%;
+    left: 10%;
+    overflow-y: auto;
+  }
 `;
 
 const Input = styled.input`
@@ -85,6 +120,10 @@ const Button = styled.button`
 const InfoWindowContent = styled.div`
   padding: 10px;
   font-size: 16px;
+  @media screen and (min-width: 375px) {
+    padding: 5px;
+    font-size: 15px;
+  }
 `;
 
 const KakaoMap = () => {

@@ -27,6 +27,11 @@ const TrComp = styled.tr`
       }
     }
   }
+  @media screen and (min-width: 375px) {
+    td {
+      font-size: 13px;
+    }
+  }
 `;
 
 const Tr2 = ({ data, index, setIsChange }) => {

@@ -19,6 +19,20 @@ const Container = styled.div`
     font-size: 40px;
     font-weight: bold;
   }
+  @media screen and (min-width: 375px) {
+    margin: 0 auto;
+    padding-top: 50px;
+
+    .Logo {
+      cursor: pointer;
+    }
+    span {
+      display: flex;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: bold;
+    }
+  }
 `;
 
 const Buttons = styled.div`
