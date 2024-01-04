@@ -23,7 +23,7 @@ const Container = styled.div`
   }
 `;
 
-// 카테고리 등록 제목
+// 종목 등록 제목
 const Title = styled.div`
   text-align: center;
   font-size: 45px;
@@ -34,7 +34,7 @@ const Title = styled.div`
   }
 `;
 
-// 카테고리 등록 전체 감싸는 칸
+// 종목 등록 전체 감싸는 칸
 const FormContainer = styled.div`
   width: 75%;
   height: 700px;
@@ -254,7 +254,7 @@ const AdminBoardRegistration = () => {
         <FullLogoBth />
       </div>
       {/* 게시물 등록 */}
-      <Title>카테고리 등록</Title>
+      <Title>종목 등록</Title>
       {/* 게시물 등록 내용 감쌈 */}
       <FormContainer>
         {/* 종목 쓰는 란 */}
