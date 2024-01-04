@@ -36,7 +36,7 @@ const Title = styled.div`
 
 // 카테고리 등록 전체 감싸는 칸
 const FormContainer = styled.div`
-  width: 50%;
+  width: 75%;
   height: 700px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
