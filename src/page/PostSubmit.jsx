@@ -429,7 +429,7 @@ const PostSubmit = () => {
   };
 
   const handleCancle = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   useEffect(() => {

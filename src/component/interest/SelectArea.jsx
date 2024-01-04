@@ -115,7 +115,7 @@ const SelectArea = ({ options, min, max, title, text }) => {
     }
   };
   const handlePass = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   const isNextButtonActive =
@@ -128,7 +128,7 @@ const SelectArea = ({ options, min, max, title, text }) => {
     if (LoginPageAxiosApi.interestAreas(itemsWithInput)) {
       console.log(itemsWithInput);
       console.log("interestAreas 등록 완료");
-      navigate("/");
+      navigate("/main");
     }
   };
 

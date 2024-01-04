@@ -198,7 +198,7 @@ const Chatting = () => {
   //   const timeoutId = setTimeout(() => {
   //     if (ws.current) {
   //       ws.current.close();
-  //       navigate("/"); // 이 부분 수정해야 함
+  //       navigate("/main"); // 이 부분 수정해야 함
   //       console.log("정상 종료");
   //     } else {
   //       console.log("소켓 없음");

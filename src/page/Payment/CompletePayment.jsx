@@ -199,7 +199,7 @@ const CompletePayment = () => {
                 </BottomTextBox>
               </SubBottomBox>
               <SubBottomBox className="subBox4">
-                <HomeBtn onClick={() => navigate("/")}>메인으로</HomeBtn>
+                <HomeBtn onClick={() => navigate("/main")}>메인으로</HomeBtn>
               </SubBottomBox>
             </BottomBox>
           </SubContainer>

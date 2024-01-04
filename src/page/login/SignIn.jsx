@@ -139,7 +139,7 @@ const SignIn = () => {
           Common.setAccessToken(accessToken);
           Common.setRefreshToken(refreshToken);
           // console.log("login email : ", Common.getEmail());
-          navigate("/");
+          navigate("/main");
 
           if (rememberMe) {
             localStorage.setItem("rememberedEmail", email);
@@ -209,6 +209,7 @@ const SignIn = () => {
             </BlackButton>
             <BlackButton onClick={handleSignUpClick}>회원가입</BlackButton>
           </RowAlignBox>
+
           {/* <Link to={`${KH_DOMAIN}/oauth2/authorization/google`}>
             <OauthLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/google-log.png?alt=media&token=a417ad1a-6da7-4f81-b28f-0226d8f0096c" />
           </Link>

@@ -71,7 +71,7 @@ const TestLoginPage = () => {
   const handleMain = () => {
     // Use the navigate function to go to the main page
     console.log("메인으로");
-    navigate("/");
+    navigate("/main");
   };
 
   useEffect(() => {

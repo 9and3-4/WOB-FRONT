@@ -82,7 +82,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const goToHome = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   const goToSearchPage = () => {

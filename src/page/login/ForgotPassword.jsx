@@ -189,14 +189,14 @@ const ForgotPassword = () => {
       setModalHeader(successModifyPassword);
       setModelText("비밀번호가 변경되었습니다.");
       setModalOpen(true);
-      // navigate("/signin");
+      // navigate("/");
     }
   };
 
   const closeModal = () => {
     setModalOpen(false);
     if (modalHeader === successModifyPassword) {
-      navigate("/signin");
+      navigate("/");
     }
   };
 

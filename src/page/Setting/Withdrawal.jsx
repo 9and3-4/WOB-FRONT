@@ -100,7 +100,7 @@ const Withdrawal = () => {
     if (rsp.data && rsp2.data) {
       setModalOpen(false);
       alert("탈퇴되었습니다.");
-      navigate("/signin");
+      navigate("/");
     } else {
       alert("탈퇴가 정상적으로 처리되지 않았습니다.");
     }

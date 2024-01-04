@@ -69,7 +69,7 @@ const Menu = ({ user, open }) => {
         navigate("/companyInfo");
         break;
       default:
-        navigate("/");
+        navigate("/main");
     }
   };
 

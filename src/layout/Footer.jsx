@@ -49,7 +49,7 @@ const Footer = () => {
     // access token이 존재하지 않으면 /login으로 이동, 존재하면 path로 이동
     const accessToken = Common.getAccessToken();
     if (!accessToken) {
-      navigate("/login");
+      navigate("/");
     } else {
       console.log("Footer : ", accessToken);
       navigate(path);
@@ -58,7 +58,7 @@ const Footer = () => {
   return (
     <Container>
       <FooterIcon>
-        <StyledLink onClick={() => handleLinkClick("/")}>
+        <StyledLink onClick={() => handleLinkClick("/main")}>
           <Icon src={Home} alt="Home" />
         </StyledLink>
         <StyledLink onClick={() => handleLinkClick("/schedule")}>

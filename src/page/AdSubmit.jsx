@@ -256,7 +256,7 @@ const AdSubmit = () => {
 
   const confirmCancel = () => {
     // 취소버튼 확인 누르면 홈으로 이동
-    navigate("/");
+    navigate("/main");
   };
 
   // 취소 모달 닫음
@@ -335,7 +335,7 @@ const AdSubmit = () => {
 
       // if (rsp.data) {
       //   alert("등록 요청 완료");
-      //   navigate("/"); // 성공 시 홈으로 이동
+      //   navigate("/main"); // 성공 시 홈으로 이동
       // }
     } catch (error) {
       console.error("광고 등록 중 오류 발생", error);
