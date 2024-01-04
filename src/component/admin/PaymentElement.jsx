@@ -1,6 +1,6 @@
 // 결제 목록
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import Modal from "../../utils/Modal";
@@ -60,7 +60,7 @@ const Tr4 = ({ data, index, setIsChange }) => {
     if (rsp.data) {
       alert("해당 결제가 승인되었습니다.");
       setModalOpen(false);
-      setIsChange(true);
+      setIsChange((prev) => !prev); // 이전 상태의 반대 값을 사용하여 강제로 다시 렌더링
       setConfirmRevise(false);
       setCategoryActive(true);
     } else {
@@ -101,6 +101,7 @@ const Tr4 = ({ data, index, setIsChange }) => {
 
   // 등록한 결제 삭제
   const clickDelete = () => {
+    console.log("삭제 버튼이 클릭되었습니다.");
     setIsOpen(false);
     setModalText("해당 결제를 삭제하시겠습니까?");
     setModalOpen(true);
