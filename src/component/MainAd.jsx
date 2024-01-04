@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 const StyledCarousel = styled(Carousel)`
   height: 300px;
   margin: 0 auto;
-  overflow: hidden;
 `;
 
 const MapBox = styled.div`
@@ -17,11 +16,10 @@ const MapBox = styled.div`
 
 const ImageContainer = styled.div`
   margin: 0 16px;
-  max-width: 100%;
 `;
 
 const Image = styled.img`
-  width: auto;
+  width: 100%;
   height: 300px;
   border: none;
 `;
@@ -29,6 +27,7 @@ const Image = styled.img`
 const ButtonBox = styled.button`
   background-color: transparent; // 버튼 배경 없애기
   border: none;
+  width: 100%;
 `;
 
 const AdCarousel = () => {
