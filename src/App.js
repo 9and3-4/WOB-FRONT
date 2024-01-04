@@ -49,8 +49,6 @@ import AdSubmit from "./page/AdSubmit";
 import Loading from "./component/Loading";
 import AllChatContent from "./page/admin/AllChatContent";
 import SearchMain from "./page/SearchMain";
-import UserAgreements from "./component/Join/UserAgreements";
-import UserPolicy from "./component/Join/UserPolicy";
 import PolicyModal from "./page/login/SignUpPolicy";
 
 function App() {
@@ -66,9 +64,6 @@ function App() {
           <Route path="/condition" element={<Condition />} />
           <Route path="/login" element={<TestLoginPage />} />
           <Route path="/searchmain" element={<SearchMain />} />
-          {/* <Route path="/testUserAgreements" element={<UserAgreements />} />
-          <Route path="/testUserPolicy" element={<UserPolicy />} /> */}
-          {/* <Route path="/policy" element={<PolicyModal />} /> */}
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
             <Route path="/calendarcomp" element={<CalendarComp />} />

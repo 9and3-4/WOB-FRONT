@@ -89,7 +89,7 @@ const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModelText] = useState("");
   const [modalHeader, setModalHeader] = useState("");
-  const [policyModalOpen, setPolicyModalOpen] = useState(false); // State for PolicyModal
+  const [policyModalOpen, setPolicyModalOpen] = useState(false);
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");

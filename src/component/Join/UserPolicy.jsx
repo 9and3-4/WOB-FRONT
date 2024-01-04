@@ -47,7 +47,7 @@ const UserPolicy = () => {
         신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보
         처리방침을 수립·공개합니다.
       </p>
-      <p>■ 이 개인정보처리방침은 2023년 7월 1일 부터 적용됩니다.</p>
+      <p>■ 이 개인정보처리방침은 2024년 1월 3일 부터 적용됩니다.</p>
       <div className="term 1">
         <p className="term_title">제1조(개인정보의 처리 목적)</p>
         <ul className="ul_square">

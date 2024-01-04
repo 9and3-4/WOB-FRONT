@@ -3,6 +3,8 @@ import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import UserAgreements from "../../component/Join/UserAgreements";
 import UserPolicy from "../../component/Join/UserPolicy";
+import UserSelectAgreements from "../../component/Join/UserSelectAgreements";
+import LoginModal from "../../utils/LoginModal";
 
 const CenterBox = styled.div`
   display: flex;
@@ -19,7 +21,7 @@ const CenterBox = styled.div`
 `;
 
 const SelectOptionBoard = styled.div`
-  width: 28em;
+  width: 768px;
   height: 160px;
   background-color: #fff;
   overflow: hidden;
@@ -32,11 +34,9 @@ const SelectOptionBoard = styled.div`
 `;
 
 const SelectOptionBoardHeader = styled.div`
-  width: 28em;
+  width: 768px;
   height: 40px;
   background-color: #dfede9;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
   @media only screen and (max-width: 768px) {
     width: 25em;
   }
@@ -58,7 +58,7 @@ const UserPolicyBody = styled.div`
   overflow-y: auto;
   border: 1px solid #eee;
   transition: height 0.5s ease; // 트랜지션 추가
-  height: 46%; /* 나누어진 높이 */
+  height: 32%; /* 나누어진 높이 */
 `;
 
 const UserAgreementsBody = styled.div`
@@ -66,32 +66,31 @@ const UserAgreementsBody = styled.div`
   overflow-y: auto;
   border: 1px solid #eee;
   transition: height 0.5s ease; // 트랜지션 추가
-  height: 47%; /* 나누어진 높이 */
+  height: 30%; /* 나누어진 높이 */
+`;
+
+const UserSelectAgreementsBody = styled.div`
+  box-sizing: border-box;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  transition: height 0.5s ease; // 트랜지션 추가
+  height: 30%; /* 나누어진 높이 */
 `;
 
 const SelectOptionBoardFooter = styled.div`
-  width: 28em;
+  width: 768px;
   height: 40px;
   background-color: #04bf8a;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom-left-radius: 20px; /* 왼쪽 하단 모서리 둥글게 */
-  border-bottom-right-radius: 20px; /* 오른쪽 하단 모서리 둥글게 */
   position: absolute;
   bottom: 0;
   cursor: pointer;
   @media only screen and (max-width: 768px) {
     width: 25em;
   }
-`;
-
-const AreasGird = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px 30px;
-  padding: 40px;
 `;
 
 const CheckboxInput = styled.input`
@@ -124,25 +123,64 @@ const StyledP = styled.p`
   margin-left: 0.25rem;
 `;
 
-const PolicyModal = ({ options, min, max, title, text }) => {
+const Button = styled.button`
+  margin-top: 10px;
+  text-align: center;
+  color: #cdcdcd;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+const PolicyModal = ({ open, close }) => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [allChecked, setAllChecked] = useState(false);
+  const [term1Checked, setTerm1Checked] = useState(false);
+  const [term2Checked, setTerm2Checked] = useState(false);
+  const [term3Checked, setTerm3Checked] = useState(false);
+  const areAllChecked = () => term1Checked && term2Checked;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModelText] = useState("중복된 아이디 입니다.");
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
+  const handleAllCheckedChange = () => {
+    const newCheckedState = !allChecked;
+    setAllChecked(newCheckedState);
+    setTerm1Checked(newCheckedState);
+    setTerm2Checked(newCheckedState);
+    setTerm3Checked(newCheckedState);
   };
 
-  const handlePass = () => {
-    navigate("/");
+  const handleTerm1CheckedChange = () => {
+    setTerm1Checked(!term1Checked);
+    setAllChecked(areAllChecked());
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsOpen(!isOpen);
-    }, 600);
+  const handleTerm2CheckedChange = () => {
+    setTerm2Checked(!term2Checked);
+    setAllChecked(areAllChecked());
+  };
 
-    return () => clearTimeout(timeoutId);
-  }, []);
+  const handleTerm3CheckedChange = () => {
+    setTerm3Checked(!term3Checked);
+    setAllChecked(areAllChecked());
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleNextButtonClick = () => {
+    if (!areAllChecked()) {
+      setModalOpen(true);
+      setModelText("필수 약관에 동의해야 합니다.");
+    } else {
+      navigate("/signup", {
+        state: term3Checked,
+      });
+      console.log("Condition term3Checked : ", term3Checked);
+    }
+  };
 
   const Checkbox = ({ text, checked, onChange }) => {
     return (
@@ -154,39 +192,55 @@ const PolicyModal = ({ options, min, max, title, text }) => {
   };
 
   return (
-    <CenterBox>
-      <SelectOptionBoard>
-        <SelectOptionBoardHeader>
-          <OptionBoardHeaderLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/wob-logo-green.png?alt=media&token=b89ea23a-e1f1-4863-a76f-54811d63edcb" />
-        </SelectOptionBoardHeader>
-        <OptionBoardBody>
-          <Checkbox
-            text={"전체 동의하기"}
-            // checked={allChecked}
-            // onChange={handleAllCheckedChange}
-          />
-          <UserPolicyBody>
-            <Checkbox
-              text={"개인정보처리방침 동의"}
-              // checked={allChecked}
-              // onChange={handleAllCheckedChange}
-            />
-            <UserPolicy />
-          </UserPolicyBody>
-          <UserAgreementsBody>
-            <Checkbox
-              text={"이용 약관 동의"}
-              // checked={allChecked}
-              // onChange={handleAllCheckedChange}
-            />
-            <UserAgreements />
-          </UserAgreementsBody>
-        </OptionBoardBody>
-        <SelectOptionBoardFooter onClick={handleToggle}>
-          동의하고 계속하기
-        </SelectOptionBoardFooter>
-      </SelectOptionBoard>
-    </CenterBox>
+    <>
+      {open && (
+        <CenterBox>
+          <SelectOptionBoard>
+            <SelectOptionBoardHeader>
+              <OptionBoardHeaderLogo src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/wob-logo-green.png?alt=media&token=b89ea23a-e1f1-4863-a76f-54811d63edcb" />
+            </SelectOptionBoardHeader>
+            <OptionBoardBody>
+              <Checkbox
+                text={"전체 동의하기"}
+                checked={allChecked}
+                onChange={handleAllCheckedChange}
+              />
+              <UserPolicyBody>
+                <Checkbox
+                  text={"개인정보처리방침 동의"}
+                  checked={term1Checked}
+                  onChange={handleTerm1CheckedChange}
+                />
+                <UserPolicy />
+              </UserPolicyBody>
+              <UserAgreementsBody>
+                <Checkbox
+                  text={"이용 약관 동의"}
+                  checked={term2Checked}
+                  onChange={handleTerm2CheckedChange}
+                />
+                <UserAgreements />
+              </UserAgreementsBody>
+              <UserSelectAgreementsBody>
+                <Checkbox
+                  text={"[선택] 개인정보 수집이용 및 약관"}
+                  checked={term3Checked}
+                  onChange={handleTerm3CheckedChange}
+                />
+                <UserSelectAgreements />
+              </UserSelectAgreementsBody>
+            </OptionBoardBody>
+            <SelectOptionBoardFooter onClick={handleNextButtonClick}>
+              동의하고 계속하기
+            </SelectOptionBoardFooter>
+          </SelectOptionBoard>
+          <Button onClick={close}>취소</Button>
+          <LoginModal open={modalOpen} close={closeModal} header="오류">
+            {modalText}
+          </LoginModal>
+        </CenterBox>
+      )}
+    </>
   );
 };
 
