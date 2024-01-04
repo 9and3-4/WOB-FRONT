@@ -10,7 +10,7 @@ const Container = styled.div`
   min-width: 300px;
   margin: 0 auto;
   color: var(--GREEN);
-  margin-bottom: 7%;
+  margin-bottom: 15%;
   @media only screen and (max-width: 768px) {
     margin-bottom: 25%;
   }
