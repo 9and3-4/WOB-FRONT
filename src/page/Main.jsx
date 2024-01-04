@@ -51,7 +51,7 @@ const CategoryBox = styled.div`
   display: flex;
   justify-content: space-around; /* 일정 간격으로 벌어지게 함 */
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
   }
 `;
