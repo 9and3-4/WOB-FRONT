@@ -99,7 +99,7 @@ const FileUploadContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: none;
+  color: #353535;
 `;
 
 // 밑에 사진 업로드 파일 뜨는 것
@@ -117,7 +117,7 @@ const UploadButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  color: none;
+  color: #353535;
   @media screen and (max-width: 430px) {
     margin-right: 17px;
   }
@@ -143,7 +143,7 @@ const SubmitButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  color: none;
+  color: #353535;
 
   &:hover {
     background-color: #04bf8a;
