@@ -52,6 +52,7 @@ const SubContainer = styled.div`
       right: -10px;
       top: 30px;
       font-size: 30px;
+      color: var(--BLACK);
     }
   }
   div {
