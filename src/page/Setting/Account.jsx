@@ -12,6 +12,7 @@ const SubContainer = styled.div`
   flex-direction: column;
   min-height: 100px;
   padding: 30px;
+  color: var(--BLACK);
 
   .title {
     font-size: 20px;
@@ -41,7 +42,7 @@ const SubContainer = styled.div`
       font-size: 26px;
       left: 30px;
       top: 30px;
-      color: var(--BLACK);
+
       @media only screen and (max-width: 768px) {
         font-size: 22px;
       }
