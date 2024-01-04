@@ -62,12 +62,13 @@ const AdContainer = styled.div`
   }
 `;
 
-// 등록 버튼
+// 수정,삭제 버튼
 const Buttons = styled.div`
   border: 1px solid white;
   background-color: white;
   width: 100%;
   text-align: center;
+  color: none;
 
   button {
     font-weight: 500;
