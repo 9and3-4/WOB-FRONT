@@ -49,7 +49,6 @@ import AdSubmit from "./page/AdSubmit";
 import Loading from "./component/Loading";
 import AllChatContent from "./page/admin/AllChatContent";
 import SearchMain from "./page/SearchMain";
-import PolicyModal from "./page/login/SignUpPolicy";
 
 function App() {
   return (
@@ -66,9 +65,9 @@ function App() {
           <Route path="/searchmain" element={<SearchMain />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Main />} />
-            <Route path="/calendarcomp" element={<CalendarComp />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/postlist" element={<PostList />} />
+            <Route path="/postdetail/:postId" element={<PostDetail />} />
             <Route path="/MyPost" element={<MyPost />} />
             <Route path="/JoinPost" element={<JoinPost />} />
             <Route path="/postpreview" element={<PostPreview />} />
@@ -120,7 +119,7 @@ function App() {
             element={<CompletePayment />}
           />
           <Route path="/Payment" element={<Payment />} />
-          <Route path="/postdetail/:postId" element={<PostDetail />} />
+
           <Route path="/Loading" element={<Loading />} />
         </Routes>
       </Router>

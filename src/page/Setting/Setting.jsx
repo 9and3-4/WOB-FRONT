@@ -28,21 +28,11 @@ const SettingBtn = styled.button`
     width: 55px;
     height: 55px;
     margin-left: 50px;
-    @media only screen and (max-width: 768px) {
-      width: 45px;
-      height: 45px;
-      margin-left: 35px;
-    }
   }
 
   .text {
     margin-left: 50px;
     font-size: 26px;
-    color: var(--BLACK);
-    @media only screen and (max-width: 768px) {
-      margin-left: 30px;
-      font-size: 22px;
-    }
   }
   .pointer {
     position: absolute;
@@ -66,7 +56,7 @@ const Setting = () => {
           <span className="text">계정관리</span>
           <span className="pointer">&gt;</span>
         </SettingBtn>
-        <SettingBtn onClick={() => navigate("/")}>
+        <SettingBtn onClick={() => navigate("/MyPost")}>
           <img
             src="https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/list-items.png?alt=media&token=53de6fde-d323-4dc5-9877-c6b6adc6970c"
             alt="내가 작성한 글"
