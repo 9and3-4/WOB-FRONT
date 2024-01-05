@@ -24,6 +24,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--MINT);
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 25%;
+  }
 `;
 
 const SubContainer = styled.div`
@@ -69,6 +73,9 @@ const Input = styled.input`
 
 const ExplainBox = styled.div`
   color: #555555;
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const InputDate = styled.input`
