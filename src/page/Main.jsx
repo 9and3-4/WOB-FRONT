@@ -261,7 +261,7 @@ const Main = () => {
           />
           {interest &&
             interest.map((interestItem, index) => (
-              <Button key={index} label={interestItem}>
+              <Button key={index} label={interestItem} size="category">
                 {interestItem}
               </Button>
             ))}
@@ -275,7 +275,7 @@ const Main = () => {
             />
             {area &&
               area.map((areastItem, index) => (
-                <Button key={index} label={areastItem}>
+                <Button key={index} label={areastItem} size="category">
                   {areastItem}
                 </Button>
               ))}

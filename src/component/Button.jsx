@@ -54,6 +54,50 @@ const StyledButton = styled.button`
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   border: 0;
   outline: 0;
+  @media only screen and (max-width: 768px) {
+    min-width: ${({ size }) =>
+      typeof size === "number"
+        ? `${size}px`
+        : size === "small"
+        ? "70px"
+        : size === "normal"
+        ? "100px"
+        : size === "large"
+        ? "130px"
+        : size === "extra-small"
+        ? "50px"
+        : size === "category"
+        ? "80px"
+        : "100px"}; /* 최소 크기 지정 */
+    min-height: ${({ size }) =>
+      typeof size === "number"
+        ? `${size}px`
+        : size === "small"
+        ? "30px"
+        : size === "normal"
+        ? "50px"
+        : size === "large"
+        ? "80px"
+        : size === "extra-small"
+        ? "20px"
+        : size === "category"
+        ? "40px"
+        : "40px"}; /* 최소 크기 지정 */
+    font-size: ${({ size }) =>
+      typeof size === "number"
+        ? `${size / 2}px`
+        : size === "small"
+        ? "12px"
+        : size === "normal"
+        ? "16px"
+        : size === "large"
+        ? "20px"
+        : size === "extra-small"
+        ? "10px"
+        : size === "category"
+        ? "14px"
+        : "16px"}; /* 폰트 크기 지정 */
+  }
 `;
 
 const Button = ({ label, onClick, color, size, disabled, backgroundcolor }) => {

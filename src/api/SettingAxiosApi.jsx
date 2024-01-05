@@ -262,5 +262,29 @@ const SettingAxiosApi = {
     };
     return await customAxios.put(KH_DOMAIN + `/chat/stateRoom`, data);
   },
+  // 전체 결제 내역 페이지네이션 조회
+  paymentPageAllList: async (page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/pay/all/page?page=${page}&size=${size}`
+    );
+  },
+  // 전체 결제 내역 페이지 수 조회
+  paymentAllPage: async (page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/pay/all/count?page=${page}&size=${size}`
+    );
+  },
+  // 전체 채팅 내역 페이지네이션 조회
+  chatPageAllList: async (page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/chat/all/page?page=${page}&size=${size}`
+    );
+  },
+  // 전체 채팅 내역 페이지 수 조회
+  chatAllPage: async (page, size) => {
+    return await customAxios.get(
+      KH_DOMAIN + `/chat/all/count?page=${page}&size=${size}`
+    );
+  },
 };
 export default SettingAxiosApi;
