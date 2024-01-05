@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import MyPageAxiosApi from "../api/MyPageAxiosApi";
@@ -10,18 +10,18 @@ import Setting from "../images/Setting.png";
 import { Link } from "react-router-dom";
 import SelectSports from "../component/interest/SelectSportsClon";
 import SelectArea from "../component/interest/SelectAreaClon";
-import { OptionBoardCom } from "../component/interest/SelectAreaClon";
 import SelectMBTI from "../component/MBTI/MBTI";
+import axios from "axios";
 
 const Container = styled.div`
   padding-bottom: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 768px;
   margin: 0px auto;
   @media only screen and (max-width: 768px) {
-    width: 100%;
+    width: 400px;
   }
 `;
 const FinalCon = styled.div`
@@ -75,11 +75,7 @@ const FooterBox = styled.div`
   position: fixed;
   bottom: 0px;
   align-items: center;
-  width: 768px;
   margin: 0px auto;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 const LogoImage = styled.img`
@@ -229,7 +225,7 @@ const MyPageEdit = () => {
     "https://firebasestorage.googleapis.com/v0/b/mini-project-1f72d.appspot.com/o/logosmall.png?alt=media&token=5f1756d7-08ab-4930-a834-1c2d82e2c34d";
   const navigate = useNavigate();
   const goToHome = () => {
-    navigate("/main");
+    navigate("/");
   };
   //입력 필드 변경 처리
   const handleChange = (e) => {
@@ -293,17 +289,17 @@ const MyPageEdit = () => {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
         setFile(selectedFile);
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(selectedFile.name);
+        await fileRef.put(selectedFile); // 파일 업로드
+        console.log("파일 업로드 성공!!");
+        // 업로드 후 이미지 URL 가져오기
+        const uploadedUrl = await fileRef.getDownloadURL();
+        console.log("저장경로 확인 : ", uploadedUrl);
+        setUrl(uploadedUrl); // 미리보기 URL 업데이트 (상태 업데이트)
       } else {
         console.log("파일 선택 취소");
       }
-      const storageRef = storage.ref();
-      const fileRef = storageRef.child(file.name);
-      await fileRef.put(file); //파일 업로드 후 기다리기
-      console.log("파일 업로드 성공!!");
-      // 업로드 후 이미지 URL 가져오기
-      const uploadedUrl = await fileRef.getDownloadURL();
-      console.log("저장경로 확인 : ", uploadedUrl);
-      setUrl(uploadedUrl); //미리보기 URL업데이트 (상태 업데이트)
     } catch (error) {
       console.error("Upload failed 파일 업로드 에러 :", error);
     }
