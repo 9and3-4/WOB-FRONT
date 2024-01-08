@@ -5,11 +5,9 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Common from "./utils/Common";
 import Schedule from "./page/schedule/Schedule";
 import MyPost from "./page/schedule/MyPost";
 import JoinPost from "./page/schedule/JoinPost";
-import CalendarComp from "./component/CalendarComp";
 import GlobalStyle from "./globalStyle";
 import Main from "./page/Main";
 import Layout from "./layout/Layout";
@@ -20,7 +18,6 @@ import AdminMain from "./page/admin/AdminMain";
 import Advertising from "./page/admin/Advertising";
 import AllBoardContent from "./page/admin/AllBoardContent";
 import AllMemberInfo from "./page/admin/AllMemberInfo";
-import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
 import AllPaymentList from "./page/admin/AllPaymentList";
 import InterestEnter from "./page/login/interestEnter";
@@ -42,7 +39,6 @@ import CompletePayment from "./page/Payment/CompletePayment";
 import Payment from "./component/Payment";
 import PostDetail from "./page/PostDetail";
 import FreeChat from "./page/Chatting/FreeChat";
-import ChatCreate from "./page/Chatting/ChatCreate";
 import Condition from "./page/login/Condition";
 import ForgotPassword from "./page/login/ForgotPassword";
 import AdSubmit from "./page/AdSubmit";
@@ -87,7 +83,6 @@ function App() {
             <Route path="/PasswordChange" element={<PasswordChange />} />
             <Route path="/Withdrawal" element={<Withdrawal />} />
             <Route path="/FreeChat" element={<FreeChat />} />
-            <Route path="/ChatCreate" element={<ChatCreate />} />
 
             {/* 주소Api */}
             <Route path="/Address" element={<Address />} />
