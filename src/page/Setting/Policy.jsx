@@ -1,16 +1,7 @@
 import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
+import { Container } from "../../component/Container";
 
-const Container = styled.div`
-  /* padding: 24px; */
-  border-radius: 8px;
-  width: 768px;
-  margin: 0px auto;
-  margin-bottom: 100px;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
 const Title = styled.p`
   font-size: 1.2em;
   font-weight: bold;

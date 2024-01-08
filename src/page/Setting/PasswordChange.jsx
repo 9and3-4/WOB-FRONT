@@ -4,16 +4,8 @@ import styled from "styled-components";
 import Modal from "../../utils/Modal";
 import Button from "../../component/Button";
 import SettingAxiosApi from "../../api/SettingAxiosApi";
+import { Container } from "../../component/Container";
 
-const Container = styled.div`
-  /* padding: 24px; */
-  border-radius: 8px;
-  max-width: 768px;
-  margin: 0px auto;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
 const SubContainer = styled.div`
   position: relative;
   align-items: center;
@@ -100,7 +92,7 @@ const PasswordChange = () => {
     }
   };
 
-  // 비밀번호 입력 됐을 때,
+  // 입력된 비밀번호 검증
   const onChangePw = (e) => {
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
     const passwordCurrent = e.target.value;
@@ -114,7 +106,7 @@ const PasswordChange = () => {
     }
   };
 
-  // 비밀번호 확인 입력 됐을 때,
+  // 입력된 비밀번호 확인 검증
   const onChangeRePw = (e) => {
     const passwordCurrent = e.target.value;
     setRePw(passwordCurrent);

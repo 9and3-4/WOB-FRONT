@@ -53,10 +53,7 @@ const Tr5 = ({ data, index, setIsChange }) => {
 
   // 수정 모달창
   const confirmModal = async () => {
-    console.log("Data in Tr5 component:", data);
-    console.log("수정 데이터 : ", data.id, chatContent);
     const rsp = await SettingAxiosApi.stateChat(data.id, chatContent);
-    console.log("rsp : ", rsp.data);
     if (rsp.data) {
       alert("해당 채팅방이 수정되었습니다.");
       setModalOpen(false);
@@ -70,10 +67,7 @@ const Tr5 = ({ data, index, setIsChange }) => {
 
   // 삭제 모달
   const deleteModal = async () => {
-    console.log("Data in Tr5 component:", data);
-    console.log("삭제 데이터 : ", data.id);
     const rsp = await SettingAxiosApi.chatDelete(data.id);
-    console.log("rsp : ", rsp.data);
     if (rsp.status === 200) {
       alert("해당 채팅이 삭제 되었습니다.");
       setModalOpen(false);
@@ -92,7 +86,6 @@ const Tr5 = ({ data, index, setIsChange }) => {
   // 채팅 활성화 또는 비활성화 요청 보내기
   const handleSelectChange = (e) => {
     setChatContent(e.target.value);
-    console.log(chatContent);
   };
   // 확인에서 수정된 값 들어감
   const clickOn = async () => {
@@ -122,7 +115,8 @@ const Tr5 = ({ data, index, setIsChange }) => {
           name="category"
           disabled={chatActive}
           value={chatContent}
-          onChange={handleSelectChange}>
+          onChange={handleSelectChange}
+        >
           <option value="active">답변 진행중</option>
           <option value="inactive">답변 완료</option>
         </select>
@@ -154,7 +148,8 @@ const Tr5 = ({ data, index, setIsChange }) => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="안내">
+          header="안내"
+        >
           {modalText}
         </Modal>
       ) : (
@@ -163,7 +158,8 @@ const Tr5 = ({ data, index, setIsChange }) => {
           close={closeModal}
           confirm={deleteModal}
           type={true}
-          header="안내">
+          header="안내"
+        >
           {modalText}
         </Modal>
       )}

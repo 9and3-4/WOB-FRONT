@@ -1,18 +1,7 @@
 import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Common from "../../utils/Common";
-import SettingAxiosApi from "../../api/SettingAxiosApi";
-const Container = styled.div`
-  /* padding: 24px; */
-  border-radius: 8px;
-  width: 768px;
-  margin: 0px auto;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
+import { Container } from "../../component/Container";
 
 const SettingBtn = styled.button`
   width: 100%;

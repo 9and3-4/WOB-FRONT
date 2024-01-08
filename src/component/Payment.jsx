@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PaymentAxiosApi from "../api/PaymentAxiosApi";
@@ -79,10 +78,9 @@ const Payment = (props) => {
       );
 
       if (rsp.data) {
-        console.log("rsp2.data.paymentId", rsp.data.id);
-        props.onPaymentComplete(rsp.data.id); // id 빼고 전부 보낼까?
+        props.onPaymentComplete(rsp.data.id); // 부모로 paymentId 보내기
         alert("결제가 완료되었습니다.");
-        navigate(`/CompletePayment/${rsp.data.id}`);
+        navigate(`/CompletePayment/${rsp.data.id}`); // 해당 결제 내역의 상세 페이지로 이동
       } else {
         alert("결제를 실패했습니다.");
       }

@@ -2,21 +2,10 @@ import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Common from "../../utils/Common";
 import SettingAxiosApi from "../../api/SettingAxiosApi";
 import { formatDate } from "../../utils/Common";
 import Modal from "../../utils/Modal";
-const Container = styled.div`
-  position: relative;
-  /* padding: 24px; */
-  border-radius: 8px;
-  width: 768px;
-  margin: 0px auto;
-  margin-bottom: 100px;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
+import { Container } from "../../component/Container";
 
 const ChatUl = styled.ul`
   list-style-type: none;
@@ -37,11 +26,6 @@ const ChatRoom = styled.li`
     background-color: var(--MINT);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
-`;
-const Header = styled.h1`
-  color: #333;
-  text-align: center;
-  margin-bottom: 20px;
 `;
 
 const ChatName = styled.p`
@@ -123,6 +107,7 @@ const FreeChat = () => {
   const [isTitle, setIsTitle] = useState(false);
   const navigate = useNavigate();
 
+  // 모달 닫기 버튼
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -135,7 +120,7 @@ const FreeChat = () => {
         console.log(response.data);
         navigate(`/chatting/${response.data}`);
       } catch (e) {
-        console.log("error : ", e);
+        alert("error : 채팅방을 생성하지 못했습니다.");
       }
     } else {
       alert("방 제목을 입력해주세요.");
@@ -149,7 +134,10 @@ const FreeChat = () => {
         const rsp = await SettingAxiosApi.freeChatList();
         setChatRooms(rsp.data);
       } catch (e) {
-        console.log("error : " + e);
+        alert(
+          "error : 채팅방 목록을 불러오지 못했습니다. 이전 페이지로 이동합니다."
+        );
+        navigate(-1);
       }
     };
     const intervalID = setInterval(getChatRoom, 1000);
@@ -158,12 +146,12 @@ const FreeChat = () => {
     };
   }, []);
 
+  // 채팅방으로 이동하는 로직 작성
   const enterChatRoom = (roomId) => {
-    // 채팅방으로 이동하는 로직 작성
-    console.log(`Entering chat room ${roomId}`);
     navigate(`/chatting/${roomId}`);
   };
-  // 채팅방 생성하기 위해 방제 입력하는 모달 띄우기
+
+  // 채팅방 생성하기 위해 방제목 입력하는 모달 띄우기
   const createChatRoom = () => {
     setModalOpen(true);
   };

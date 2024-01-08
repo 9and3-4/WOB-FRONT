@@ -1,4 +1,3 @@
-import SettingHeader from "../../layout/SettingHeader";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
@@ -139,16 +138,16 @@ const Chatting = () => {
   };
 
   const onEnterKey = (e) => {
+    // enter 키 눌렀을 때 메세지 보내는 함수 호출
     if (e.key === "Enter" && inputMsg) {
-      e.preventDefault(); // 이거 뭐징?
+      e.preventDefault();
       onClickMsgSend();
     }
   };
 
+  // 전송 버튼
   const onClickMsgSend = () => {
-    // if (inputMsg === "/채팅종료") {
-    //   onClickMsgClose();
-    // } else {
+    // 웹소켓 연결이 되어있다면, 정보들 보내기
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
       ws.current.send(
         JSON.stringify({
@@ -160,23 +159,15 @@ const Chatting = () => {
       );
       setInputMsg("");
     } else {
-      console.error("WebSocket is not open.");
+      alert("error : 채팅 연결에 실패했습니다. 이전 페이지로 이동합니다.");
     }
-    // }
   };
 
-  // 종료하기 버튼
+  // 종료 버튼
   const onClickMsgClose = () => {
-    // ws.current.send(
-    //   JSON.stringify({
-    //     type: "CLOSE",
-    //     roomId: roomId,
-    //     sender: sender,
-    //     message: "종료 합니다.",
-    //   })
-    // );
+    // 웹소켓 연결 끊고 이전 페이지로 이동
     ws.current.close();
-    navigate(-1); // 임시로 해놓음
+    navigate(-1);
   };
 
   // 이전 채팅 내용을 가져오는 함수
@@ -184,10 +175,9 @@ const Chatting = () => {
     try {
       const res = await SettingAxiosApi.recentChatLoad(roomId);
       const recentMessages = res.data;
-      console.log("recentMessages : ", recentMessages);
       setChatList(recentMessages);
     } catch (error) {
-      console.error("Failed to load previous chat:", error);
+      alert("error : 이전 대화내용을 불러오지 못했습니다.");
     }
   };
 
@@ -208,16 +198,18 @@ const Chatting = () => {
   // }, []);
 
   useEffect(() => {
-    // 이메일로 회원 닉네임 가져 오기
+    // 이메일로 회원 닉네임 가져와서 sender에 저장
     const getMember = async () => {
       try {
         const rsp = await MyPageAxiosApi.userGetOne(
           window.localStorage.getItem("email")
         );
-        console.log("닉네임:" + rsp.data.nickname);
         setSender(rsp.data.nickname);
       } catch (error) {
-        console.log(error);
+        alert(
+          "error : 회원 닉네임을 불러오지 못했습니다. 이전 페이지로 이동합니다."
+        );
+        navigate(-1);
       }
     };
     getMember();
@@ -228,26 +220,28 @@ const Chatting = () => {
     const getChatRoom = async () => {
       try {
         const rsp = await SettingAxiosApi.chatDetail(roomId);
-        console.log("roomId : " + roomId);
-        console.log("방이름 : " + rsp.data.name);
         setRoomName(rsp.data.name);
       } catch (error) {
-        console.log(error);
+        alert(
+          "error : 채팅방 정보를 불러오지 못했습니다. 이전 페이지로 이동합니다."
+        );
+        navigate(-1);
       }
     };
     getChatRoom();
   });
 
   useEffect(() => {
+    // 웹소켓 연결하는 부분, 이전 대화내용 불러오는 함수 호출
     console.log("방번호 : " + roomId);
     if (!ws.current) {
       ws.current = new WebSocket(KH_SOCKET_URL);
       ws.current.onopen = () => {
-        console.log("connected to " + KH_SOCKET_URL);
         setSocketConnected(true);
       };
     }
     if (socketConnected) {
+      // 웹소켓 연결이 되어있다면,
       ws.current.send(
         JSON.stringify({
           type: "ENTER",
@@ -260,10 +254,10 @@ const Chatting = () => {
     }
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data.message);
       setChatList((prevItems) => [...prevItems, data]);
     };
 
+    // 홈페이지의 뒤로가기를 눌렀을 때, 웹소켓 연결 끊기도록 return을 적어줌
     return () => {
       ws.current.send(
         JSON.stringify({
@@ -320,7 +314,6 @@ const Chatting = () => {
           />
           <SendButton onClick={onClickMsgSend}>전송</SendButton>
         </InputContainer>
-        {/* <CloseButton onClick={onClickMsgClose}>채팅 종료 하기</CloseButton> */}
       </Container>
     </>
   );

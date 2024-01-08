@@ -113,8 +113,6 @@ const Account = () => {
           default:
             break;
         }
-      } else {
-        console.log("제 3자 로그인 정보 가져오지 못함");
       }
     };
     loginSetting();

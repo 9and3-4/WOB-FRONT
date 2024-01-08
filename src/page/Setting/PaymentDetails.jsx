@@ -2,9 +2,9 @@ import styled from "styled-components";
 import SettingHeader from "../../layout/SettingHeader";
 import { useEffect, useState } from "react";
 import SettingAxiosApi from "../../api/SettingAxiosApi";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  /* padding: 24px; */
   border-radius: 8px;
   width: 768px;
   min-height: 800px;
@@ -82,7 +82,6 @@ const HomeBtn = styled.button`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
-  /* margin-bottom: 20px; */
 `;
 
 const PageButton = styled.button`
@@ -117,30 +116,13 @@ const PageButton2 = styled.button`
 `;
 
 const PaymentDatails = () => {
+  const navigate = useNavigate();
   const [payList, setPayList] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [pageRange, setPageRange] = useState({ start: 0, end: 5 });
 
-  // 총 페이지 수 계산
-  // useEffect(() => {
-  //   const totalPage = async () => {
-  //     try {
-  //       const res = await SettingAxiosApi.paymentPage(
-  //         localStorage.getItem("email"),
-  //         0,
-  //         1
-  //       );
-  //       setTotalPage(res.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   totalPage();
-  // }, []);
-
-  // 현재 페이지
+  // 결제 내역 페이지네이션
   useEffect(() => {
     const paymentList = async () => {
       try {
@@ -157,10 +139,12 @@ const PaymentDatails = () => {
           currentPage,
           1
         );
-        console.log(res.data);
         setPayList(res.data);
       } catch (error) {
-        console.log(error);
+        alert(
+          "error : 결제 내역을 불러오지 못했습니다. 이전 페이지로 이동합니다."
+        );
+        navigate(-1);
       }
     };
     paymentList();
@@ -168,7 +152,6 @@ const PaymentDatails = () => {
 
   // 페이지 이동
   const handlePageChange = (number) => {
-    console.log(number);
     setCurrentPage(number - 1);
   };
 

@@ -1,6 +1,6 @@
 // 결제 목록
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import AdminAxiosApi from "../../api/AdminAxiosApi";
 import Modal from "../../utils/Modal";
@@ -53,10 +53,7 @@ const Tr4 = ({ data, index, setIsChange }) => {
 
   // 수정 모달창
   const confirmModal = async () => {
-    console.log("Data in Tr4 component:", data);
-    console.log("수정 데이터 : ", data.id, paymentContent);
     const rsp = await AdminAxiosApi.paymentListState(data.id, paymentContent);
-    console.log("rsp : ", rsp.data);
     if (rsp.data) {
       alert("해당 결제가 정상처리되었습니다.");
       setModalOpen(false);
@@ -71,7 +68,6 @@ const Tr4 = ({ data, index, setIsChange }) => {
   // 삭제 모달
   const deleteModal = async () => {
     const rsp = await AdminAxiosApi.paymentDelete(data.id);
-    console.log(data.id);
     if (rsp.status === 200) {
       alert("해당 결제내역이 삭제 되었습니다.");
       setModalOpen(false);
@@ -90,7 +86,6 @@ const Tr4 = ({ data, index, setIsChange }) => {
   // 결제 활성화 또는 비활성화 요청 보내기
   const handleSelectChange = (e) => {
     setPaymentContent(e.target.value);
-    console.log(paymentContent);
   };
   // 확인에서 수정된 값 들어감
   const clickOn = async () => {
@@ -101,7 +96,6 @@ const Tr4 = ({ data, index, setIsChange }) => {
 
   // 등록한 결제 삭제
   const clickDelete = () => {
-    console.log("삭제 버튼이 클릭되었습니다.");
     setIsOpen(false);
     setModalText("해당 결제를 삭제하시겠습니까?");
     setModalOpen(true);
@@ -125,7 +119,8 @@ const Tr4 = ({ data, index, setIsChange }) => {
           name="category"
           disabled={categoryActive}
           value={paymentContent}
-          onChange={handleSelectChange}>
+          onChange={handleSelectChange}
+        >
           <option value="active">결제승인</option>
           <option value="inactive">결제미승인</option>
         </select>
@@ -157,7 +152,8 @@ const Tr4 = ({ data, index, setIsChange }) => {
           close={closeModal}
           confirm={confirmModal}
           type={true}
-          header="안내">
+          header="안내"
+        >
           {modalText}
         </Modal>
       ) : (
@@ -166,7 +162,8 @@ const Tr4 = ({ data, index, setIsChange }) => {
           close={closeModal}
           confirm={deleteModal}
           type={true}
-          header="안내">
+          header="안내"
+        >
           {modalText}
         </Modal>
       )}

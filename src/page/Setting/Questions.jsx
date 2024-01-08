@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import SettingHeader from "../../layout/SettingHeader";
-import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   /* padding: 24px; */

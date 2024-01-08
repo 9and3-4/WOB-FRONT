@@ -23,8 +23,6 @@ const SubContainer = styled.div`
   align-items: center;
   width: 100%;
   min-height: 100px;
-  /* padding-top: 70px;
-  padding-left: 130px; */
   padding: 70px 130px 0px 130px;
   line-height: 35px;
   @media only screen and (max-width: 768px) {
