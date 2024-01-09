@@ -5,9 +5,11 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import Common from "./utils/Common";
 import Schedule from "./page/schedule/Schedule";
 import MyPost from "./page/schedule/MyPost";
 import JoinPost from "./page/schedule/JoinPost";
+import CalendarComp from "./component/CalendarComp";
 import GlobalStyle from "./globalStyle";
 import Main from "./page/Main";
 import Layout from "./layout/Layout";
@@ -18,6 +20,7 @@ import AdminMain from "./page/admin/AdminMain";
 import Advertising from "./page/admin/Advertising";
 import AllBoardContent from "./page/admin/AllBoardContent";
 import AllMemberInfo from "./page/admin/AllMemberInfo";
+import TestLoginPage from "./page/Login";
 import AdminBoardRegistration from "./page/admin/AdminBoardRegistration";
 import AllPaymentList from "./page/admin/AllPaymentList";
 import InterestEnter from "./page/login/interestEnter";
