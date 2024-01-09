@@ -9,7 +9,6 @@ import Common from "./utils/Common";
 import Schedule from "./page/schedule/Schedule";
 import MyPost from "./page/schedule/MyPost";
 import JoinPost from "./page/schedule/JoinPost";
-import CalendarComp from "./component/CalendarComp";
 import GlobalStyle from "./globalStyle";
 import Main from "./page/Main";
 import Layout from "./layout/Layout";
