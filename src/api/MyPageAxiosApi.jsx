@@ -72,16 +72,6 @@ const MyPageAxiosApi = {
     interestSports,
     interestArea
   ) => {
-    console.log(
-      "axios 회원정보 수정 업데이트 하기 : ",
-      email,
-      nickname,
-      introduce,
-      image,
-      mbti,
-      interestSports,
-      interestArea
-    );
     const user = {
       email: email,
       nickname: nickname,
