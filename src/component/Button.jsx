@@ -54,6 +54,8 @@ const StyledButton = styled.button`
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   border: 0;
   outline: 0;
+  margin-right: ${({ margin }) =>
+    margin === "category1" ? "60px" : margin === "category2" ? "70px" : "0"};
   @media only screen and (max-width: 768px) {
     min-width: ${({ size }) =>
       typeof size === "number"
@@ -67,7 +69,7 @@ const StyledButton = styled.button`
         : size === "extra-small"
         ? "50px"
         : size === "category"
-        ? "80px"
+        ? "88px"
         : "100px"}; /* 최소 크기 지정 */
     min-height: ${({ size }) =>
       typeof size === "number"
@@ -95,12 +97,22 @@ const StyledButton = styled.button`
         : size === "extra-small"
         ? "10px"
         : size === "category"
-        ? "14px"
+        ? "15px"
         : "16px"}; /* 폰트 크기 지정 */
+    margin-right: ${({ margin }) =>
+      margin === "category1" ? "60px" : margin === "category2" ? "25px" : "0"};
   }
 `;
 
-const Button = ({ label, onClick, color, size, disabled, backgroundcolor }) => {
+const Button = ({
+  label,
+  onClick,
+  color,
+  size,
+  disabled,
+  backgroundcolor,
+  margin,
+}) => {
   return (
     <StyledButton
       onClick={onClick}
@@ -108,6 +120,7 @@ const Button = ({ label, onClick, color, size, disabled, backgroundcolor }) => {
       backgroundcolor={backgroundcolor}
       color={color}
       size={size}
+      margin={margin}
     >
       {label}
     </StyledButton>

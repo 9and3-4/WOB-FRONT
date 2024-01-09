@@ -49,27 +49,31 @@ const CategoryBox = styled.div`
   height: 50px;
   margin-top: 20px;
   display: flex;
-  justify-content: space-around; /* 일정 간격으로 벌어지게 함 */
-
+  gap: 80px;
   @media only screen and (max-width: 768px) {
     width: 100%;
+    gap: 0;
+    justify-content: space-between;
   }
 `;
-
-const MediumContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex: 1;
-`;
-
 const CategoryBox2 = styled.div`
   height: 50px;
   margin-top: 15px;
-  padding-left: 5px;
   display: flex;
-  justify-content: space-around; /* 일정 간격으로 벌어지게 함 */
+  gap: 20px;
   width: 75%; // 미디엄 컨테이너 안에 3/4 차지
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    gap: 0;
+    justify-content: space-between;
+  }
+`;
+const MediumContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const WeatherBox = styled.div`
@@ -79,6 +83,14 @@ const WeatherBox = styled.div`
   font-size: 17px;
   align-items: center;
   padding-top: 15px;
+  white-space: nowrap;
+
+  // 날씨 정보 아래로 내려가게 수정
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
 `;
 
 const CalenderBox = styled.div`
