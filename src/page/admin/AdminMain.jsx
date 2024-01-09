@@ -36,7 +36,9 @@ const Container = styled.div`
 `;
 
 const Buttons = styled.div`
-  margin: 30px 10px;
+  /* margin: 30px 10px; */
+  width: 768px;
+  margin: 0px auto;
 `;
 
 const Click = styled.div`
