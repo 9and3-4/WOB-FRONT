@@ -36,9 +36,10 @@ const Container = styled.div`
 `;
 
 const Buttons = styled.div`
-  width: 768px;
+  width: 64%;
   margin: 0px auto;
   @media screen and (max-width: 430px) {
+    width: 95%;
     margin: 30px 10px;
   }
 `;
