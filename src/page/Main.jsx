@@ -33,6 +33,7 @@ const Container = styled.div`
   min-width: 300px;
   margin: 0 auto 100px;
   display: flex;
+  gap: 10px;
   flex-direction: column;
 `;
 
@@ -58,7 +59,7 @@ const CategoryBox = styled.div`
 `;
 const CategoryBox2 = styled.div`
   height: 50px;
-  margin-top: 15px;
+  margin-top: 10px;
   display: flex;
   gap: 20px;
   width: 75%; // 미디엄 컨테이너 안에 3/4 차지
@@ -66,6 +67,7 @@ const CategoryBox2 = styled.div`
     width: 100%;
     gap: 0;
     justify-content: space-between;
+    margin-top: 0;
   }
 `;
 const MediumContainer = styled.div`
@@ -79,7 +81,7 @@ const MediumContainer = styled.div`
 const WeatherBox = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 15%; // 미디엄 컨테이너 안에 1/4 차지
+  width: 25%; // 미디엄 컨테이너 안에 1/4 차지
   font-size: 17px;
   align-items: center;
   padding-top: 15px;
@@ -103,15 +105,20 @@ const BottomContainer = styled.div`
   min-width: 300px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  vertical-align: baseline;
   padding: 0 10px;
+  /* border: 1px solid black; */
 `;
 const Subtitle = styled.div`
   width: 100%;
-  font-size: 18px;
+  font-size: 1.5em;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 20px;
+  @media only screen and (max-width: 768px) {
+    font-size: 1.1em;
+  }
 `;
 
 const PostBox = styled.div`
@@ -269,6 +276,7 @@ const Main = () => {
           <Button
             label={allLeisure}
             size="category"
+            hover="true"
             onClick={() => handleCategoryButtonClick(allLeisure)}
           />
           {interest &&

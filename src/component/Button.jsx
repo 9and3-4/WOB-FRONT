@@ -45,7 +45,7 @@ const StyledButton = styled.button`
       : size === "extra-small"
       ? "10px"
       : size === "category"
-      ? "18px"
+      ? "19px"
       : "16px"}; /* 폰트 크기 지정 */
   border-radius: 25px;
   border-color: ${({ color }) => color || "var(--MINT)"};

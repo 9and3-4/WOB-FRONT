@@ -17,6 +17,18 @@ const Container = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
 `;
+const IsNullText = styled.div`
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--BLACK);
+  font-size: 20px;
+  @media only screen and (max-width: 768px) {
+    height: 100px;
+    font-size: 16px;
+  }
+`;
 
 const PostList = ({ data }) => {
   const { selectedDate, area, interest } = data;
@@ -69,7 +81,7 @@ const PostList = ({ data }) => {
   return (
     <>
       <Container>
-        {postList &&
+        {postList.length !== 0 ? (
           postList.map((post) => (
             // PostPreview 컴포넌트를 호출하면서 필요한 데이터를 전달
             <StyledLink to={`/postDetail/${post.id}`} key={post.id}>
@@ -84,7 +96,12 @@ const PostList = ({ data }) => {
                 type={post.type}
               />
             </StyledLink>
-          ))}
+          ))
+        ) : (
+          <IsNullText>
+            <p>조건에 맞는 게시글이 없습니다.</p>
+          </IsNullText>
+        )}
       </Container>
     </>
   );
