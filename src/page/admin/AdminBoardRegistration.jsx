@@ -199,10 +199,6 @@ const AdminBoardRegistration = () => {
   const handleFileInputChange = (e) => {
     setFile(e.target.files[0]);
   };
-  // logo 파일 선택
-  const handleFileInputChange2 = (e) => {
-    setFile2(e.target.files[0]);
-  };
 
   // img 업로드
   const handleUploadClick = async () => {
@@ -224,6 +220,11 @@ const AdminBoardRegistration = () => {
       // 에러 처리
       console.error("Upload failed", error);
     }
+  };
+
+  // logo 파일 선택
+  const handleFileInputChange2 = (e) => {
+    setFile2(e.target.files[0]);
   };
 
   // logo 업로드

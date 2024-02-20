@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
-
 const Wheather = () => {
   const [location, setLocation] = useState({ lat: 0, long: 0 });
   const [coords, setCoords] = useState("");

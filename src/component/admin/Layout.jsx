@@ -17,8 +17,8 @@ const Layout = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // 지도 밖에 누르면 사이드바 꺼짐
-  const [showCalendar, setShowCalender] = useState(false);
+  // 밖에 누르면 사이드바 꺼짐
+  const [showSidebar, setShowSidebar] = useState(false);
 
   // 메인에서 sub메뉴의 버튼 누르면 그 화면으로 이동
   const handleAreaNavigate = (path) => {
@@ -49,12 +49,12 @@ const Layout = () => {
     }
   };
 
-  const calendarRef = useRef();
+  const sidebarRef = useRef();
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        // 캘린더 외부를 클릭하면 캘린더를 닫음
-        setShowCalender(false);
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        // 사이드바 외부를 클릭하면 사이드바 닫힘
+        setShowSidebar(false);
       }
     };
     // document에 클릭 이벤트 추가
